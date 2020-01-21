@@ -13,10 +13,13 @@ public class Slot3Reel {
     private ArrayList<String> symbolList = new ArrayList<>(Arrays.asList(
             "Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"));
     private ArrayList<String> payline = new ArrayList<>();
-    Random rand = new Random();
+    static Random rand = new Random();
     
+    /**
+     * Default constructor of a Slot3Reel.
+     */
     public Slot3Reel() {
-        genNewLine();
+        populateNewLine();
     }
 
     /**
@@ -32,13 +35,28 @@ public class Slot3Reel {
     }
     
     /**
+     * Generates a random number in a range.
+     * @param min the minimum number.
+     * @param max the maximum number.
+     * @return a random number between the range of the min and max.
+     */
+    public static int generate(int min, int max) {
+        if (min > max) {
+            int temp = min;
+            min = max;
+            max = temp;
+        }
+        return rand.nextInt(max - min + 1) + min;
+    }
+    
+    
+    /**
      * Generates a new random spin. e.g. | x | y | z |
      */
-    public void genNewLine() {
+    public void populateNewLine() {
         payline.clear();
         for (int i = 0; i < 3; i++) {
-            int num = rand.nextInt(7);
-            payline.add(symbolList.get(num));
+            payline.add(symbolList.get(generate(0, 6)));
         }
     }
     
@@ -47,15 +65,14 @@ public class Slot3Reel {
      */
     public void spin() {
         String strOut = "";
-        //Prints random number of lines between 2 and 8. That doesn't give any payout. 
-        int numLines = rand.nextInt(7) + 1;
-        for (int i = 0; i <= numLines; i++) {
-            strOut += printLine();
-            genNewLine();
+        //Prints random number of lines between 2 and 9. That doesn't give any payout.
+        for (int i = 1; i <= generate(2, 9); i++) {
+            strOut += printLine() + "\n";
+            populateNewLine();
         }
         strOut += "*******************************************\n";
         //Payline.
-        strOut += printLine();
+        strOut += printLine() + "\n";
         System.out.print(strOut);
     }
     
@@ -67,7 +84,7 @@ public class Slot3Reel {
         String strOut = "";
         strOut += String.format("%s %-11s %s", "|", payline.get(0), "|");
         strOut += String.format("%s %-11s %s", "", payline.get(1), "");
-        strOut += String.format("%s %-11s %s\n", "|", payline.get(2), "|");
+        strOut += String.format("%s %-11s %s", "|", payline.get(2), "|");
         return strOut;
     }
     
@@ -77,11 +94,16 @@ public class Slot3Reel {
      */
     @Override
     public String toString() {
-        String strOut = "";
-        strOut += String.format("%-2s %s %2s", "|", payline.get(0), "|");
-        strOut += String.format("%-2s %s %2s", "", payline.get(1), "");
-        strOut += String.format("%-2s %s %2s", "|", payline.get(2), "|");
-        return strOut;
+        return printLine();
+    }
+    
+    /**
+     * Checks to see if two objects are equal to each other.
+     * @param slotReel the object being compared.
+     * @return if they are equal to each other.
+     */
+    public boolean equals(Slot3Reel slotReel) {
+        return slotReel == this;
     }
     
     public ArrayList<String> getSymbolList() {

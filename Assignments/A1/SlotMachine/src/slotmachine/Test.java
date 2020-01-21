@@ -12,6 +12,9 @@ package slotmachine;
 public class Test {
     public static void main(String[] args) {
         Slot3Reel slot = new Slot3Reel();
-        System.out.println(slot.toString());
+        slot.spin();
+        SlotMachine machine = new SlotMachine();
+        machine.intro();
+        
     }
 }
