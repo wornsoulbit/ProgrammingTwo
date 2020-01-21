@@ -13,6 +13,7 @@ public class Slot3Reel {
     private ArrayList<String> symbolList = new ArrayList<>(Arrays.asList(
             "Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"));
     private ArrayList<String> payline = new ArrayList<>();
+    Random rand = new Random();
     
     public Slot3Reel() {
         genNewLine();
@@ -30,16 +31,44 @@ public class Slot3Reel {
         return payline.get(k);
     }
     
+    /**
+     * Generates a new random spin. e.g. | x | y | z |
+     */
     public void genNewLine() {
-        Random rand = new Random();
+        payline.clear();
         for (int i = 0; i < 3; i++) {
             int num = rand.nextInt(7);
             payline.add(symbolList.get(num));
         }
     }
     
+    /**
+     * A spin of the slot machine.
+     */
     public void spin() {
-        
+        String strOut = "";
+        //Prints random number of lines between 2 and 8. That doesn't give any payout. 
+        int numLines = rand.nextInt(7) + 1;
+        for (int i = 0; i <= numLines; i++) {
+            strOut += printLine();
+            genNewLine();
+        }
+        strOut += "*******************************************\n";
+        //Payline.
+        strOut += printLine();
+        System.out.print(strOut);
+    }
+    
+    /**
+     * Prints a line of a spin e.g. | x | y | z |
+     * @return | x | y | z |
+     */
+    public String printLine() {
+        String strOut = "";
+        strOut += String.format("%s %-11s %s", "|", payline.get(0), "|");
+        strOut += String.format("%s %-11s %s", "", payline.get(1), "");
+        strOut += String.format("%s %-11s %s\n", "|", payline.get(2), "|");
+        return strOut;
     }
     
     /**
@@ -48,11 +77,11 @@ public class Slot3Reel {
      */
     @Override
     public String toString() {
-        String slot3ReelResults = "";
-        slot3ReelResults += String.format("| %s |", payline.get(0));
-        slot3ReelResults += String.format(" %s ", payline.get(1));
-        slot3ReelResults += String.format("| %s |", payline.get(2));
-        return slot3ReelResults;
+        String strOut = "";
+        strOut += String.format("%-2s %s %2s", "|", payline.get(0), "|");
+        strOut += String.format("%-2s %s %2s", "", payline.get(1), "");
+        strOut += String.format("%-2s %s %2s", "|", payline.get(2), "|");
+        return strOut;
     }
     
     public ArrayList<String> getSymbolList() {
