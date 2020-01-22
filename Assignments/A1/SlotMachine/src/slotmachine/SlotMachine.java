@@ -9,16 +9,15 @@ import java.util.Scanner;
 public class SlotMachine {
     private Slot3Reel reel = new Slot3Reel();
     private String name;
-    private int currentBet;
+    private int curBet;
     private int totalBets;
     private int totalDeposit;
     private int totalPayOut;
     private int totalSpins;
-    private int currentCredits;
+    private int curCredits;
     private final int doubleSpinMultiplier = 2;
     private final int tripleSpinMultiplier = 3;
     Scanner console = new Scanner(System.in);
-<<<<<<< HEAD
 
     /**
      * Default Constructor of a SlotMachine.
@@ -27,46 +26,16 @@ public class SlotMachine {
      */
     public SlotMachine(String name, int currentCredits) {
         this.name = name;
-        this.currentBet = 0;
+        this.curBet = 0;
         this.totalBets = 0;
         this.totalDeposit = 0;
         this.totalPayOut = 0;
         this.totalSpins = 0;
-        this.currentCredits = currentCredits;
-    }
-    
-    /**
-     * Starts a game of Slots.
-     */
-    public void play() {
-        if (this.totalSpins == 0 || this.totalBets == 0)
-            initIntro();
-        else
-            defaultIntro();
-        
-        
+        this.curCredits = currentCredits;
     }
     
     private void defaultIntro() {
-        System.out.printf("Welcome back %s!", name);
-    }
-    
-    private void initIntro() {
-=======
-    
-    /**
-     * The default constructor of a SlotMachine.
-     * @param name the player's name.
-     * @param curCredits the total credits that the player has.
-     */
-    public SlotMachine(String name, int curCredits) {
-        this.name = name;
-        this.curBet = 0;
-        this.totalBets = 0;
-        this.totalDep = 0;
-        this.totalPayOut = 0;
-        this.totalSpins = 0;
-        this.curCredits = curCredits;
+        System.out.printf("Welcome back %s!\n", name);
     }
     
     /**
@@ -74,6 +43,7 @@ public class SlotMachine {
      */
     public void play() {
         if (this.totalSpins != 0) {
+            defaultIntro();
             readBet();
         } else {
             intro();
@@ -85,7 +55,6 @@ public class SlotMachine {
      * Introduction to the game.
      */
     public void intro() {
->>>>>>> af426ef8f34aa2d944a743c87fc11e8a42c4d589
         String intro = "";
         intro += String.format("%s %s\n", "Greetings", name);
         intro += String.format("%s\n", "Welcome to 3-Reel Slot Machine Game!");
@@ -119,7 +88,7 @@ public class SlotMachine {
                     break;
                 case 0:
                     finalGreetingMsg();
-                    break;
+                    return;
             }
         }
         System.out.printf("Credits: %d\n", curCredits);
@@ -135,7 +104,7 @@ public class SlotMachine {
         System.out.print("Please type the amount of credits you wish to deposit: ");
         curCredits += console.nextInt();
         System.out.printf("Your total credits is now: %d\n", curCredits);
-        play();
+        readBet();
     }
 
     public void validateBet() {
@@ -156,7 +125,7 @@ public class SlotMachine {
             System.out.println("Here is your lucky spin of the reels...");
             reel.spin();
             computeSpinResult();
-            play();
+            readBet();
         }
     }
     
@@ -238,7 +207,7 @@ public class SlotMachine {
     
     @Override
     public String toString() {
-        return "SlotMachine{" + "reel=" + reel + ", name=" + name + ", curBet=" + currentBet + ", totalBets=" + totalBets + ", totalDep=" + totalDeposit + ", totalPayOut=" + totalPayOut + ", totalSpins=" + totalSpins + '}';
+        return "SlotMachine{" + "reel=" + reel + ", name=" + name + ", curBet=" + curBet + ", totalBets=" + totalBets + ", totalDep=" + totalDeposit + ", totalPayOut=" + totalPayOut + ", totalSpins=" + totalSpins + '}';
     }
     
     public boolean equals(SlotMachine slotMachine) {
@@ -262,11 +231,11 @@ public class SlotMachine {
     }
 
     public int getCurrentBet() {
-        return currentBet;
+        return curBet;
     }
 
     public void setCurrentBet(int currentBet) {
-        this.currentBet = currentBet;
+        this.curBet = currentBet;
     }
 
     public int getTotalBets() {
@@ -302,11 +271,11 @@ public class SlotMachine {
     }
 
     public int getCurrentCredits() {
-        return currentCredits;
+        return curCredits;
     }
 
     public void setCurrentCredits(int currentCredits) {
-        this.currentCredits = currentCredits;
+        this.curCredits = currentCredits;
     }
 
     public Scanner getConsole() {

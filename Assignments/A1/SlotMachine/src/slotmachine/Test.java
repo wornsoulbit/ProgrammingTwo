@@ -11,6 +11,10 @@ package slotmachine;
  */
 public class Test {
     public static void main(String[] args) {
-    	
+    	SlotMachine m1 = new SlotMachine("Alex", 30);
+        
+        m1.play();
+        
+        m1.play();
     }
 }

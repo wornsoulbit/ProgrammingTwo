@@ -1,8 +1,8 @@
 package slotmachine;
 
+import MyUtil.RandomNumGenerator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * Models a set of 3 slot reels. 
@@ -13,7 +13,7 @@ public class Slot3Reel {
     private ArrayList<String> symbolList = new ArrayList<>(Arrays.asList(
             "Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"));
     private ArrayList<String> payline = new ArrayList<>();
-    static Random rand = new Random();
+    private String[] paylinee = new String[3];
     
     /**
      * Default constructor of a Slot3Reel.
@@ -35,28 +35,12 @@ public class Slot3Reel {
     }
     
     /**
-     * Generates a random number in between the min and max inclusively.
-     * @param min the minimum number.
-     * @param max the maximum number.
-     * @return a random number between the range of the min and max.
-     */
-    public static int generate(int min, int max) {
-        if (min > max) {
-            int temp = min;
-            min = max;
-            max = temp;
-        }
-        return rand.nextInt(max - min + 1) + min;
-    }
-    
-    
-    /**
      * Populates an arrayList from an existing arrayList.
      */
     public void populateNewLine() {
         payline.clear();
         for (int i = 0; i < 3; i++) {
-            payline.add(symbolList.get(generate(0, symbolList.size() - 1)));
+            payline.add(symbolList.get(RandomNumGenerator.generator(0, symbolList.size() - 1)));
         }
     }
     
@@ -66,7 +50,7 @@ public class Slot3Reel {
     public void spin() {
         String strOut = "";
         //Prints random number of lines between 2 and 9. That doesn't give any payout.
-        for (int i = 1; i <= generate(2, 9); i++) {
+        for (int i = 1; i <= RandomNumGenerator.generator(2, 9); i++) {
             strOut += printLine() + "\n";
             populateNewLine();
         }
