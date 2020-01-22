@@ -11,6 +11,6 @@ package slotmachine;
  */
 public class Test {
     public static void main(String[] args) {
-        Slot3Reel slot = new Slot3Reel();
+    	
     }
 }
