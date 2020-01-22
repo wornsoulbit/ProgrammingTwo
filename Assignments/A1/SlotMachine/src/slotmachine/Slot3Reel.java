@@ -35,7 +35,7 @@ public class Slot3Reel {
     }
     
     /**
-     * Generates a random number in a range.
+     * Generates a random number in between the min and max inclusively.
      * @param min the minimum number.
      * @param max the maximum number.
      * @return a random number between the range of the min and max.
@@ -51,12 +51,12 @@ public class Slot3Reel {
     
     
     /**
-     * Generates a new random spin. e.g. | x | y | z |
+     * Populates an arrayList from an existing arrayList.
      */
     public void populateNewLine() {
         payline.clear();
         for (int i = 0; i < 3; i++) {
-            payline.add(symbolList.get(generate(0, 6)));
+            payline.add(symbolList.get(generate(0, symbolList.size() - 1)));
         }
     }
     

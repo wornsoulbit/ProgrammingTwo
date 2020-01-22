@@ -11,7 +11,7 @@ package slotmachine;
  */
 public class Test {
     public static void main(String[] args) {
-        Slot3Reel slot = new Slot3Reel();
-        slot.spin();        
+        SlotMachine m1 = new SlotMachine("Jack", 20);
+        m1.play();
     }
 }
