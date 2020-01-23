@@ -3,10 +3,11 @@ package slotmachine;
 import java.util.Scanner;
 
 /**
- * 
+ *
  * @author Alex Vasil
  */
 public class SlotMachine {
+
     private Slot3Reel reel = new Slot3Reel();
     private String name;
     private int curBet;
@@ -21,6 +22,7 @@ public class SlotMachine {
 
     /**
      * Default Constructor of a SlotMachine.
+     *
      * @param name the player name.
      * @param currentCredits the amount of credits thats been deposited.
      */
@@ -33,11 +35,11 @@ public class SlotMachine {
         this.totalSpins = 0;
         this.curCredits = currentCredits;
     }
-    
+
     private void defaultIntro() {
         System.out.printf("Welcome back %s!\n", name);
     }
-    
+
     /**
      * Starts the game.
      */
@@ -50,20 +52,35 @@ public class SlotMachine {
             readBet();
         }
     }
-    
+
     /**
      * Introduction to the game.
      */
-    public void intro() {
-        String intro = "";
-        intro += String.format("%s %s\n", "Greetings", name);
-        intro += String.format("%s\n", "Welcome to 3-Reel Slot Machine Game!");
-        intro += String.format("%s\n", "Each reel is adorned with the following 7 fruit names:");
-        intro += String.format("%s\n", "Orange, Cherry, Lime, Apple, Banana, Peach, Melon");
-        intro += String.format("%s\n", "");
-        intro += String.format("%s\n", "There are four possible types of payout combinations:");
-        intro += String.format("%s\n", "");
-        System.out.println(intro);
+    private void intro() {
+        System.out.printf("Greetings %s\n", name);
+        System.out.printf("Welcome to 3-Reel Slot Machine Game! \n");
+        System.out.printf("Each reel is adorned with the following 7 friut names:\n");
+        System.out.printf("Orange, Cherry, Lime, Apple, Banana, Peach, Melon\n");
+
+        System.out.printf("\nThere are four possible types of payout combinations:\n");
+        System.out.printf("-----------------------------------------------------\n");
+        System.out.printf("1) Triple       : all 3 symbols match \n");
+        System.out.printf("2) Left-Double  : the left symbol matches either of the other two symbols \n");
+        System.out.printf("3) Right-Double : the center and rightmost symbols match \n");
+        System.out.printf("4) Zilch         : no matches \n");
+        System.out.printf("\nThe Rules: \n");
+        System.out.printf("----------\n");
+
+        System.out.printf("1) You will be prompted to enter a bet value.\n");
+        System.out.printf("   A bet value is the number of bet coins you want to bet.\n");
+        System.out.printf("   If your bet value exceeds your current balance, then\n");
+        System.out.printf("   you'll have to deposit enough bet coins to satisfy your bet.\n");
+        System.out.printf("2) Enter 0 for a bet to end the game. \n");
+        System.out.printf("3) Get a Triple to win 3 times your bet.  \n");
+        System.out.printf("4) Get a Left-Double to win 2 times your bet. \n");
+        System.out.printf("5) Get a Right-Double to win 1 time your bet. \n");
+        System.out.printf("6) Get a Zilch to lose your bet.  \n");
+        System.out.printf("\nLet the Fun Begin!\nGood Luck!\n");
     }
 
     /**
@@ -71,8 +88,9 @@ public class SlotMachine {
      */
     public void finalGreetingMsg() {
         System.out.println("Goodbye, come back soon!");
+        System.out.println(toString());
     }
-    
+
     /**
      * Reads the current bet and checks if its valid.
      */
@@ -81,9 +99,10 @@ public class SlotMachine {
             System.out.println("Do you want to deposit more credits or quit?");
             System.out.println("Press 1 to deposit more credits");
             System.out.println("Press 0 to quit");
+            System.out.print("Enter your choice: ");
             int playerInp = console.nextInt();
             switch (playerInp) {
-                case 1: 
+                case 1:
                     depositCredits();
                     break;
                 case 0:
@@ -96,7 +115,7 @@ public class SlotMachine {
         curBet = console.nextInt();
         validateBet();
     }
-    
+
     /**
      * Allows a user to deposit credits into their account.
      */
@@ -107,6 +126,10 @@ public class SlotMachine {
         readBet();
     }
 
+    /**
+     * Validates if a bet made is a valid one or not. e.g. a none valid bet is
+     * -10, if the player has less credits than is needed to play etc.
+     */
     public void validateBet() {
         if (this.curBet > this.curCredits || this.curBet < 0) {
             System.out.printf("Invalid bet, you need %d more credits to play. Do you wish to deposit more credits or try a smaller bet?\n", curBet - curCredits);
@@ -124,13 +147,16 @@ public class SlotMachine {
         } else {
             System.out.println("Here is your lucky spin of the reels...");
             reel.spin();
+            totalBets += curBet;
             computeSpinResult();
             readBet();
         }
     }
-    
+
     /**
-     * Checks the current bet and the spin outcome and rewards according to the payouts.
+     * Checks the current bet and the spin outcome and rewards according to the
+     * payouts.
+     *
      * @return the amount of credits according to the amount won.
      */
     private int computeSpinResult() {
@@ -157,59 +183,72 @@ public class SlotMachine {
         }
         return -1;
     }
-    
+
     /**
      * Checks the outcome of the spin.
+     *
      * @return a number that corresponds to a spin result.
      */
     public int getSpinOutcome() {
         int spinOutcome;
-        
-            if (!isTriple()) 
-                if (!isDouble()) 
-                    spinOutcome = 0; //For Zilch.
-                else 
-                    spinOutcome = 1; //For Double.
-            else 
-                spinOutcome = 2; //For Triple.
-            
+
+        if (!isTriple()) {
+            if (!isDouble()) {
+                spinOutcome = 0; //For Zilch.
+            } else {
+                spinOutcome = 1; //For Double.
+            }
+        } else {
+            spinOutcome = 2; //For Triple.
+        }
         return spinOutcome;
     }
-    
+
     /**
      * Compares if all 3 values in the payline are the same.
-     * @return 
+     *
+     * @return
      */
     public boolean isTriple() {
-       return reel.getPayline().get(0).equals(reel.getPayline().get(1)) 
-               && reel.getPayline().get(0).equals(reel.getPayline().get(2));
+        return reel.getPayline()[0].equals(reel.getPayline()[0])
+                && reel.getPayline()[0].equals(reel.getPayline()[1])
+                && reel.getPayline()[0].equals(reel.getPayline()[2]);
     }
-    
+
     /**
      * Checks to see if there is two of the same values in the payline.
+     *
      * @return if there is two of the same values in the payline.
      */
     public boolean isDouble() {
-        return reel.getPayline().get(1).equals(reel.getPayline().get(0)) 
-                || reel.getPayline().get(1).equals(reel.getPayline().get(2))
-                || reel.getPayline().get(0).equals(reel.getPayline().get(2));
-    } 
-    
+        return reel.getPayline()[1].equals(reel.getPayline()[2])
+                || reel.getPayline()[0].equals(reel.getPayline()[2]);
+    }
+
     /**
      * Checks to see if there is no values that are the same to each other.
+     *
      * @return if there is no values equal to another.
      */
     public boolean isZilch() {
-        return !reel.getPayline().get(1).equals(reel.getPayline().get(0)) 
-                || !reel.getPayline().get(1).equals(reel.getPayline().get(2)) 
-                || !reel.getPayline().get(0).equals(reel.getPayline().get(2));
+        return !reel.getPayline()[1].equals(reel.getPayline()[0])
+                || !reel.getPayline()[1].equals(reel.getPayline()[2])
+                || !reel.getPayline()[0].equals(reel.getPayline()[2]);
     }
-    
+
     @Override
     public String toString() {
-        return "SlotMachine{" + "reel=" + reel + ", name=" + name + ", curBet=" + curBet + ", totalBets=" + totalBets + ", totalDep=" + totalDeposit + ", totalPayOut=" + totalPayOut + ", totalSpins=" + totalSpins + '}';
+        String strOut = String.format("%-20s: %s\n", "Name", name);
+        strOut += String.format("%-20s: %s\n", "Current Credits", curCredits);
+        strOut += String.format("%-20s: %s\n", "Total Deposits", totalDeposit);
+        strOut += String.format("%-20s: %s\n", "Total Payouts", totalPayOut);
+        strOut += String.format("%-20s: %s\n", "Total Bets", totalBets);
+        strOut += String.format("%-20s: %s\n", "Total Spins", totalSpins);
+        strOut += String.format("%-20s: %s\n", "Bottom Line", name);
+
+        return strOut;
     }
-    
+
     public boolean equals(SlotMachine slotMachine) {
         return slotMachine == this;
     }

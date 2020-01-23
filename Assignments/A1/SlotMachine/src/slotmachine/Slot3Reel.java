@@ -1,8 +1,7 @@
 package slotmachine;
 
-import MyUtil.RandomNumGenerator;
-import java.util.ArrayList;
-import java.util.Arrays;
+import MyUtil.PopArray;
+import MyUtil.RandNumGen;
 
 /**
  * Models a set of 3 slot reels. 
@@ -10,16 +9,17 @@ import java.util.Arrays;
  * @author Alex Vasil
  */
 public class Slot3Reel {
-    private ArrayList<String> symbolList = new ArrayList<>(Arrays.asList(
-            "Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"));
-    private ArrayList<String> payline = new ArrayList<>();
-    private String[] paylinee = new String[3];
+    private String[] symbolList = {"Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"};
+    private String[] payline = new String[3];
+    private final int minLines = 2;
+    private final int maxLines = 9;
+    
     
     /**
      * Default constructor of a Slot3Reel.
      */
     public Slot3Reel() {
-        populateNewLine();
+        PopArray.popArray(payline, symbolList);
     }
 
     /**
@@ -31,17 +31,7 @@ public class Slot3Reel {
         if (k < 0 || k > 2) {
             throw new IllegalArgumentException("Slot3Reel:get: array index out of bounds");
         }
-        return payline.get(k);
-    }
-    
-    /**
-     * Populates an arrayList from an existing arrayList.
-     */
-    public void populateNewLine() {
-        payline.clear();
-        for (int i = 0; i < 3; i++) {
-            payline.add(symbolList.get(RandomNumGenerator.generator(0, symbolList.size() - 1)));
-        }
+        return payline[k];
     }
     
     /**
@@ -50,9 +40,9 @@ public class Slot3Reel {
     public void spin() {
         String strOut = "";
         //Prints random number of lines between 2 and 9. That doesn't give any payout.
-        for (int i = 1; i <= RandomNumGenerator.generator(2, 9); i++) {
+        for (int i = 1; i <= RandNumGen.generator(minLines, maxLines); i++) {
             strOut += printLine() + "\n";
-            populateNewLine();
+            PopArray.popArray(payline, symbolList);
         }
         strOut += "*******************************************\n";
         //Payline.
@@ -66,9 +56,10 @@ public class Slot3Reel {
      */
     public String printLine() {
         String strOut = "";
-        strOut += String.format("%s %-11s %s", "|", payline.get(0), "|");
-        strOut += String.format("%s %-11s %s", "", payline.get(1), "");
-        strOut += String.format("%s %-11s %s", "|", payline.get(2), "|");
+        for (int i = 0; i < payline.length; i++) {
+            strOut += String.format("|%-11s", payline[i]);
+        }
+        strOut += "|";
         return strOut;
     }
     
@@ -89,20 +80,20 @@ public class Slot3Reel {
     public boolean equals(Slot3Reel slotReel) {
         return slotReel == this;
     }
-    
-    public ArrayList<String> getSymbolList() {
+
+    public String[] getSymbolList() {
         return symbolList;
     }
 
-    public ArrayList<String> getPayline() {
-        return payline;
-    }
-
-    public void setSymbolList(ArrayList<String> symbolList) {
+    public void setSymbolList(String[] symbolList) {
         this.symbolList = symbolList;
     }
 
-    public void setPayline(ArrayList<String> payline) {
+    public String[] getPayline() {
+        return payline;
+    }
+
+    public void setPayline(String[] payline) {
         this.payline = payline;
     }
 }

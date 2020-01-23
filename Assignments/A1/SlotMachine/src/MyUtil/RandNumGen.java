@@ -7,7 +7,7 @@ import java.util.Random;
  *
  * @author Alex Vasil
  */
-public class RandomNumGenerator {
+public class RandNumGen {
 
     private static Random rand = new Random();
 
