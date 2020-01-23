@@ -9,11 +9,11 @@ import MyUtil.RandNumGen;
  * @author Alex Vasil
  */
 public class Slot3Reel {
-    private String[] symbolList = {"Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"};
-    private String[] payline = new String[3];
+    private final String[] symbolList = {"Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"};
     private final int minLines = 2;
     private final int maxLines = 9;
     
+    private String[] payline = new String[3];
     
     /**
      * Default constructor of a Slot3Reel.
@@ -28,9 +28,9 @@ public class Slot3Reel {
      * @return the fruit type.
      */
     public String get(int k) {
-        if (k < 0 || k > 2) {
+        if (k < 0 || k > 2) 
             throw new IllegalArgumentException("Slot3Reel:get: array index out of bounds");
-        }
+        
         return payline[k];
     }
     
@@ -39,15 +39,16 @@ public class Slot3Reel {
      */
     public void spin() {
         String strOut = "";
-        //Prints random number of lines between 2 and 9. That doesn't give any payout.
-        for (int i = 1; i <= RandNumGen.generator(minLines, maxLines); i++) {
+        //Creates between 2 and 9 dummy lines.
+        int row = RandNumGen.generator(minLines, maxLines);
+        for (int i = 1; i <= row; i++) {
             strOut += printLine() + "\n";
             PopArray.popArray(payline, symbolList);
         }
         strOut += "*******************************************\n";
         //Payline.
-        strOut += printLine() + "\n";
-        System.out.print(strOut);
+        strOut += printLine();
+        System.out.println(strOut);
     }
     
     /**
@@ -83,10 +84,6 @@ public class Slot3Reel {
 
     public String[] getSymbolList() {
         return symbolList;
-    }
-
-    public void setSymbolList(String[] symbolList) {
-        this.symbolList = symbolList;
     }
 
     public String[] getPayline() {

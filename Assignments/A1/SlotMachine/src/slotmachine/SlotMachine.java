@@ -30,14 +30,10 @@ public class SlotMachine {
         this.name = name;
         this.curBet = 0;
         this.totalBets = 0;
-        this.totalDeposit = 0;
+        this.totalDeposit = currentCredits;
         this.totalPayOut = 0;
         this.totalSpins = 0;
         this.curCredits = currentCredits;
-    }
-
-    private void defaultIntro() {
-        System.out.printf("Welcome back %s!\n", name);
     }
 
     /**
@@ -46,11 +42,18 @@ public class SlotMachine {
     public void play() {
         if (this.totalSpins != 0) {
             defaultIntro();
-            readBet();
+            playRound();
         } else {
             intro();
-            readBet();
+            playRound();
         }
+    }
+
+    /**
+     * The intro that plays if the player played before.
+     */
+    private void defaultIntro() {
+        System.out.printf("Welcome back %s!\n", name);
     }
 
     /**
@@ -86,33 +89,24 @@ public class SlotMachine {
     /**
      * Greeting message telling the player to come back soon.
      */
-    public void finalGreetingMsg() {
+    public void quitMessage() {
         System.out.println("Goodbye, come back soon!");
         System.out.println(toString());
     }
 
     /**
-     * Reads the current bet and checks if its valid.
+     * Starts a round of slots.
      */
-    public void readBet() {
-        if (curCredits == 0) {
-            System.out.println("Do you want to deposit more credits or quit?");
-            System.out.println("Press 1 to deposit more credits");
-            System.out.println("Press 0 to quit");
-            System.out.print("Enter your choice: ");
-            int playerInp = console.nextInt();
-            switch (playerInp) {
-                case 1:
-                    depositCredits();
-                    break;
-                case 0:
-                    finalGreetingMsg();
-                    return;
-            }
+    public void playRound() {
+        System.out.println("Current Deposit credits: " + curCredits);
+        System.out.println("How many coins do you want to bet? (0 to quit) ");
+        int playerInp = console.nextInt();
+        if (playerInp == 0)  {
+            quitMessage();
+            return;
         }
-        System.out.printf("Credits: %d\n", curCredits);
-        System.out.print("How many credits do you wish to bet?: ");
-        curBet = console.nextInt();
+        else 
+            curBet = playerInp;
         validateBet();
     }
 
@@ -121,9 +115,11 @@ public class SlotMachine {
      */
     public void depositCredits() {
         System.out.print("Please type the amount of credits you wish to deposit: ");
-        curCredits += console.nextInt();
+        int creditsDeposited = console.nextInt();
+        curCredits += creditsDeposited;
+        totalDeposit += creditsDeposited;
         System.out.printf("Your total credits is now: %d\n", curCredits);
-        readBet();
+        playRound();
     }
 
     /**
@@ -132,8 +128,8 @@ public class SlotMachine {
      */
     public void validateBet() {
         if (this.curBet > this.curCredits || this.curBet < 0) {
-            System.out.printf("Invalid bet, you need %d more credits to play. Do you wish to deposit more credits or try a smaller bet?\n", curBet - curCredits);
-            System.out.printf("%s\n%s\n", "Enter 1 to deposit more money.", "Enter 2 to try a smaller bet.");
+            System.out.printf("Invalid bet, you need %d more credits to play. Do you wish to deposit more credits, try a smaller bet or quit?\n", curBet - curCredits);
+            System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.", "Enter 2 to try a smaller bet.", "Enter 0 to quit");
             System.out.printf("%s %d\n", "Current Credits:", this.curCredits);
             int playerInp = console.nextInt();
             switch (playerInp) {
@@ -141,15 +137,18 @@ public class SlotMachine {
                     depositCredits();
                     break;
                 case 2:
-                    readBet();
+                    playRound();
                     break;
+                case 0:
+                    quitMessage();
+                    return;
             }
         } else {
             System.out.println("Here is your lucky spin of the reels...");
             reel.spin();
             totalBets += curBet;
             computeSpinResult();
-            readBet();
+            playRound();
         }
     }
 
@@ -160,28 +159,26 @@ public class SlotMachine {
      * @return the amount of credits according to the amount won.
      */
     private int computeSpinResult() {
-        int payOuts;
+        totalSpins++;
         switch (getSpinOutcome()) {
             case 0: //For Zilch
-                this.totalPayOut += 0;
+                totalPayOut += 0;
                 System.out.printf("You got Zilch! %d credits lost.\n", curBet);
-                this.curCredits -= this.curBet;
-                totalSpins++;
-                return payOuts = 0;
+                curCredits -= curBet;
+                return 0;
             case 1: //For Double.
-                this.totalPayOut += this.curBet * doubleSpinMultiplier;
-                this.curCredits += this.curBet * doubleSpinMultiplier;
+                totalPayOut += curBet * doubleSpinMultiplier;
+                curCredits += curBet * doubleSpinMultiplier;
                 System.out.printf("You got a double! You won %d\n", curBet * doubleSpinMultiplier);
-                totalSpins++;
-                return payOuts = this.curBet * doubleSpinMultiplier;
+                return curBet * doubleSpinMultiplier;
             case 2: //For Triple.
-                this.totalPayOut += this.curBet * tripleSpinMultiplier;
-                this.curCredits += this.curBet * tripleSpinMultiplier;
+                totalPayOut += curBet * tripleSpinMultiplier;
+                curCredits += curBet * tripleSpinMultiplier;
                 System.out.printf("You got a triple! You won %d\n", curBet * tripleSpinMultiplier);
-                totalSpins++;
-                return payOuts = this.curBet * tripleSpinMultiplier;
+                return this.curBet * tripleSpinMultiplier;
+            default:
+                return -1;
         }
-        return -1;
     }
 
     /**
@@ -190,18 +187,7 @@ public class SlotMachine {
      * @return a number that corresponds to a spin result.
      */
     public int getSpinOutcome() {
-        int spinOutcome;
-
-        if (!isTriple()) {
-            if (!isDouble()) {
-                spinOutcome = 0; //For Zilch.
-            } else {
-                spinOutcome = 1; //For Double.
-            }
-        } else {
-            spinOutcome = 2; //For Triple.
-        }
-        return spinOutcome;
+        return isTriple() ? 2 : isDouble() ? 1 : 0;
     }
 
     /**
