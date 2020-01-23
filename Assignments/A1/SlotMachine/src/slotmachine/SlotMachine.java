@@ -16,6 +16,7 @@ public class SlotMachine {
     private int totalPayOut;
     private int totalSpins;
     private int curCredits;
+    private boolean introFlag;
     private final int doubleSpinMultiplier = 2;
     private final int tripleSpinMultiplier = 3;
     Scanner console = new Scanner(System.in);
@@ -34,19 +35,20 @@ public class SlotMachine {
         this.totalPayOut = 0;
         this.totalSpins = 0;
         this.curCredits = currentCredits;
+        this.introFlag = true;
     }
 
     /**
      * Starts the game.
      */
     public void play() {
-        if (this.totalSpins != 0) {
-            defaultIntro();
-            playRound();
-        } else {
+        if (introFlag) {
             intro();
             playRound();
-        }
+        } else  {
+            defaultIntro();
+            playRound();
+        }            
     }
 
     /**
@@ -84,12 +86,13 @@ public class SlotMachine {
         System.out.printf("5) Get a Right-Double to win 1 time your bet. \n");
         System.out.printf("6) Get a Zilch to lose your bet.  \n");
         System.out.printf("\nLet the Fun Begin!\nGood Luck!\n");
+        introFlag = false;
     }
 
     /**
      * Greeting message telling the player to come back soon.
      */
-    public void quitMessage() {
+    private void quitMessage() {
         System.out.println("Goodbye, come back soon!");
         System.out.println(toString());
     }
@@ -97,16 +100,16 @@ public class SlotMachine {
     /**
      * Starts a round of slots.
      */
-    public void playRound() {
+    private void playRound() {
         System.out.println("Current Deposit credits: " + curCredits);
         System.out.println("How many coins do you want to bet? (0 to quit) ");
         int playerInp = console.nextInt();
-        if (playerInp == 0)  {
+        if (playerInp == 0) {
             quitMessage();
             return;
-        }
-        else 
+        } else {
             curBet = playerInp;
+        }
         validateBet();
     }
 
@@ -126,7 +129,7 @@ public class SlotMachine {
      * Validates if a bet made is a valid one or not. e.g. a none valid bet is
      * -10, if the player has less credits than is needed to play etc.
      */
-    public void validateBet() {
+    private void validateBet() {
         if (this.curBet > this.curCredits || this.curBet < 0) {
             System.out.printf("Invalid bet, you need %d more credits to play. Do you wish to deposit more credits, try a smaller bet or quit?\n", curBet - curCredits);
             System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.", "Enter 2 to try a smaller bet.", "Enter 0 to quit");
@@ -142,6 +145,8 @@ public class SlotMachine {
                 case 0:
                     quitMessage();
                     return;
+                default:
+                    validateBet();
             }
         } else {
             System.out.println("Here is your lucky spin of the reels...");
@@ -186,7 +191,7 @@ public class SlotMachine {
      *
      * @return a number that corresponds to a spin result.
      */
-    public int getSpinOutcome() {
+    private int getSpinOutcome() {
         return isTriple() ? 2 : isDouble() ? 1 : 0;
     }
 
@@ -195,7 +200,7 @@ public class SlotMachine {
      *
      * @return
      */
-    public boolean isTriple() {
+    private boolean isTriple() {
         return reel.getPayline()[0].equals(reel.getPayline()[0])
                 && reel.getPayline()[0].equals(reel.getPayline()[1])
                 && reel.getPayline()[0].equals(reel.getPayline()[2]);
@@ -206,7 +211,7 @@ public class SlotMachine {
      *
      * @return if there is two of the same values in the payline.
      */
-    public boolean isDouble() {
+    private boolean isDouble() {
         return reel.getPayline()[1].equals(reel.getPayline()[2])
                 || reel.getPayline()[0].equals(reel.getPayline()[2]);
     }
@@ -216,7 +221,7 @@ public class SlotMachine {
      *
      * @return if there is no values equal to another.
      */
-    public boolean isZilch() {
+    private boolean isZilch() {
         return !reel.getPayline()[1].equals(reel.getPayline()[0])
                 || !reel.getPayline()[1].equals(reel.getPayline()[2])
                 || !reel.getPayline()[0].equals(reel.getPayline()[2]);

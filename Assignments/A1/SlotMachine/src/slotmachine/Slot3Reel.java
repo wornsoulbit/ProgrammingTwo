@@ -55,7 +55,7 @@ public class Slot3Reel {
      * Prints a line of a spin e.g. | x | y | z |
      * @return | x | y | z |
      */
-    public String printLine() {
+    private String printLine() {
         String strOut = "";
         for (int i = 0; i < payline.length; i++) {
             strOut += String.format("|%-11s", payline[i]);
