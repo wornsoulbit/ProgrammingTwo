@@ -237,26 +237,40 @@ public class SlotMachine {
                 || !reel.getPayline()[1].equals(reel.getPayline()[2])
                 || !reel.getPayline()[0].equals(reel.getPayline()[2]);
     }
-    
+
     /**
      * Calculates how much loses/profits there was.
+     *
      * @return a number of how much was lost/gained.
      */
     private int calculateProfitsLosts() {
         return curCredits - totalDeposit;
     }
 
-    private String printProfitsLosts() {
+    /**
+     * Formats the string for profits/losts.
+     *
+     * @return the formated string.
+     */
+    private String formatProfitsLosts() {
         String strOut = "";
-        if (calculateProfitsLosts() == 0) 
+        if (calculateProfitsLosts() == 0) {
             strOut += String.format("%s", "No Lost, No Gain!");
-        else if (calculateProfitsLosts() < 0)
+        } else if (calculateProfitsLosts() < 0) {
             strOut += String.format("Lost %d Credits", Math.abs(calculateProfitsLosts()));
-        else 
+        } else {
             strOut += String.format("Net Gained %d Credits", calculateProfitsLosts());
+        }
         return strOut;
     }
-    
+
+    /**
+     * ToString method, listing the player name, current credits, total
+     * deposits, total payouts, total bets, total spins, and the gained/lost
+     * credits.
+     *
+     * @return the formated String.
+     */
     @Override
     public String toString() {
         String strOut = String.format("%-17s: %s\n", "Name", name);
@@ -265,12 +279,13 @@ public class SlotMachine {
         strOut += String.format("%-17s: %s\n", "Total Payouts", totalPayOut);
         strOut += String.format("%-17s: %s\n", "Total Bets", totalBets);
         strOut += String.format("%-17s: %s\n", "Total Spins", totalSpins);
-        strOut += String.format("%-17s: %s\n", "Bottom Line", printProfitsLosts());
+        strOut += String.format("%-17s: %s\n", "Bottom Line", formatProfitsLosts());
         return strOut;
     }
 
     /**
      * Compares two Objects and sees if they are equal to each other.
+     *
      * @param slotMachine
      * @return if the two objs are equal to each other.
      */
@@ -280,6 +295,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return a reel.
      */
     public Slot3Reel getReel() {
@@ -288,6 +304,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param reel sets the value of a reel
      */
     public void setReel(Slot3Reel reel) {
@@ -296,6 +313,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return a name.
      */
     public String getName() {
@@ -304,6 +322,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param name
      */
     public void setName(String name) {
@@ -312,6 +331,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return a current bet.
      */
     public int getCurrentBet() {
@@ -320,6 +340,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param currentBet
      */
     public void setCurrentBet(int currentBet) {
@@ -328,6 +349,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return a total bet.
      */
     public int getTotalBets() {
@@ -336,6 +358,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param totalBets
      */
     public void setTotalBets(int totalBets) {
@@ -344,6 +367,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return total deposit.
      */
     public int getTotalDeposit() {
@@ -352,6 +376,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param totalDeposit
      */
     public void setTotalDeposit(int totalDeposit) {
@@ -360,6 +385,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return total payout.
      */
     public int getTotalPayOut() {
@@ -368,6 +394,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param totalPayOut
      */
     public void setTotalPayOut(int totalPayOut) {
@@ -376,6 +403,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return total spins.
      */
     public int getTotalSpins() {
@@ -384,6 +412,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param totalSpins
      */
     public void setTotalSpins(int totalSpins) {
@@ -392,6 +421,7 @@ public class SlotMachine {
 
     /**
      * Getter.
+     *
      * @return current credits.
      */
     public int getCurrentCredits() {
@@ -400,6 +430,7 @@ public class SlotMachine {
 
     /**
      * Setter.
+     *
      * @param currentCredits
      */
     public void setCurrentCredits(int currentCredits) {
