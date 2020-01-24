@@ -82,14 +82,26 @@ public class Slot3Reel {
         return slotReel == this;
     }
 
+    /**
+     * Getter.
+     * @return
+     */
     public String[] getSymbolList() {
         return symbolList;
     }
 
+    /**
+     * Getter.
+     * @return
+     */
     public String[] getPayline() {
         return payline;
     }
 
+    /**
+     * Setter.
+     * @param payline
+     */
     public void setPayline(String[] payline) {
         this.payline = payline;
     }
