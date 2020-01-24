@@ -10,7 +10,7 @@ import MyUtil.RandNumGen;
  */
 public class Slot3Reel {
 
-    private final String[] symbolList = {"Melon", "Tangerine", "Apricot", "Fig", "Mandarin", "Pear", "Banana"};
+    private final String[] symbolList = {"Orange", "Cherry", "Lime", "Apple", "Banana", "Peach", "Melon"};
     private final int minLines = 2;
     private final int maxLines = 9;
 
