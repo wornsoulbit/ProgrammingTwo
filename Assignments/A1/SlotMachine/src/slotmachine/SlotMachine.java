@@ -35,7 +35,7 @@ public class SlotMachine {
         this.totalPayOut = 0;
         this.totalSpins = 0;
         this.curCredits = currentCredits;
-        this.initIntroFlag = true;
+        this.initIntroFlag = true;  //
     }
 
     /**
@@ -88,13 +88,11 @@ public class SlotMachine {
      * Starts the game.
      */
     public void play() {
-        if (initIntroFlag) {
+        if (initIntroFlag) 
             intro();
-            playRound();
-        } else {
+        else 
             defaultIntro();
-            playRound();
-        }
+        playRound();
     }
 
     /**
@@ -112,10 +110,11 @@ public class SlotMachine {
                 return;
             }
         }
+        
         System.out.println("Current Deposit credits: " + curCredits);
         System.out.println("How many coins do you want to bet? (0 to quit) ");
         int playerInp = console.nextInt();
-        if (playerInp == 0) {
+        if (playerInp <= 0) {
             quitMessage();
             return;
         } else {
@@ -127,7 +126,7 @@ public class SlotMachine {
     /**
      * Allows a user to deposit credits into their account.
      */
-    public void depositCredits() {
+    private void depositCredits() {
         System.out.print("Please type the amount of credits you wish to deposit: ");
         int creditsDeposited = console.nextInt();
         curCredits += creditsDeposited;
@@ -141,11 +140,16 @@ public class SlotMachine {
      * -10, if the player has less credits than is needed to play etc.
      */
     private void validateBet() {
+        // start unsuccessfully
         if (curBet > curCredits || curBet < 0) {
-            System.out.printf("Invalid bet, you need %d more credits to play. Do you wish to deposit more credits, try a smaller bet or quit?\n", curBet - curCredits);
-            System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.", "Enter 2 to try a smaller bet.", "Enter 0 to quit");
+            System.out.printf("Invalid bet, you need %d more credits to play. "
+                    + "Do you wish to deposit more credits, try a smaller bet or quit?\n", 
+                    curBet - curCredits);
+            System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.", 
+                    "Enter 2 to try a smaller bet.", "Enter 0 to quit");
             System.out.printf("%s %d\n", "Current Credits:", this.curCredits);
             int playerInp = console.nextInt();
+            
             switch (playerInp) {
                 case 1:
                     depositCredits();
@@ -159,7 +163,8 @@ public class SlotMachine {
                 default:
                     validateBet();
             }
-        } else {
+        } 
+        else {
             System.out.println("Here is your lucky spin of the reels...");
             reel.spin();
             totalBets += curBet;
@@ -224,7 +229,8 @@ public class SlotMachine {
      */
     private boolean isDouble() {
         return reel.getPayline()[1].equals(reel.getPayline()[2])
-                || reel.getPayline()[0].equals(reel.getPayline()[2]);
+                || reel.getPayline()[0].equals(reel.getPayline()[2])
+                || reel.getPayline()[0].equals(reel.getPayline()[1]);
     }
 
     /**

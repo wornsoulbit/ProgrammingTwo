@@ -11,8 +11,8 @@ import MyUtil.RandNumGen;
 public class Slot3Reel {
 
     private final String[] symbolList = {"Orange", "Cherry", "Lime", "Apple", "Banana", "Peach", "Melon"};
-    private final int minLines = 2;
-    private final int maxLines = 9;
+    private final int minLine = 2;
+    private final int maxLine = 9;
 
     private String[] payline = new String[3];
 
@@ -43,8 +43,8 @@ public class Slot3Reel {
     public void spin() {
         String strOut = "";
         //Creates between 2 and 9 dummy lines.
-        int row = RandNumGen.generator(minLines, maxLines);
-        for (int i = 1; i <= row; i++) {
+        int row = RandNumGen.generator(minLine, maxLine);
+        for (int i = 0; i < row; i++) {
             strOut += printLine() + "\n";
             PopArray.popArray(payline, symbolList);
         }

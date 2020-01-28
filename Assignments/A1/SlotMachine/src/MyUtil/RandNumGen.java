@@ -20,11 +20,8 @@ public class RandNumGen {
      * @return a random number between the lower and upper bound.
      */
     public static int generator(int min, int max) {
-        if (min > max) {
-            int temp = min;
-            min = max;
-            max = temp;
-        }
-        return rand.nextInt(max - min + 1) + min;
+        return rand.nextInt(Math.abs(max - min) + 1) + min;
     }
 }
+
+
