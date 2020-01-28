@@ -85,7 +85,8 @@ public class Slot3Reel {
      * @return if they are equal to each other.
      */
     public boolean equals(Slot3Reel slotReel) {
-        return slotReel == this;
+        return slotReel.payline == this.payline
+                && slotReel.symbolList == this.symbolList;
     }
 
     /**
