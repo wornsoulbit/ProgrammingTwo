@@ -1,7 +1,7 @@
 package slotmachine;
 
 import java.util.Scanner;
-
+        
 /**
  *
  * @author Alex Vasil
@@ -83,7 +83,7 @@ public class SlotMachine {
      * Greeting message telling the player to come back soon.
      */
     private void quitMessage() {
-        System.out.println("Goodbye, come back soon!");
+        System.out.println("\nGoodbye, come back soon!");
         System.out.println(toString());
         isGameOver = true;
     }
@@ -96,11 +96,10 @@ public class SlotMachine {
         if (isGameOver) 
             isGameOver = false;
         
-        if (initIntroFlag) {
+        if (initIntroFlag)
             rulesIntro();
-        } else {
+        else 
             gameIntro();
-        }
         playRound();
     }
 
@@ -111,10 +110,15 @@ public class SlotMachine {
         do {
             checkCredits();
             System.out.println("\nCurrent Deposit credits: " + curCredits);
-            System.out.println("How many coins do you want to bet? (0 to quit) ");
+            System.out.print("How many coins do you want to bet? (0 to quit) ");
             int playerInp = console.nextInt();
             
-            if (playerInp <= 0) {
+            while (playerInp < 0) {
+                System.out.print("\nInvalid Input please enter a postitive number: ");
+                playerInp = console.nextInt();
+            } 
+                
+            if (playerInp == 0) {
                 quitMessage();
             } else {
                 curBet = playerInp;
@@ -133,8 +137,10 @@ public class SlotMachine {
     private void depositCredits() {
         System.out.print("Please type the amount of credits you wish to deposit: ");
         int creditsDeposited = console.nextInt();
+        
         curCredits += creditsDeposited;
         totalDeposit += creditsDeposited;
+        
         System.out.printf("Your total credits is now: %d\n", curCredits);
     }
 
@@ -148,6 +154,7 @@ public class SlotMachine {
             System.out.println("You have zero credits do you wish to deposit more?");
             System.out.println("Enter 1 to deposit credits, 0 to quit.");
             int playerInp = console.nextInt();
+            
             if (playerInp == 1) {
                 depositCredits();
             } else {
@@ -160,6 +167,7 @@ public class SlotMachine {
             System.out.printf("\nYou have %d credits do you wish to deposit more?\n", curCredits);
             System.out.println("Enter 1 to deposit credits, 2 to keep playing, 0 to quit.");
             int playerInp = console.nextInt();
+            
             switch (playerInp) {
                 case 1: 
                     depositCredits();
@@ -204,7 +212,7 @@ public class SlotMachine {
         } 
         //Successful Start. E.g. Valid bet.
         else {
-            System.out.println("Here is your lucky spin of the reels...");
+            System.out.println("\nHere is your lucky spin of the reels...");
             reel.spin();
             totalBets += curBet;
             computeSpinResult();
@@ -283,8 +291,8 @@ public class SlotMachine {
      */
     private boolean isZilch() {
         return !reel.getPayline()[1].equals(reel.getPayline()[0])
-                || !reel.getPayline()[1].equals(reel.getPayline()[2])
-                || !reel.getPayline()[0].equals(reel.getPayline()[2]);
+                && !reel.getPayline()[1].equals(reel.getPayline()[2])
+                && !reel.getPayline()[0].equals(reel.getPayline()[2]);
     }
 
     /**

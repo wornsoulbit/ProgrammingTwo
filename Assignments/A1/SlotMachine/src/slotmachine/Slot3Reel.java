@@ -30,7 +30,7 @@ public class Slot3Reel {
      * @return the fruit type.
      */
     public String get(int k) {
-        if (k < 0 || k > 2) {
+        if (k < 0 || k > payline.length - 1) {
             throw new IllegalArgumentException("Slot3Reel:get: array index out of bounds");
         }
 
@@ -44,10 +44,12 @@ public class Slot3Reel {
         String strOut = "";
         //Creates between 2 and 9 dummy lines.
         int row = RandNumGen.generator(minLine, maxLine);
+        
         for (int i = 0; i < row; i++) {
             strOut += printLine() + "\n";
             PopArray.popArray(payline, symbolList);
         }
+        
         strOut += "*******************************************\n";
         //Payline.
         strOut += printLine();
