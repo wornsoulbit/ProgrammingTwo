@@ -1,6 +1,6 @@
 package slotmachine;
 
-import java.util.Scanner;
+import MyUtil.MyScanner;
         
 /**
  *
@@ -20,8 +20,8 @@ public class SlotMachine {
     private boolean isGameOver; //Checks to see if the game is over.
     private final int doubleSpinMultiplier = 2;
     private final int tripleSpinMultiplier = 3;
-    Scanner console = new Scanner(System.in);
-
+    MyScanner console = new MyScanner();
+    
     /**
      * Default Constructor of a SlotMachine.
      *
@@ -111,12 +111,7 @@ public class SlotMachine {
             checkCredits();
             System.out.println("\nCurrent Deposit credits: " + curCredits);
             System.out.print("How many coins do you want to bet? (0 to quit) ");
-            int playerInp = console.nextInt();
-            
-            while (playerInp < 0) {
-                System.out.print("\nInvalid Input please enter a postitive number: ");
-                playerInp = console.nextInt();
-            } 
+            int playerInp = console.readNonNegativeInt();
                 
             if (playerInp == 0) {
                 quitMessage();
@@ -136,7 +131,7 @@ public class SlotMachine {
      */
     private void depositCredits() {
         System.out.print("Please type the amount of credits you wish to deposit: ");
-        int creditsDeposited = console.nextInt();
+        int creditsDeposited = console.readNonNegativeInt();
         
         curCredits += creditsDeposited;
         totalDeposit += creditsDeposited;
@@ -153,7 +148,7 @@ public class SlotMachine {
         if (curCredits == 0) {
             System.out.println("You have zero credits do you wish to deposit more?");
             System.out.println("Enter 1 to deposit credits, 0 to quit.");
-            int playerInp = console.nextInt();
+            int playerInp = console.readNonNegativeInt();
             
             if (playerInp == 1) {
                 depositCredits();
@@ -166,7 +161,7 @@ public class SlotMachine {
         if (curCredits <= 5) {
             System.out.printf("\nYou have %d credits do you wish to deposit more?\n", curCredits);
             System.out.println("Enter 1 to deposit credits, 2 to keep playing, 0 to quit.");
-            int playerInp = console.nextInt();
+            int playerInp = console.readNonNegativeInt();
             
             switch (playerInp) {
                 case 1: 
@@ -195,7 +190,7 @@ public class SlotMachine {
             System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.",
                     "Enter 2 to try a smaller bet.", "Enter 0 to quit");
             System.out.printf("%s %d\n", "Current Credits:", this.curCredits);
-            int playerInp = console.nextInt();
+            int playerInp = console.readNonNegativeInt();
 
             switch (playerInp) {
                 case 1:

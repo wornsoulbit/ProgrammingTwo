@@ -1,5 +1,6 @@
 package slotmachine;
 
+import MyUtil.MyCenteringText;
 import MyUtil.PopArray;
 import MyUtil.RandNumGen;
 
@@ -50,9 +51,10 @@ public class Slot3Reel {
             PopArray.popArray(payline, symbolList);
         }
         
-        strOut += "*******************************************\n";
+        strOut += "****************************************\n";
         //Payline.
         strOut += printLine();
+        strOut += "\n****************************************\n";
         System.out.println(strOut);
     }
 
@@ -64,7 +66,7 @@ public class Slot3Reel {
     private String printLine() {
         String strOut = "";
         for (int i = 0; i < payline.length; i++) {
-            strOut += String.format("|%-11s", payline[i]);
+            strOut += String.format("|" + MyCenteringText.center(payline[i], 12));
         }
         strOut += "|";
         return strOut;
