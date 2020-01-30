@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class PopArray {
 
     /**
-     * Populates a String array x with array y.
+     * Populates a String array x with random elements of array y.
      *
      * @param x array to be populated.
      * @param y array to be used for population.

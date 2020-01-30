@@ -1,5 +1,6 @@
 package slotmachine;
 
+import MyUtil.MyCenteringText;
 import MyUtil.PopArray;
 import MyUtil.RandNumGen;
 
@@ -11,8 +12,8 @@ import MyUtil.RandNumGen;
 public class Slot3Reel {
 
     private final String[] symbolList = {"Orange", "Cherry", "Lime", "Apple", "Banana", "Peach", "Melon"};
-    private final int minLines = 2;
-    private final int maxLines = 9;
+    private final int minLine = 2;
+    private final int maxLine = 9;
 
     private String[] payline = new String[3];
 
@@ -30,7 +31,7 @@ public class Slot3Reel {
      * @return the fruit type.
      */
     public String get(int k) {
-        if (k < 0 || k > 2) {
+        if (k < 0 || k > payline.length - 1) {
             throw new IllegalArgumentException("Slot3Reel:get: array index out of bounds");
         }
 
@@ -43,14 +44,17 @@ public class Slot3Reel {
     public void spin() {
         String strOut = "";
         //Creates between 2 and 9 dummy lines.
-        int row = RandNumGen.generator(minLines, maxLines);
-        for (int i = 1; i <= row; i++) {
+        int row = RandNumGen.generator(minLine, maxLine);
+        
+        for (int i = 0; i < row; i++) {
             strOut += printLine() + "\n";
             PopArray.popArray(payline, symbolList);
         }
-        strOut += "*******************************************\n";
+        
+        strOut += "****************************************\n";
         //Payline.
         strOut += printLine();
+        strOut += "\n****************************************\n";
         System.out.println(strOut);
     }
 
@@ -62,7 +66,7 @@ public class Slot3Reel {
     private String printLine() {
         String strOut = "";
         for (int i = 0; i < payline.length; i++) {
-            strOut += String.format("|%-11s", payline[i]);
+            strOut += String.format("|" + MyCenteringText.center(payline[i], 12));
         }
         strOut += "|";
         return strOut;
@@ -85,7 +89,8 @@ public class Slot3Reel {
      * @return if they are equal to each other.
      */
     public boolean equals(Slot3Reel slotReel) {
-        return slotReel == this;
+        return slotReel.payline == this.payline
+                && slotReel.symbolList == this.symbolList;
     }
 
     /**

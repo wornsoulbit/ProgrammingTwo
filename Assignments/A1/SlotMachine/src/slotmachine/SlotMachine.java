@@ -1,7 +1,7 @@
 package slotmachine;
 
-import java.util.Scanner;
-
+import MyUtil.MyScanner;
+        
 /**
  *
  * @author Alex Vasil
@@ -16,11 +16,12 @@ public class SlotMachine {
     private int totalPayOut;
     private int totalSpins;
     private int curCredits;
-    private boolean initIntroFlag;
+    private boolean initIntroFlag; //Checks if the initial intro with the rules has been showned.
+    private boolean isGameOver; //Checks to see if the game is over.
     private final int doubleSpinMultiplier = 2;
     private final int tripleSpinMultiplier = 3;
-    Scanner console = new Scanner(System.in);
-
+    MyScanner console = new MyScanner();
+    
     /**
      * Default Constructor of a SlotMachine.
      *
@@ -35,77 +36,167 @@ public class SlotMachine {
         this.totalPayOut = 0;
         this.totalSpins = 0;
         this.curCredits = currentCredits;
-        this.initIntroFlag = true;
+        this.initIntroFlag = true;  //Checks to see if the initial introduction 
+        //with rules is showned to the player.
+        this.isGameOver = false; //Checks to see if the game is ending.
+    }
+
+    /**
+     * The intro that plays if the player played before.
+     */
+    private void gameIntro() {
+        System.out.printf("Welcome back %s!\n", name);
+    }
+
+    /**
+     * Introduction to the game.
+     */
+    private void rulesIntro() {
+        System.out.printf("Greetings %s\n", name);
+        System.out.printf("Welcome to 3-Reel Slot Machine Game! \n");
+        System.out.printf("Each reel is adorned with the following 7 friut names:\n");
+        System.out.printf("Orange, Cherry, Lime, Apple, Banana, Peach, Melon\n");
+
+        System.out.printf("\nThere are four possible types of payout combinations:\n");
+        System.out.printf("-----------------------------------------------------\n");
+        System.out.printf("1) Triple       : all 3 symbols match \n");
+        System.out.printf("2) Left-Double  : the left symbol matches either of the other two symbols \n");
+        System.out.printf("3) Right-Double : the center and rightmost symbols match \n");
+        System.out.printf("4) Zilch         : no matches \n");
+        System.out.printf("\nThe Rules: \n");
+        System.out.printf("----------\n");
+
+        System.out.printf("1) You will be prompted to enter a bet value.\n");
+        System.out.printf("   A bet value is the number of bet coins you want to bet.\n");
+        System.out.printf("   If your bet value exceeds your current balance, then\n");
+        System.out.printf("   you'll have to deposit enough bet coins to satisfy your bet.\n");
+        System.out.printf("2) Enter 0 for a bet to end the game. \n");
+        System.out.printf("3) Get a Triple to win 3 times your bet.  \n");
+        System.out.printf("4) Get a Left-Double to win 2 times your bet. \n");
+        System.out.printf("5) Get a Right-Double to win 1 time your bet. \n");
+        System.out.printf("6) Get a Zilch to lose your bet.  \n");
+        System.out.printf("\nLet the Fun Begin!\nGood Luck!\n");
+        initIntroFlag = false;
+    }
+
+    /**
+     * Greeting message telling the player to come back soon.
+     */
+    private void quitMessage() {
+        System.out.println("\nGoodbye, come back soon!");
+        System.out.println(toString());
+        isGameOver = true;
     }
 
     /**
      * Starts the game.
      */
     public void play() {
-        if (initIntroFlag) {
-            intro();
-            playRound();
-        } else {
-            defaultIntro();
-            playRound();
-        }
+        //Checks to see if endGame is true, if it is, sets to false.
+        if (isGameOver) 
+            isGameOver = false;
+        
+        if (initIntroFlag)
+            rulesIntro();
+        else 
+            gameIntro();
+        playRound();
     }
 
     /**
      * Starts a round of slots.
      */
     private void playRound() {
-        if (curCredits == 0) {
-            System.out.println("You have zero credits do you wish to deposit more?");
-            System.out.println("Enter 1 to deposit credits, 0 to quit.");
-            int playerInp = console.nextInt();
-            if (playerInp == 1) {
-                depositCredits();
-            } else {
+        do {
+            checkCredits();
+            System.out.println("\nCurrent Deposit credits: " + curCredits);
+            System.out.print("How many coins do you want to bet? (0 to quit) ");
+            int playerInp = console.readNonNegativeInt();
+                
+            if (playerInp == 0) {
                 quitMessage();
-                return;
+            } else {
+                curBet = playerInp;
             }
-        }
-        System.out.println("Current Deposit credits: " + curCredits);
-        System.out.println("How many coins do you want to bet? (0 to quit) ");
-        int playerInp = console.nextInt();
-        if (playerInp == 0) {
-            quitMessage();
-            return;
-        } else {
-            curBet = playerInp;
-        }
-        validateBet();
+            
+            //Checks to see if the game has ended.
+            if (!isGameOver) {
+                validateBet();
+            }
+        } while (!isGameOver);
     }
 
     /**
      * Allows a user to deposit credits into their account.
      */
-    public void depositCredits() {
+    private void depositCredits() {
         System.out.print("Please type the amount of credits you wish to deposit: ");
-        int creditsDeposited = console.nextInt();
+        int creditsDeposited = console.readNonNegativeInt();
+        
         curCredits += creditsDeposited;
         totalDeposit += creditsDeposited;
+        
         System.out.printf("Your total credits is now: %d\n", curCredits);
-        playRound();
     }
 
+    /**
+     * Checks if the player has less than 5 credits or has 0 credits, if they do 
+     * prompts the user the options of continue to play, deposit more credits or 
+     * the option to quit.
+     */
+    private void checkCredits() {
+        if (curCredits == 0) {
+            System.out.println("You have zero credits do you wish to deposit more?");
+            System.out.println("Enter 1 to deposit credits, 0 to quit.");
+            int playerInp = console.readNonNegativeInt();
+            
+            if (playerInp == 1) {
+                depositCredits();
+            } else {
+                quitMessage();
+            }
+            return;
+        }
+        
+        if (curCredits <= 5) {
+            System.out.printf("\nYou have %d credits do you wish to deposit more?\n", curCredits);
+            System.out.println("Enter 1 to deposit credits, 2 to keep playing, 0 to quit.");
+            int playerInp = console.readNonNegativeInt();
+            
+            switch (playerInp) {
+                case 1: 
+                    depositCredits();
+                    break;
+                case 2:
+                    break;
+                case 0: 
+                    quitMessage();
+                default:
+                    checkCredits();
+            }
+        }
+    }
+    
     /**
      * Validates if a bet made is a valid one or not. e.g. a none valid bet is
      * -10, if the player has less credits than is needed to play etc.
      */
     private void validateBet() {
+        //Unsuccessful Start. E.g. Invalid bet.
         if (curBet > curCredits || curBet < 0) {
-            System.out.printf("Invalid bet, you need %d more credits to play. Do you wish to deposit more credits, try a smaller bet or quit?\n", curBet - curCredits);
-            System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.", "Enter 2 to try a smaller bet.", "Enter 0 to quit");
+            System.out.printf("Invalid bet, you need %d more credits to play. "
+                    + "Do you wish to deposit more credits, try a smaller bet or quit?\n",
+                    curBet - curCredits);
+            System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.",
+                    "Enter 2 to try a smaller bet.", "Enter 0 to quit");
             System.out.printf("%s %d\n", "Current Credits:", this.curCredits);
-            int playerInp = console.nextInt();
+            int playerInp = console.readNonNegativeInt();
+
             switch (playerInp) {
                 case 1:
                     depositCredits();
                     break;
                 case 2:
-                    playRound();
                     break;
                 case 0:
                     quitMessage();
@@ -113,12 +204,13 @@ public class SlotMachine {
                 default:
                     validateBet();
             }
-        } else {
-            System.out.println("Here is your lucky spin of the reels...");
+        } 
+        //Successful Start. E.g. Valid bet.
+        else {
+            System.out.println("\nHere is your lucky spin of the reels...");
             reel.spin();
             totalBets += curBet;
             computeSpinResult();
-            playRound();
         }
     }
 
@@ -157,7 +249,12 @@ public class SlotMachine {
      * @return a number that corresponds to a spin result.
      */
     private int getSpinOutcome() {
-        return isTriple() ? 2 : isDouble() ? 1 : 0;
+        if (isTriple()) 
+            return 2;
+        else if (isDouble())
+            return 1;
+        else 
+            return 0;
     }
 
     /**
@@ -178,7 +275,8 @@ public class SlotMachine {
      */
     private boolean isDouble() {
         return reel.getPayline()[1].equals(reel.getPayline()[2])
-                || reel.getPayline()[0].equals(reel.getPayline()[2]);
+                || reel.getPayline()[0].equals(reel.getPayline()[2])
+                || reel.getPayline()[0].equals(reel.getPayline()[1]);
     }
 
     /**
@@ -188,8 +286,8 @@ public class SlotMachine {
      */
     private boolean isZilch() {
         return !reel.getPayline()[1].equals(reel.getPayline()[0])
-                || !reel.getPayline()[1].equals(reel.getPayline()[2])
-                || !reel.getPayline()[0].equals(reel.getPayline()[2]);
+                && !reel.getPayline()[1].equals(reel.getPayline()[2])
+                && !reel.getPayline()[0].equals(reel.getPayline()[2]);
     }
 
     /**
@@ -208,11 +306,11 @@ public class SlotMachine {
      */
     private String formatProfitsLosts() {
         String strOut = "";
-        if (calculateProfitsLosts() == 0) {
+        if (calculateProfitsLosts() == 0) { //If profits is zero.
             strOut += String.format("%s", "No Lost, No Gain!");
-        } else if (calculateProfitsLosts() < 0) {
+        } else if (calculateProfitsLosts() < 0) { //If profits is less than zero.
             strOut += String.format("Lost %d Credits", Math.abs(calculateProfitsLosts()));
-        } else {
+        } else { //If there is a profit made.
             strOut += String.format("Net Gained %d Credits", calculateProfitsLosts());
         }
         return strOut;
@@ -290,7 +388,12 @@ public class SlotMachine {
      * @return if the two objs are equal to each other.
      */
     public boolean equals(SlotMachine slotMachine) {
-        return slotMachine == this;
+        return slotMachine.curBet == this.curBet
+                && slotMachine.curCredits == this.curCredits
+                && slotMachine.totalDeposit == this.totalDeposit
+                && slotMachine.totalPayOut == this.totalPayOut
+                && slotMachine.totalSpins == this.totalSpins
+                && slotMachine.name.equals(this.name);
     }
 
     /**
