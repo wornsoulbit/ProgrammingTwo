@@ -69,7 +69,7 @@ public class Slot3Reel {
     }
 
     /**
-     * ToString Method
+     * ToString method that prints an array.
      *
      * @return a formated string.
      */

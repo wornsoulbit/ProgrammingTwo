@@ -39,52 +39,6 @@ public class SlotMachine {
     }
 
     /**
-     * The intro that plays if the player played before.
-     */
-    private void defaultIntro() {
-        System.out.printf("Welcome back %s!\n", name);
-    }
-
-    /**
-     * Introduction to the game.
-     */
-    private void intro() {
-        System.out.printf("Greetings %s\n", name);
-        System.out.printf("Welcome to 3-Reel Slot Machine Game! \n");
-        System.out.printf("Each reel is adorned with the following 7 friut names:\n");
-        System.out.printf("Orange, Cherry, Lime, Apple, Banana, Peach, Melon\n");
-
-        System.out.printf("\nThere are four possible types of payout combinations:\n");
-        System.out.printf("-----------------------------------------------------\n");
-        System.out.printf("1) Triple       : all 3 symbols match \n");
-        System.out.printf("2) Left-Double  : the left symbol matches either of the other two symbols \n");
-        System.out.printf("3) Right-Double : the center and rightmost symbols match \n");
-        System.out.printf("4) Zilch         : no matches \n");
-        System.out.printf("\nThe Rules: \n");
-        System.out.printf("----------\n");
-
-        System.out.printf("1) You will be prompted to enter a bet value.\n");
-        System.out.printf("   A bet value is the number of bet coins you want to bet.\n");
-        System.out.printf("   If your bet value exceeds your current balance, then\n");
-        System.out.printf("   you'll have to deposit enough bet coins to satisfy your bet.\n");
-        System.out.printf("2) Enter 0 for a bet to end the game. \n");
-        System.out.printf("3) Get a Triple to win 3 times your bet.  \n");
-        System.out.printf("4) Get a Left-Double to win 2 times your bet. \n");
-        System.out.printf("5) Get a Right-Double to win 1 time your bet. \n");
-        System.out.printf("6) Get a Zilch to lose your bet.  \n");
-        System.out.printf("\nLet the Fun Begin!\nGood Luck!\n");
-        initIntroFlag = false;
-    }
-
-    /**
-     * Greeting message telling the player to come back soon.
-     */
-    private void quitMessage() {
-        System.out.println("Goodbye, come back soon!");
-        System.out.println(toString());
-    }
-
-    /**
      * Starts the game.
      */
     public void play() {
@@ -263,7 +217,53 @@ public class SlotMachine {
         }
         return strOut;
     }
+    
+    /**
+     * The intro that plays if the player played before.
+     */
+    private void defaultIntro() {
+        System.out.printf("Welcome back %s!\n", name);
+    }
 
+    /**
+     * Introduction to the game.
+     */
+    private void intro() {
+        System.out.printf("Greetings %s\n", name);
+        System.out.printf("Welcome to 3-Reel Slot Machine Game! \n");
+        System.out.printf("Each reel is adorned with the following 7 friut names:\n");
+        System.out.printf("Orange, Cherry, Lime, Apple, Banana, Peach, Melon\n");
+
+        System.out.printf("\nThere are four possible types of payout combinations:\n");
+        System.out.printf("-----------------------------------------------------\n");
+        System.out.printf("1) Triple       : all 3 symbols match \n");
+        System.out.printf("2) Left-Double  : the left symbol matches either of the other two symbols \n");
+        System.out.printf("3) Right-Double : the center and rightmost symbols match \n");
+        System.out.printf("4) Zilch         : no matches \n");
+        System.out.printf("\nThe Rules: \n");
+        System.out.printf("----------\n");
+
+        System.out.printf("1) You will be prompted to enter a bet value.\n");
+        System.out.printf("   A bet value is the number of bet coins you want to bet.\n");
+        System.out.printf("   If your bet value exceeds your current balance, then\n");
+        System.out.printf("   you'll have to deposit enough bet coins to satisfy your bet.\n");
+        System.out.printf("2) Enter 0 for a bet to end the game. \n");
+        System.out.printf("3) Get a Triple to win 3 times your bet.  \n");
+        System.out.printf("4) Get a Left-Double to win 2 times your bet. \n");
+        System.out.printf("5) Get a Right-Double to win 1 time your bet. \n");
+        System.out.printf("6) Get a Zilch to lose your bet.  \n");
+        System.out.printf("\nLet the Fun Begin!\nGood Luck!\n");
+        initIntroFlag = false;
+    }
+
+    /**
+     * Greeting message telling the player to come back soon.
+     */
+    private void quitMessage() {
+        System.out.println("Goodbye, come back soon!");
+        System.out.println(toString());
+    }
+    
     /**
      * ToString method, listing the player name, current credits, total
      * deposits, total payouts, total bets, total spins, and the gained/lost
@@ -436,4 +436,6 @@ public class SlotMachine {
     public void setCurrentCredits(int currentCredits) {
         this.curCredits = currentCredits;
     }
+    
+    
 }
