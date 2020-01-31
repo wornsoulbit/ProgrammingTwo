@@ -1,8 +1,7 @@
 package slotmachine;
 
 import MyUtil.MyCenteringText;
-import MyUtil.PopArray;
-import MyUtil.RandNumGen;
+import java.util.Random;
 
 /**
  * Models a set of 3 slot reels.
@@ -16,12 +15,13 @@ public class Slot3Reel {
     private final int maxLine = 9;
 
     private String[] payline = new String[3];
+    private Random rand = new Random();
 
     /**
      * Default constructor of a Slot3Reel.
      */
     public Slot3Reel() {
-        PopArray.popArray(payline, symbolList);
+        populatePayline();
     }
 
     /**
@@ -44,13 +44,13 @@ public class Slot3Reel {
     public void spin() {
         String strOut = "";
         //Creates between 2 and 9 dummy lines.
-        int row = RandNumGen.generator(minLine, maxLine);
-        
+        int row = generateInt(minLine, maxLine);
+
         for (int i = 0; i < row; i++) {
             strOut += printLine() + "\n";
-            PopArray.popArray(payline, symbolList);
+            populatePayline();
         }
-        
+
         strOut += "****************************************\n";
         //Payline.
         strOut += printLine();
@@ -73,6 +73,27 @@ public class Slot3Reel {
     }
 
     /**
+     * Populates the payline with random values from the symbol list.
+     */
+    private void populatePayline() {
+        for (int i = 0; i < payline.length; i++) {
+            payline[i] = symbolList[symbolList.length - 1];
+        }
+    }
+
+    /**
+     * Generates a random number between the min number and max number
+     * inclusively.
+     *
+     * @param min the minimum number.
+     * @param max the maximum number.
+     * @return a number between the range of min and max inclusively.
+     */
+    private int generateInt(int min, int max) {
+        return rand.nextInt(Math.abs(max - min) + 1) + min;
+    }
+
+    /**
      * ToString method that prints an array.
      *
      * @return a formated string.
@@ -91,13 +112,15 @@ public class Slot3Reel {
     @Override
     public boolean equals(Object obj) {
         Slot3Reel slot3Reel = (Slot3Reel) obj;
-        
-        if (!(obj instanceof Slot3Reel))
+
+        if (!(obj instanceof Slot3Reel)) {
             return false;
-        
+        }
+
         for (int i = 0; i < payline.length; i++) {
-            if (payline[i].equals(slot3Reel.payline[i]))
+            if (payline[i].equals(slot3Reel.payline[i])) {
                 return true;
+            }
         }
         return true;
     }
