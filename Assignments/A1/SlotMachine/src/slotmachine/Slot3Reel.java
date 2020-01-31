@@ -83,14 +83,23 @@ public class Slot3Reel {
     }
 
     /**
-     * Checks to see if two objects are equal to each other.
+     * Compares two Objects and sees if they are equal to each other.
      *
-     * @param slotReel the object being compared.
-     * @return if they are equal to each other.
+     * @param obj the object being compared.
+     * @return if the two objects are equal to each other.
      */
-    public boolean equals(Slot3Reel slotReel) {
-        return slotReel.payline == this.payline
-                && slotReel.symbolList == this.symbolList;
+    @Override
+    public boolean equals(Object obj) {
+        Slot3Reel slot3Reel = (Slot3Reel) obj;
+        
+        if (!(obj instanceof Slot3Reel))
+            return false;
+        
+        for (int i = 0; i < payline.length; i++) {
+            if (payline[i].equals(slot3Reel.payline[i]))
+                return true;
+        }
+        return true;
     }
 
     /**
@@ -99,7 +108,8 @@ public class Slot3Reel {
      * @return gets the symbol list.
      */
     public String[] getSymbolList() {
-        return symbolList;
+        String[] readSymbolList = symbolList;
+        return readSymbolList;
     }
 
     /**
@@ -108,15 +118,7 @@ public class Slot3Reel {
      * @return gets the payline.
      */
     public String[] getPayline() {
-        return payline;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param payline sets the values of payline.
-     */
-    public void setPayline(String[] payline) {
-        this.payline = payline;
+        String[] readPayline = payline;
+        return readPayline;
     }
 }

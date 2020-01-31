@@ -317,52 +317,6 @@ public class SlotMachine {
     }
     
     /**
-     * The intro that plays if the player played before.
-     */
-    private void defaultIntro() {
-        System.out.printf("Welcome back %s!\n", name);
-    }
-
-    /**
-     * Introduction to the game.
-     */
-    private void intro() {
-        System.out.printf("Greetings %s\n", name);
-        System.out.printf("Welcome to 3-Reel Slot Machine Game! \n");
-        System.out.printf("Each reel is adorned with the following 7 friut names:\n");
-        System.out.printf("Orange, Cherry, Lime, Apple, Banana, Peach, Melon\n");
-
-        System.out.printf("\nThere are four possible types of payout combinations:\n");
-        System.out.printf("-----------------------------------------------------\n");
-        System.out.printf("1) Triple       : all 3 symbols match \n");
-        System.out.printf("2) Left-Double  : the left symbol matches either of the other two symbols \n");
-        System.out.printf("3) Right-Double : the center and rightmost symbols match \n");
-        System.out.printf("4) Zilch         : no matches \n");
-        System.out.printf("\nThe Rules: \n");
-        System.out.printf("----------\n");
-
-        System.out.printf("1) You will be prompted to enter a bet value.\n");
-        System.out.printf("   A bet value is the number of bet coins you want to bet.\n");
-        System.out.printf("   If your bet value exceeds your current balance, then\n");
-        System.out.printf("   you'll have to deposit enough bet coins to satisfy your bet.\n");
-        System.out.printf("2) Enter 0 for a bet to end the game. \n");
-        System.out.printf("3) Get a Triple to win 3 times your bet.  \n");
-        System.out.printf("4) Get a Left-Double to win 2 times your bet. \n");
-        System.out.printf("5) Get a Right-Double to win 1 time your bet. \n");
-        System.out.printf("6) Get a Zilch to lose your bet.  \n");
-        System.out.printf("\nLet the Fun Begin!\nGood Luck!\n");
-        initIntroFlag = false;
-    }
-
-    /**
-     * Greeting message telling the player to come back soon.
-     */
-    private void quitMessage() {
-        System.out.println("Goodbye, come back soon!");
-        System.out.println(toString());
-    }
-    
-    /**
      * ToString method, listing the player name, current credits, total
      * deposits, total payouts, total bets, total spins, and the gained/lost
      * credits.
@@ -380,165 +334,29 @@ public class SlotMachine {
         strOut += String.format("%-17s: %s\n", "Bottom Line", formatProfitsLosts());
         return strOut;
     }
-
+    
     /**
      * Compares two Objects and sees if they are equal to each other.
      *
-     * @param slotMachine
-     * @return if the two objs are equal to each other.
+     * @param obj the object being compared.
+     * @return if the two objects are equal to each other.
      */
-    public boolean equals(SlotMachine slotMachine) {
-        return slotMachine.curBet == this.curBet
-                && slotMachine.curCredits == this.curCredits
-                && slotMachine.totalDeposit == this.totalDeposit
-                && slotMachine.totalPayOut == this.totalPayOut
-                && slotMachine.totalSpins == this.totalSpins
-                && slotMachine.name.equals(this.name);
+    @Override
+    public boolean equals(Object obj) {
+        SlotMachine slotMachine = (SlotMachine) obj;
+        
+        if (!(obj instanceof SlotMachine))
+            return false;
+        
+        return reel.equals(slotMachine.reel) 
+                && name.equals(slotMachine.name)
+                && curBet == slotMachine.curBet
+                && curCredits == slotMachine.curCredits
+                && totalBets == slotMachine.totalBets
+                && totalDeposit == slotMachine.totalDeposit
+                && totalPayOut == slotMachine.totalPayOut
+                && totalSpins == slotMachine.totalSpins
+                && initIntroFlag == slotMachine.initIntroFlag
+                && isGameOver == slotMachine.isGameOver;
     }
-
-    /**
-     * Getter.
-     *
-     * @return a reel.
-     */
-    public Slot3Reel getReel() {
-        return reel;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param reel sets the value of a reel
-     */
-    public void setReel(Slot3Reel reel) {
-        this.reel = reel;
-    }
-
-    /**
-     * Getter.
-     *
-     * @return a name.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Getter.
-     *
-     * @return a current bet.
-     */
-    public int getCurrentBet() {
-        return curBet;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param currentBet
-     */
-    public void setCurrentBet(int currentBet) {
-        this.curBet = currentBet;
-    }
-
-    /**
-     * Getter.
-     *
-     * @return a total bet.
-     */
-    public int getTotalBets() {
-        return totalBets;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param totalBets
-     */
-    public void setTotalBets(int totalBets) {
-        this.totalBets = totalBets;
-    }
-
-    /**
-     * Getter.
-     *
-     * @return total deposit.
-     */
-    public int getTotalDeposit() {
-        return totalDeposit;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param totalDeposit
-     */
-    public void setTotalDeposit(int totalDeposit) {
-        this.totalDeposit = totalDeposit;
-    }
-
-    /**
-     * Getter.
-     *
-     * @return total payout.
-     */
-    public int getTotalPayOut() {
-        return totalPayOut;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param totalPayOut
-     */
-    public void setTotalPayOut(int totalPayOut) {
-        this.totalPayOut = totalPayOut;
-    }
-
-    /**
-     * Getter.
-     *
-     * @return total spins.
-     */
-    public int getTotalSpins() {
-        return totalSpins;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param totalSpins
-     */
-    public void setTotalSpins(int totalSpins) {
-        this.totalSpins = totalSpins;
-    }
-
-    /**
-     * Getter.
-     *
-     * @return current credits.
-     */
-    public int getCurrentCredits() {
-        return curCredits;
-    }
-
-    /**
-     * Setter.
-     *
-     * @param currentCredits
-     */
-    public void setCurrentCredits(int currentCredits) {
-        this.curCredits = currentCredits;
-    }
-    
-    
 }
