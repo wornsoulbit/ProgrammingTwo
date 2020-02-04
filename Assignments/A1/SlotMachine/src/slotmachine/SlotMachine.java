@@ -184,13 +184,13 @@ public class SlotMachine {
      */
     private void validateBet() {
         //Unsuccessful Start. E.g. Invalid bet.
-        if (curBet > curCredits || curBet < 0) {
+        if (curBet > curCredits) {
             System.out.printf("Invalid bet, you need %d more credits to play. "
                     + "Do you wish to deposit more credits, try a smaller bet or quit?\n",
                     curBet - curCredits);
             System.out.printf("%s\n%s\n%s\n", "Enter 1 to deposit more credits.",
                     "Enter 2 to try a smaller bet.", "Enter 0 to quit");
-            System.out.printf("%s %d\n", "Current Credits:", this.curCredits);
+            System.out.printf("%s %d\n", "Current Credits:", curCredits);
             int playerInp = console.readNonNegativeInt();
 
             switch (playerInp) {
