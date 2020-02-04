@@ -18,7 +18,7 @@ public class Slot3Reel {
     private Random rand = new Random();
 
     /**
-     * Default constructor of a Slot3Reel.
+     * Initializes a constructor of a Slot3Reel with default values.
      */
     public Slot3Reel() {
         populatePayline();
@@ -47,8 +47,8 @@ public class Slot3Reel {
         int row = generateInt(minLine, maxLine);
 
         for (int i = 0; i < row; i++) {
-            strOut += printLine() + "\n";
             populatePayline();
+            strOut += printLine() + "\n";
         }
 
         strOut += "****************************************\n";
@@ -65,8 +65,8 @@ public class Slot3Reel {
      */
     private String printLine() {
         String strOut = "";
-        for (int i = 0; i < payline.length; i++) {
-            strOut += String.format("|" + MyCenteringText.center(payline[i], 12));
+        for (String payline1 : payline) {
+            strOut += String.format("|" + MyCenteringText.center(payline1, 12));
         }
         strOut += "|";
         return strOut;
@@ -77,7 +77,7 @@ public class Slot3Reel {
      */
     private void populatePayline() {
         for (int i = 0; i < payline.length; i++) {
-            payline[i] = symbolList[symbolList.length - 1];
+            payline[i] = symbolList[generateInt(0, symbolList.length - 1)];
         }
     }
 
@@ -113,20 +113,18 @@ public class Slot3Reel {
     public boolean equals(Object obj) {
         Slot3Reel slot3Reel = (Slot3Reel) obj;
 
-        if (!(obj instanceof Slot3Reel)) {
+        if (!(obj instanceof Slot3Reel))
             return false;
-        }
 
         for (int i = 0; i < payline.length; i++) {
-            if (payline[i].equals(slot3Reel.payline[i])) {
+            if (!(payline[i].equals(slot3Reel.payline[i])))
                 return true;
-            }
         }
         return true;
     }
 
     /**
-     * Getter.
+     * Returns Symbol list.
      *
      * @return gets the symbol list.
      */
@@ -136,7 +134,7 @@ public class Slot3Reel {
     }
 
     /**
-     * Getter.
+     * Returns payline.
      *
      * @return gets the payline.
      */

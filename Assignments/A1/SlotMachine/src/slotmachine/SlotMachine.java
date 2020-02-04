@@ -3,7 +3,8 @@ package slotmachine;
 import MyUtil.MyScanner;
         
 /**
- *
+ * Starts a game of Slots.
+ * 
  * @author Alex Vasil
  */
 public class SlotMachine {
@@ -260,7 +261,7 @@ public class SlotMachine {
     /**
      * Compares if all 3 values in the payline are the same.
      *
-     * @return
+     * @return if there is three of the same values in the payline.
      */
     private boolean isTriple() {
         return reel.getPayline()[0].equals(reel.getPayline()[0])
