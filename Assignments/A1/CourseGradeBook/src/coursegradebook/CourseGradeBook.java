@@ -19,7 +19,7 @@ public class CourseGradeBook {
     }
     
     public boolean isFull() {
-        return gradeRecordCount == gradeList.length;
+        return gradeRecordCount == gradeList.getGrades().length;
     }
     
 }

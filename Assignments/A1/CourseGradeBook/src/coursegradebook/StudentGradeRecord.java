@@ -6,8 +6,9 @@ package coursegradebook;
  * @author Alex Vasil
  */
 public class StudentGradeRecord {
-    private double[] grades;
-    private Student student;
+    
+    private double[] grades; //Grades of a student.
+    private Student student; //
 
     public StudentGradeRecord(double[] grades, Student student) {
         this.grades = grades;
