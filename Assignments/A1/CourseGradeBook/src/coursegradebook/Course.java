@@ -15,6 +15,8 @@ public class Course {
     private String teacher; //Teacher of the course.
     private String room; //Classroom of the course.
     private int year; //Year of the course.
+    
+    private double[] assignmentWeights;
 
     
     /**
@@ -36,6 +38,7 @@ public class Course {
         this.teacher = teacher;
         this.room = room;
         this.year = year;
+        assignmentWeights = new double[10];
     }
 
     /**

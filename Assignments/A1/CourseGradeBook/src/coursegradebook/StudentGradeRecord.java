@@ -8,7 +8,7 @@ package coursegradebook;
 public class StudentGradeRecord {
     
     private double[] grades; //Grades of a student.
-    private Student student; //
+    private Student student; 
 
     public StudentGradeRecord(double[] grades, Student student) {
         this.grades = grades;
@@ -16,7 +16,8 @@ public class StudentGradeRecord {
     }
     
     
-    public double computeFinalGrade(double[] assessmentWeights) {
+    public double computeFinalGrade() {
+        
         return -1;
     }
     
