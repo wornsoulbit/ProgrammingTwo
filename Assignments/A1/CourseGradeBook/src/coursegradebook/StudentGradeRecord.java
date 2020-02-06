@@ -1,4 +1,3 @@
-
 package coursegradebook;
 
 /**
@@ -6,24 +5,30 @@ package coursegradebook;
  * @author Alex Vasil
  */
 public class StudentGradeRecord {
-    
+
     private double[] grades; //Grades of a student.
-    private Student student; 
+    private Student student;
 
     public StudentGradeRecord(double[] grades, Student student) {
         this.grades = grades;
         this.student = student;
     }
-    
-    
-    public double computeFinalGrade() {
+
+    /**
+     * Calculates the final grade based on the existing grades and the weight of
+     * the grades.
+     *
+     * @param assessmentWeights Weights of the grades.
+     * @return Returns the final grade.
+     */
+    public double computeFinalGrade(double[] assessmentWeights) {
         
         return -1;
     }
-    
+
     /**
      * Calculates the letter grade and returns the letter.
-     * 
+     *
      * @param grade the grade thats to be converted to a letter.
      * @return a letter based on the grade given.
      */
@@ -34,14 +39,23 @@ public class StudentGradeRecord {
             return 'B';
         else if (grade >= 70)
             return 'C';
-        else if (grade >= 60) 
+        else if (grade >= 60)
             return 'D';
         else 
             return 'F';
     }
-    
-    public double[] getGrades() {
-        return grades;
+
+    /**
+     * Gets the grade at K'th position.
+     *
+     * @param k position of the grade.
+     * @return Returns the K'th grade.
+     */
+    public double getGrades(int k) {
+        if (k > grades.length || k < grades.length) 
+            throw new IllegalArgumentException("k is out of bounds of the array");
+        
+        return grades[k];
     }
 
     public void setGrades(double[] grades) {
