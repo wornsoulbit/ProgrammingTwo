@@ -6,11 +6,11 @@ package coursegradebook;
  */
 public class StudentGradeRecord {
 
-    private double[] grades; //Grades of a student.
+    private double[] grade; //Grades of a student.
     private Student student;
 
-    public StudentGradeRecord(double[] grades, Student student) {
-        this.grades = grades;
+    public StudentGradeRecord(double[] grade, Student student) {
+        this.grade = grade;
         this.student = student;
     }
 
@@ -52,14 +52,14 @@ public class StudentGradeRecord {
      * @return Returns the K'th grade.
      */
     public double getGrades(int k) {
-        if (k > grades.length || k < grades.length) 
+        if (k > grade.length || k < grade.length) 
             throw new IllegalArgumentException("k is out of bounds of the array");
         
-        return grades[k];
+        return grade[k];
     }
 
     public void setGrades(double[] grades) {
-        this.grades = grades;
+        this.grade = grades;
     }
 
     public Student getStudent() {

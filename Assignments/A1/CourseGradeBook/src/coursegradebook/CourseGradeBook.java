@@ -7,8 +7,8 @@ package coursegradebook;
  */
 public class CourseGradeBook {
     private int gradeRecordCount; //Number of students that's in the record.
-    private double[] caWeights; //Weights of the assessments.
-    private String[] caNames; //Names of the assessments.
+    private double[] assignmentWeight; //Weights of the assessments.
+    private String[] assignmentName; //Names of the assessments.
     private Course course; //Course of CourseGradeBook.
     private StudentGradeRecord[] gradeList; //Reference for each specific student.
 
@@ -20,8 +20,11 @@ public class CourseGradeBook {
      * @param course Specific course.
      */
     public CourseGradeBook(double[] caWeights, String[] caNames, Course course) {
-        this.caWeights = caWeights;
-        this.caNames = caNames;
+        if (caNames.length != caWeights.length)
+            throw new IllegalArgumentException("Assignment Name and Assignment Weight aren't of equal length.");
+        
+        this.assignmentWeight = caWeights;
+        this.assignmentName = caNames;
         this.course = course;
     }
     
@@ -48,7 +51,15 @@ public class CourseGradeBook {
      * Doubles the capacity of the grade list.
      */
     private void doubleGradeListCapacity() {
+        //Doubles the capcity of the gradelist
+        StudentGradeRecord[] newGradeList = new StudentGradeRecord[gradeList.length * 2];
         
+        //Writes the values of the existing grade list into the new one.
+        for (int i = 0; i < gradeList.length; i++) {
+            newGradeList[i] = gradeList[i];
+        }
+        
+        gradeList = newGradeList;
     }
     
     /**
@@ -141,8 +152,8 @@ public class CourseGradeBook {
     public double computerTotalWeight() {
         double totalWeights = 0;
         
-        for (int i = 0; i < caWeights.length; i++) 
-            totalWeights += caWeights[i];
+        for (int i = 0; i < assignmentWeight.length; i++) 
+            totalWeights += assignmentWeight[i];
         
         return totalWeights;
     }
