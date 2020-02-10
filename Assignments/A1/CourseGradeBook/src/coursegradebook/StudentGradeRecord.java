@@ -1,3 +1,4 @@
+
 package coursegradebook;
 
 /**
@@ -22,8 +23,14 @@ public class StudentGradeRecord {
      * @return Returns the final grade.
      */
     public double computeFinalGrade(double[] assessmentWeights) {
+        double finalGrade = 0;
         
-        return -1;
+        //Calculates the weighted grade for that mark and adds it to the final grade.
+        for (int i = 0; i < assessmentWeights.length; i++) {
+            finalGrade += grades[i] * (assessmentWeights[i] / 100);
+        }
+        
+        return finalGrade;
     }
 
     /**
@@ -58,6 +65,53 @@ public class StudentGradeRecord {
         return grade[k];
     }
 
+    /**
+     * Compares two double[] arrays to each other and see if they have the same values.
+     * 
+     * @param x An array.
+     * @param y Another array.
+     * @return If both arrays have the same values.
+     */
+    public boolean compareArray(double[] x, double[] y) {
+        if (x.length != y.length)
+            return false;
+        
+        for (int i = 0; i < x.length; i++) {
+            if (x[i] != y[i])
+                return false;
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public String toString() {
+        String strOut = "";
+        
+        strOut += String.format("%-15s: %s", "Grades", );
+        
+        return strOut;
+    }
+    
+    /**
+     * Sees if two Student grade records have the same values.
+     * 
+     * @param obj Student grade record being compared.
+     * @return If both Student grade records have the same values.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        StudentGradeRecord studentGradeRecord = (StudentGradeRecord) obj;
+        
+        if (!(obj instanceof StudentGradeRecord))
+            return false;
+        
+        return this.student.getName().equals(studentGradeRecord.student.getName())
+                && this.student.getId() == studentGradeRecord.student.getId()
+                && compareArray(this.grades, studentGradeRecord.grades);
+        
+    }
+    
     public void setGrades(double[] grades) {
         this.grade = grades;
     }

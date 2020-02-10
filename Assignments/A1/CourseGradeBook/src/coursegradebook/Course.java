@@ -98,8 +98,6 @@ public class Course {
                 && room.equals(course.room)
                 && year == course.year;
     }
-
-    
     
     public String getName() {
         return name;
