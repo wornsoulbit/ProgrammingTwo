@@ -98,7 +98,21 @@ public class StudentGradeRecord {
      * @param allGrades 
      */
     public void setAllGrades(double[] allGrades) {
-        
+        if (allGrades.length != getNumberOfAssessments())
+            throw new IllegalArgumentException("The length of allGrades does not equal the number of assessments.");
+            
+        for (int i = 0; i < this.grades.length; i++) {
+            this.grades[i] = allGrades[i];
+        }
+    }
+    
+    /**
+     * Gets the number of assessments.
+     * 
+     * @return the number of assessments there are.
+     */
+    public int getNumberOfAssessments() {
+       return grades.length;
     }
     
     /**
@@ -142,8 +156,7 @@ public class StudentGradeRecord {
         if (!(obj instanceof StudentGradeRecord))
             return false;
         
-        return this.student.getName().equals(studentGradeRecord.student.getName())
-                && this.student.getId() == studentGradeRecord.student.getId()
+        return this.student.equals(studentGradeRecord.student)
                 && compareArray(this.grades, studentGradeRecord.grades);
         
     }
