@@ -15,16 +15,16 @@ public class CourseGradeBook {
     /**
      * Initial constructor of a course grade book with set values.
      * 
-     * @param caWeights Assessment weights.
-     * @param caNames Assessment names.
+     * @param assignmentWeights Assessment weights.
+     * @param assignmentName Assessment names.
      * @param course Specific course.
      */
-    public CourseGradeBook(double[] caWeights, String[] caNames, Course course) {
-        if (caNames.length != caWeights.length)
+    public CourseGradeBook(double[] assignmentWeights, String[] assignmentName, Course course) {
+        if (assignmentName.length != assignmentWeights.length)
             throw new IllegalArgumentException("Assignment Name and Assignment Weight aren't of equal length.");
         
-        this.assignmentWeight = caWeights;
-        this.assignmentName = caNames;
+        this.assignmentWeight = assignmentWeights;
+        this.assignmentName = assignmentName;
         this.course = course;
     }
     

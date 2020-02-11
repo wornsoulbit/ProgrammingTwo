@@ -7,11 +7,11 @@ package coursegradebook;
  */
 public class StudentGradeRecord {
 
-    private double[] grade; //Grades of a student.
+    private double[] grades; //Grades of a student.
     private Student student;
 
     public StudentGradeRecord(double[] grade, Student student) {
-        this.grade = grade;
+        this.grades = grade;
         this.student = student;
     }
 
@@ -59,12 +59,48 @@ public class StudentGradeRecord {
      * @return Returns the K'th grade.
      */
     public double getGrades(int k) {
-        if (k > grade.length || k < grade.length) 
+        if (k > grades.length || k < grades.length) 
             throw new IllegalArgumentException("k is out of bounds of the array");
         
-        return grade[k];
+        return grades[k];
     }
-
+    
+    /**
+     * Sets the grade at K'th position.
+     * 
+     * @param k the position of the grade to be set.
+     * @param grade Grade.
+     */
+    public void setGrade(int k, double grade) {
+         if (k > grades.length || k < grades.length) 
+            throw new IllegalArgumentException("k is out of bounds of the array");
+         grades[k] = grade;
+    }
+    
+    /**
+     * Gets all the grades.
+     * 
+     * @return The set of grades.
+     */
+    public double[] getAllGrades() {
+        double[] newGradesList = new double[this.grades.length];
+        
+        for (int i = 0; i < this.grades.length; i++) {
+            newGradesList[i] = this.grades[i];
+        }
+        
+        return newGradesList;
+    }
+    
+    /**
+     * Sets all the grades.
+     * 
+     * @param allGrades 
+     */
+    public void setAllGrades(double[] allGrades) {
+        
+    }
+    
     /**
      * Compares two double[] arrays to each other and see if they have the same values.
      * 
@@ -88,7 +124,7 @@ public class StudentGradeRecord {
     public String toString() {
         String strOut = "";
         
-        strOut += String.format("%-15s: %s", "Grades", );
+        strOut += String.format("%-15s: %s", "Grades", grades);
         
         return strOut;
     }
@@ -113,7 +149,7 @@ public class StudentGradeRecord {
     }
     
     public void setGrades(double[] grades) {
-        this.grade = grades;
+        this.grades = grades;
     }
 
     public Student getStudent() {
