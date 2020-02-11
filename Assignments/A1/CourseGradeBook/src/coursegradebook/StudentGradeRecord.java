@@ -122,7 +122,7 @@ public class StudentGradeRecord {
      * @param y Another array.
      * @return If both arrays have the same values.
      */
-    public boolean compareArray(double[] x, double[] y) {
+    private boolean compareArray(double[] x, double[] y) {
         if (x.length != y.length)
             return false;
         
@@ -134,11 +134,26 @@ public class StudentGradeRecord {
         return true;
     }
     
+    /**
+     * Formats an array for output as a String.
+     * 
+     * @return Formatted String.
+     */
+    private String formatArray() {
+        String strOut = "";
+        
+        for (int i = 0; i < this.grades.length; i++)
+            strOut += String.format("%.0f ", this.grades[i]);
+        return strOut;
+    }
+    
     @Override
     public String toString() {
         String strOut = "";
         
-        strOut += String.format("%-15s: %s", "Grades", grades);
+        strOut += String.format("%-15s: %s\n", "Student Name", student.getName());
+        strOut += String.format("%-15s: %s\n", "Student ID", student.getId());
+        strOut += String.format("%-15s: %s\n", "Grades", formatArray());
         
         return strOut;
     }
