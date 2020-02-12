@@ -111,7 +111,7 @@ public class CourseGradeBook {
      * @return The minimum number.
      */
     public static double findArrayMinimum(double[] numbers) {
-        double minNum = 0;
+        double minNum = numbers[0];
         
         for (double numbers1 : numbers) {
             if (numbers1 < minNum)
@@ -149,34 +149,47 @@ public class CourseGradeBook {
         double avg = findArrayAverage(numbers);
         
         for (double numbers1 : numbers) 
-            sum += numbers1 - avg;
+            sum += Math.pow(numbers1 - avg, 2);
         
-        standardDev = sum / numbers.length;
+        standardDev = Math.sqrt(sum / numbers.length);
         return standardDev;
     }
     
     public String toStringMaxAssessment() {
         String strOut = "";
+        strOut += String.format("%-5s:", "Max");
+        for (int i = 0; i < assignmentWeight.length; i++)
+            strOut += String.format("%-5.0f", findArrayMaximum(getAssessmentArray(i)));
         return strOut;
     }
     
     public String toStringMinAssessment() {
         String strOut = "";
+        strOut += String.format("%-5s:", "Min");
+        for (int i = 0; i < assignmentWeight.length; i++)
+            strOut += String.format("%-5.0f", findArrayMinimum(getAssessmentArray(i)));
         return strOut;
     }
     
     public String toStringAvgAssessment() {
         String strOut = "";
+        strOut += String.format("%-5s:", "Avg");
+        for (int i = 0; i < assignmentWeight.length; i++)
+            strOut += String.format("%-5.0f", findArrayAverage(getAssessmentArray(i)));
         return strOut;
     }
     
     public String toStringStdevAssessment() {
         String strOut = "";
+        strOut += String.format("%-5s:", "Standard Deviation");
+        for (int i = 0; i < assignmentWeight.length; i++)
+            strOut += String.format("%-5.0f", findArrayStandardDev(getAssessmentArray(i)));
         return strOut;
     }
     
     public String toStringAssessmentLegend() {
         String strOut = "";
+        strOut += String.format("", "");
         return strOut;
     }
     
@@ -201,9 +214,15 @@ public class CourseGradeBook {
      * @return 
      */
     public double[] getAssessmentArray(int k) {
-        if (k > gradeList.length || k < gradeList.length)
+        if (k < 0 || k > gradeList.length)
             throw new IllegalArgumentException("K is out of bounds of gradeList");
-        return gradeList[k].getAllGrades();
+        
+        double[] assGrades = new double[this.gradeRecordCount];
+        for (int i = 0; i < this.gradeRecordCount; i++) {
+            assGrades[i] = gradeList[i].getGrades(k);
+        }
+        
+        return assGrades;
     }
     
 }

@@ -39,7 +39,7 @@ public class StudentGradeRecord {
      * @param grade the grade thats to be converted to a letter.
      * @return a letter based on the grade given.
      */
-    public static double computeLetterGrades(char grade) {
+    public static char computeLetterGrades(double grade) {
         if (grade >= 90)
             return 'A';
         else if (grade >= 80)
@@ -59,7 +59,7 @@ public class StudentGradeRecord {
      * @return Returns the K'th grade.
      */
     public double getGrades(int k) {
-        if (k > grades.length || k < grades.length) 
+        if (k < 0 || k > grades.length) 
             throw new IllegalArgumentException("k is out of bounds of the array");
         
         return grades[k];
@@ -72,7 +72,7 @@ public class StudentGradeRecord {
      * @param grade Grade.
      */
     public void setGrade(int k, double grade) {
-         if (k > grades.length || k < grades.length) 
+         if (k < 0 || k > grades.length) 
             throw new IllegalArgumentException("k is out of bounds of the array");
          grades[k] = grade;
     }
