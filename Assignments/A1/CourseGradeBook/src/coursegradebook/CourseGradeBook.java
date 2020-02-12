@@ -1,6 +1,8 @@
 
 package coursegradebook;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Alex Vasil
@@ -43,7 +45,7 @@ public class CourseGradeBook {
     /**
      * Adds a grade into the record.
      * 
-     * @param student 
+     * @param student Student to be added.
      * @param grades Grades to be added.
      */
     public void addGradeRecord(Student student, double... grades) {
@@ -140,7 +142,7 @@ public class CourseGradeBook {
     /**
      * Finds the standard deviation of the array.
      * 
-     * @param numbers
+     * @param numbers Array numbers used to find the standard deviation.
      * @return The standard deviation of the array.
      */
     public static double findArrayStandardDev(double[] numbers) {
@@ -155,41 +157,68 @@ public class CourseGradeBook {
         return standardDev;
     }
     
+    /**
+     * Prints the max grades for each assessments.
+     * 
+     * @return Prints out the max assessments. 
+     */
     public String toStringMaxAssessment() {
         String strOut = "";
-        strOut += String.format("%-5s:", "Max");
+        strOut += String.format("%28s:   ", "Max");
         for (int i = 0; i < assignmentWeight.length; i++)
             strOut += String.format("%-5.0f", findArrayMaximum(getAssessmentArray(i)));
         return strOut;
     }
     
+    /**
+     * Prints the min grades for each assessments.
+     * 
+     * @return Prints out the min assessments. 
+     */    
     public String toStringMinAssessment() {
         String strOut = "";
-        strOut += String.format("%-5s:", "Min");
+        strOut += String.format("%28s:   ", "Min");
         for (int i = 0; i < assignmentWeight.length; i++)
             strOut += String.format("%-5.0f", findArrayMinimum(getAssessmentArray(i)));
         return strOut;
     }
     
+    /**
+     * Prints the average grades for each assessments.
+     * 
+     * @return Prints out the average assessments. 
+     */
     public String toStringAvgAssessment() {
         String strOut = "";
-        strOut += String.format("%-5s:", "Avg");
+        strOut += String.format("%28s:   ", "Avg");
         for (int i = 0; i < assignmentWeight.length; i++)
             strOut += String.format("%-5.0f", findArrayAverage(getAssessmentArray(i)));
         return strOut;
     }
     
+    /**
+     * Prints the standard deviation grades for each assessments.
+     * 
+     * @return Prints out the standard deviation assessments. 
+     */
     public String toStringStdevAssessment() {
         String strOut = "";
-        strOut += String.format("%-5s:", "Standard Deviation");
+        strOut += String.format("%28s:   ", "Standard Deviation");
         for (int i = 0; i < assignmentWeight.length; i++)
             strOut += String.format("%-5.0f", findArrayStandardDev(getAssessmentArray(i)));
         return strOut;
     }
     
+    /**
+     * Prints the assessments of legends grades for each assessments.
+     * 
+     * @return Prints out the assessments legend.
+     */
     public String toStringAssessmentLegend() {
-        String strOut = "";
-        strOut += String.format("", "");
+        String strOut = "Legend\n";
+        strOut += "-----------------------------------------------------\n";
+        strOut += String.format("%-20s %-8s %-15s %-15s\n", "Assessment", "Name", "Weight/50.0", "Weight%");
+        strOut += "-----------------------------------------------------\n";
         return strOut;
     }
     
@@ -210,8 +239,8 @@ public class CourseGradeBook {
     /**
      * Gets all grades of a certain assessment.
      * 
-     * @param k
-     * @return 
+     * @param k Gets the K'th assessment.
+     * @return All grades of K'th assessment.
      */
     public double[] getAssessmentArray(int k) {
         if (k < 0 || k > gradeList.length)
@@ -224,5 +253,41 @@ public class CourseGradeBook {
         
         return assGrades;
     }
+
     
+    /**
+     * Prints out the assignments with all grades and student names formated.
+     * 
+     * @return the formated string.
+     */
+    private String printAssignments() {        
+        String strOut = "";
+        for (int i = 0; i < this.assignmentWeight.length; i++) {
+            strOut += String.format("%s", gradeList[i].getStudent().toString());
+            for (int j = 0; j < gradeList[i].getNumberOfAssessments(); j++)
+                strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
+            strOut += String.format("%-5.0f", gradeList[i].computeFinalGrade(assignmentWeight));
+            strOut += StudentGradeRecord.computeLetterGrades(gradeList[i].computeFinalGrade(assignmentWeight));
+            strOut += "\n";
+        }
+            
+        return strOut;
+    }
+    
+    /**
+     * Formated string of all the data in CourseGradeBook.
+     * 
+     * @return the formated string.
+     */
+    @Override
+    public String toString() {
+        String strOut = "";
+        strOut += String.format("%50s\n", "Student Grade Table");
+        strOut += "---------------------------------------------------------------------------------\n";
+        strOut += String.format("%-11s %-19s A1   A2   A3   A4   A5   A6   A7   A8   fin   grd\n", "ID Number", "Student Name");
+        strOut += "---------------------------------------------------------------------------------\n";
+        strOut += String.format(printAssignments());
+        strOut += "---------------------------------------------------------------------------------";
+        return strOut;
+    }
 }

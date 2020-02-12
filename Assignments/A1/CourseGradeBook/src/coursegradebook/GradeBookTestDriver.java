@@ -14,7 +14,6 @@ public class GradeBookTestDriver {
         String room          = "B-502";
 
         Course course = new Course(title, courseNumber, section, semester, teacher, room, year);
-        double[] marks = {60, 66, 37, 85, 87, 85, 73, 79};
         String[] assessmentNames =
         {
            "hw1", "hw2", "hw3", "hw4", "hw5", "midterm-1", "midterm-2", "final exam"
@@ -23,7 +22,6 @@ public class GradeBookTestDriver {
         {
            2,2,4,4,8,20,20,40
         };
-        StudentGradeRecord test = new StudentGradeRecord(marks, new Student("Bob", 100000));
 
         CourseGradeBook cgb = new CourseGradeBook(assessmentPoints, assessmentNames, course);
 
@@ -37,14 +35,12 @@ public class GradeBookTestDriver {
         cgb.addGradeRecord(new Student("William Wyatt" , 75950969), 93, 69, 93, 79, 87, 77, 67, 78);
         cgb.addGradeRecord(new Student("Mila Charlotte", 78989969), 80, 98, 99, 56, 95, 89, 90, 78);
         cgb.addGradeRecord(new Student("Elena Aiden"   , 78798089), 77, 87, 79, 100, 88, 73, 73, 88);
-//        System.out.println(test);
-//        System.out.println(student);
-//        System.out.println(cgb);
+
+        System.out.println(cgb);
         System.out.println(cgb.toStringMaxAssessment());
         System.out.println(cgb.toStringMinAssessment());
         System.out.println(cgb.toStringAvgAssessment());
         System.out.println(cgb.toStringStdevAssessment());
         System.out.println(cgb.toStringAssessmentLegend());
-//        System.out.println(test.computeFinalGrade(assessmentPoints));
    }
 }
