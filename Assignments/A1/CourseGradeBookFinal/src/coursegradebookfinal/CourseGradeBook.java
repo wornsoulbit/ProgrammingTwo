@@ -1,6 +1,8 @@
 
 package coursegradebookfinal;
 
+import MyUtil.CompareArrays;
+
 /**
  * Grade book of a course.
  * 
@@ -281,11 +283,14 @@ public class CourseGradeBook {
      */
     public String toStringMaxAssessments() {
         String strOut = String.format("%28s:   ", "Max");
+        
         for (int i = 0; i < caWeights.length; i++)
             strOut += String.format("%-5.0f", findArrayMaximum(getAssessmentArray(i)));
+        
         strOut += String.format("%-5.0f", findArrayMaximum(getFinalsArray()));
         strOut += String.format("%-5c", 
                 StudentGradeRecord.computeLetterGrades(findArrayMaximum(getFinalsArray())));
+        
         return strOut;
     }
     
@@ -296,8 +301,10 @@ public class CourseGradeBook {
      */
     public String toStringMinAssessments() {
         String strOut = String.format("%28s:   ", "Min");
+        
         for (int i = 0; i < caWeights.length; i++)
             strOut += String.format("%-5.0f", findArrayMinimum(getAssessmentArray(i)));
+        
         strOut += String.format("%-5.0f", findArrayMinimum(getFinalsArray()));
         strOut += String.format("%-5c", 
                 StudentGradeRecord.computeLetterGrades(findArrayMinimum(getFinalsArray())));
@@ -311,8 +318,10 @@ public class CourseGradeBook {
      */
     public String toStringAvgAssessments() {
         String strOut = String.format("%28s:   ", "Average");
+        
         for (int i = 0; i < caWeights.length; i++)
             strOut += String.format("%-5.0f", findArrayAverage(getAssessmentArray(i)));
+        
         strOut += String.format("%-5.0f", findArrayAverage(getFinalsArray()));
         strOut += String.format("%-5c", 
                 StudentGradeRecord.computeLetterGrades(findArrayAverage(getFinalsArray())));
@@ -326,8 +335,10 @@ public class CourseGradeBook {
      */
     public String toStringStdevAssessments() {
         String strOut = String.format("%28s:   ", "Standard Deviation");
+        
         for (int i = 0; i < caWeights.length; i++)
             strOut += String.format("%-5.0f", findArrayStandardDev(getAssessmentArray(i)));
+        
         strOut += String.format("%-5.0f", findArrayStandardDev(getFinalsArray()));
         return strOut;
     }
@@ -338,8 +349,9 @@ public class CourseGradeBook {
      * @return the formated legend.
      */
     public String toStringAssessmentLegend() {
-        String strOut = "-------------------------------------------\n";
-        strOut += "Assessment       Name  Weight/50.0  Weight%\n";
+        String strOut = "\nLegend\n";
+        strOut += "-------------------------------------------\n";
+        strOut += String.format("%-15s %5s %12s %s\n", "Assessment", "Name", "Weight/50.0", "Weight%");
         for (int i = 0; i < caNames.length; i++)
             strOut += String.format("%6s %14s %10.0f %8.1f%s\n", 
                     "A" + (i + 1), caNames[i], caWeights[i] / 2, caWeights[i], "%");
@@ -357,16 +369,37 @@ public class CourseGradeBook {
      */
     private String printAssignments() {        
         String strOut = "";
-        for (int i = 0; i < this.caWeights.length; i++) {
+        for (int i = 0; i < gradesRecordCount; i++) {
             strOut += String.format("%s", gradeList[i].getStudent().toString());
-            for (int j = 0; j < gradeList[i].getNumberOfAssessments(); j++)
+            
+            for (int j = 0; j < caWeights.length; j++)
                 strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
+            
             strOut += String.format("%-5.0f", gradeList[i].computeFinalGrade(caWeights));
             strOut += StudentGradeRecord.computeLetterGrades(gradeList[i].computeFinalGrade(caWeights));
             strOut += "\n";
         }
             
         return strOut;
+    }
+    
+    /**
+     * Sees if two CourseGradeBook have the same values in them.
+     * 
+     * @param obj Object being compared.
+     * @return If both CourseGradeBook have the same values.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        CourseGradeBook courseGradeBook = (CourseGradeBook) obj;
+        
+        if (!(obj instanceof CourseGradeBook))
+            return false;
+        
+        return this.course.equals(courseGradeBook.course) 
+                && this.gradesRecordCount == courseGradeBook.gradesRecordCount
+                && CompareArrays.compareArray(this.caWeights, courseGradeBook.caWeights)
+                && CompareArrays.compareArray(this.caNames, courseGradeBook.caNames);
     }
     
     /**
@@ -379,10 +412,28 @@ public class CourseGradeBook {
         String strOut = "";
         strOut += String.format("%50s\n", "Student Grade Table");
         strOut += "---------------------------------------------------------------------------------\n";
-        strOut += String.format("%-11s %-19s A1   A2   A3   A4   A5   A6   A7   A8   fin   grd\n", "ID Number", "Student Name");
+        strOut += String.format("%-12s %-16s", "ID Number", "Student Name");
+        for (int i = 0; i < caNames.length; i++) 
+            strOut += String.format("%5s", "A" + (i + 1));
+        strOut += String.format("%5s %4s\n", "fin", "grd");
         strOut += "---------------------------------------------------------------------------------\n";
         strOut += String.format(printAssignments());
         strOut += "---------------------------------------------------------------------------------";
         return strOut;
+    }
+    
+    /**
+     * Copy constructor of CourseGradeBook
+     * 
+     * @param cgb constructor being copied.
+     */
+    public CourseGradeBook(CourseGradeBook cgb) {
+        String[] newCaNames = new String[caNames.length];
+        String[] newWeightsNames = new String[caWeights.length];
+        StudentGradeRecord[] newGradeList = new StudentGradeRecord[gradeList.length];
+        
+        System.arraycopy(caNames, 0, newCaNames, 0, caNames.length);
+        System.arraycopy(caWeights, 0, newWeightsNames, 0, caWeights.length);
+        System.arraycopy(gradeList, 0, newGradeList, 0, gradeList.length);
     }
 }
