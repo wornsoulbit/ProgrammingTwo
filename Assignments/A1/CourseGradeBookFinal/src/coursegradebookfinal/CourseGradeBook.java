@@ -332,5 +332,57 @@ public class CourseGradeBook {
         return strOut;
     }
     
+    /**
+     * Prints the legend of all assessment names, weights, and weights/50
+     * 
+     * @return the formated legend.
+     */
+    public String toStringAssessmentLegend() {
+        String strOut = "-------------------------------------------\n";
+        strOut += "Assessment       Name  Weight/50.0  Weight%\n";
+        for (int i = 0; i < caNames.length; i++)
+            strOut += String.format("%6s %14s %10.0f %8.1f%s\n", 
+                    "A" + (i + 1), caNames[i], caWeights[i] / 2, caWeights[i], "%");
+        
+        strOut += "-------------------------------------------\n";
+        strOut += String.format("%6s %14s\n", "fin", "final grade");
+        strOut += String.format("%6s %14s\n", "grd", "letter grade");
+        return strOut;
+    }
     
+    /**
+     * Prints out the assignments with all grades and student names formated.
+     * 
+     * @return the formated string.
+     */
+    private String printAssignments() {        
+        String strOut = "";
+        for (int i = 0; i < this.caWeights.length; i++) {
+            strOut += String.format("%s", gradeList[i].getStudent().toString());
+            for (int j = 0; j < gradeList[i].getNumberOfAssessments(); j++)
+                strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
+            strOut += String.format("%-5.0f", gradeList[i].computeFinalGrade(caWeights));
+            strOut += StudentGradeRecord.computeLetterGrades(gradeList[i].computeFinalGrade(caWeights));
+            strOut += "\n";
+        }
+            
+        return strOut;
+    }
+    
+    /**
+     * Formated string of all the data in CourseGradeBook.
+     * 
+     * @return the formated string.
+     */
+    @Override
+    public String toString() {
+        String strOut = "";
+        strOut += String.format("%50s\n", "Student Grade Table");
+        strOut += "---------------------------------------------------------------------------------\n";
+        strOut += String.format("%-11s %-19s A1   A2   A3   A4   A5   A6   A7   A8   fin   grd\n", "ID Number", "Student Name");
+        strOut += "---------------------------------------------------------------------------------\n";
+        strOut += String.format(printAssignments());
+        strOut += "---------------------------------------------------------------------------------";
+        return strOut;
+    }
 }

@@ -43,6 +43,6 @@ public class GradeBookTestDriver {
         System.out.println(cgb.toStringMinAssessments());
         System.out.println(cgb.toStringAvgAssessments());
         System.out.println(cgb.toStringStdevAssessments());
-//        System.out.println(cgb.toStringAssessmentLegend());
+        System.out.println(cgb.toStringAssessmentLegend());
    }
 }

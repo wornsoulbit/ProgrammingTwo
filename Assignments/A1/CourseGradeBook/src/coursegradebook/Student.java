@@ -34,9 +34,7 @@ public class Student {
 
     @Override
     public String toString() {
-        String strOut = "";
-        strOut += String.format("%-11d %-20s", id, name);
-        return strOut;
+        return String.format("%-11d %-20s", id, name);
     }
     
     /**

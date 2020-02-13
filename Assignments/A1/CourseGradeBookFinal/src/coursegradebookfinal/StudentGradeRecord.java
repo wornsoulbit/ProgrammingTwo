@@ -135,26 +135,16 @@ public class StudentGradeRecord {
         return true;
     }
     
-    /**
-     * Formats an array for output as a String.
-     * 
-     * @return Formatted String.
-     */
-    private String formatArray() {
-        String strOut = "";
-        
-        for (int i = 0; i < this.grades.length; i++)
-            strOut += String.format("%.0f ", this.grades[i]);
-        return strOut;
-    }
-    
     @Override
     public String toString() {
         String strOut = "";
         
         strOut += String.format("%-15s: %s\n", "Student Name", student.getName());
         strOut += String.format("%-15s: %s\n", "Student ID", student.getId());
-        strOut += String.format("%-15s: %s\n", "Grades", formatArray());
+        strOut += String.format("%-15s:", "Grades");
+        for (int i = 0; i < this.grades.length; i++)
+            strOut += String.format("%.0f ", this.grades[i]);
+        strOut += "\n";
         
         return strOut;
     }
