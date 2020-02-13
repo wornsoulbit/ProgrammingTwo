@@ -2,7 +2,8 @@
 package coursegradebook;
 
 /**
- *
+ * Record of Student Grades.
+ * 
  * @author Alex Vasil
  */
 public class StudentGradeRecord {
