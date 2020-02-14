@@ -15,6 +15,13 @@ public class CourseGradeBook {
     private StudentGradeRecord[] gradeList;
     private int gradesRecordCount;
 
+    /**
+     * Constructor with default values.
+     * 
+     * @param course Course.
+     * @param caNames Names of assessments.
+     * @param caWeights Weights of assessments.
+     */
     public CourseGradeBook(Course course, String[] caNames, double[] caWeights) {
         if (caNames.length != caWeights.length)
             throw new IllegalArgumentException("Assignment Name and Assignment Weight aren't of equal length.");
