@@ -357,36 +357,16 @@ public class CourseGradeBook {
      */
     public String toStringAssessmentLegend() {
         String strOut = "\nLegend\n";
-        strOut += "-------------------------------------------\n";
+        strOut += "------------------------------------------\n";
         strOut += String.format("%-15s %5s %12s %s\n", "Assessment", "Name", "Weight/50.0", "Weight%");
+        strOut += "------------------------------------------\n";
         for (int i = 0; i < caNames.length; i++)
             strOut += String.format("%6s %14s %10.0f %8.1f%s\n", 
                     "A" + (i + 1), caNames[i], caWeights[i] / 2, caWeights[i], "%");
         
-        strOut += "-------------------------------------------\n";
+        strOut += "------------------------------------------\n";
         strOut += String.format("%6s %14s\n", "fin", "final grade");
         strOut += String.format("%6s %14s\n", "grd", "letter grade");
-        return strOut;
-    }
-    
-    /**
-     * Prints out the assignments with all grades and student names formated.
-     * 
-     * @return the formated string.
-     */
-    private String printAssignments() {        
-        String strOut = "";
-        for (int i = 0; i < gradesRecordCount; i++) {
-            strOut += String.format("%s", gradeList[i].getStudent().toString());
-            
-            for (int j = 0; j < caWeights.length; j++)
-                strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
-            
-            strOut += String.format("%-5.0f", gradeList[i].computeFinalGrade(caWeights));
-            strOut += StudentGradeRecord.computeLetterGrades(gradeList[i].computeFinalGrade(caWeights));
-            strOut += "\n";
-        }
-            
         return strOut;
     }
     
@@ -403,10 +383,11 @@ public class CourseGradeBook {
         if (!(obj instanceof CourseGradeBook))
             return false;
         
-        return this.course.equals(courseGradeBook.course) 
-                && this.gradesRecordCount == courseGradeBook.gradesRecordCount
+        return this.gradesRecordCount == courseGradeBook.gradesRecordCount
+                && this.course.equals(courseGradeBook.course)
                 && CompareArrays.compareArray(this.caWeights, courseGradeBook.caWeights)
-                && CompareArrays.compareArray(this.caNames, courseGradeBook.caNames);
+                && CompareArrays.compareArray(this.caNames, courseGradeBook.caNames)
+                && CompareArrays.compareArray(this.gradeList, courseGradeBook.gradeList);
     }
     
     /**
@@ -424,7 +405,21 @@ public class CourseGradeBook {
             strOut += String.format("%5s", "A" + (i + 1));
         strOut += String.format("%5s %4s\n", "fin", "grd");
         strOut += "---------------------------------------------------------------------------------\n";
-        strOut += String.format(printAssignments());
+        
+        for (int i = 0; i < gradesRecordCount; i++) {
+            strOut += String.format("%s", gradeList[i].getStudent().toString());
+//        for(StudentGradeRecord x : gradeList) 
+//        {
+//            strOut += String.format("%s", x.getStudent().toString());
+//        }
+            for (int j = 0; j < caWeights.length; j++)
+                strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
+            
+            strOut += String.format("%-5.0f", gradeList[i].computeFinalGrade(caWeights));
+            strOut += StudentGradeRecord.computeLetterGrades(gradeList[i].computeFinalGrade(caWeights));
+            strOut += "\n";
+        }
+        
         strOut += "---------------------------------------------------------------------------------";
         return strOut;
     }
