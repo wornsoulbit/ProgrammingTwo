@@ -205,9 +205,9 @@ public class CourseGradeBook {
         
         double maxNum = 0;
         
-        for (double assessmentGrades1 : assessmentGrades) 
-            if (assessmentGrades1 > maxNum) 
-                maxNum = assessmentGrades1;
+        for (double assessmentGrade : assessmentGrades) 
+            if (assessmentGrade > maxNum) 
+                maxNum = assessmentGrade;
         
         return maxNum;
     }
@@ -226,9 +226,9 @@ public class CourseGradeBook {
         
         double minNum = assessmentGrades[0];
         
-        for (double assessmentGrades1 : assessmentGrades) 
-            if (assessmentGrades1 < minNum) 
-                minNum = assessmentGrades1;
+        for (double assessmentGrade : assessmentGrades) 
+            if (assessmentGrade < minNum) 
+                minNum = assessmentGrade;
         
         return minNum;
     }
@@ -246,8 +246,8 @@ public class CourseGradeBook {
             throw new IllegalArgumentException("K is out of bounds of gradeList");
         
         double sum = 0;
-        for (double assessmentGrades1 : assessmentGrades) 
-            sum += assessmentGrades1;
+        for (double assessmentGrade : assessmentGrades) 
+            sum += assessmentGrade;
             
         double average = sum / assessmentGrades.length;
         return average;
@@ -269,8 +269,8 @@ public class CourseGradeBook {
         double sum = 0;
         double avg = findAvgAssessment(k);
         
-        for (double assessmentGrades1 : assessmentGrades) 
-            sum += Math.pow(assessmentGrades1 - avg, 2);
+        for (double assessmentGrade : assessmentGrades) 
+            sum += Math.pow(assessmentGrade - avg, 2);
         
         standardDev = Math.sqrt(sum / assessmentGrades.length);
         return standardDev;
@@ -288,8 +288,7 @@ public class CourseGradeBook {
             strOut += String.format("%-5.0f", findArrayMaximum(getAssessmentArray(i)));
         
         strOut += String.format("%-5.0f", findArrayMaximum(getFinalsArray()));
-        strOut += String.format("%-5c", 
-                StudentGradeRecord.computeLetterGrades(findArrayMaximum(getFinalsArray())));
+        strOut += String.format("%-5c", StudentGradeRecord.computeLetterGrades(findArrayMaximum(getFinalsArray())));
         
         return strOut;
     }
@@ -363,27 +362,6 @@ public class CourseGradeBook {
     }
     
     /**
-     * Prints out the assignments with all grades and student names formated.
-     * 
-     * @return the formated string.
-     */
-    private String printAssignments() {        
-        String strOut = "";
-        for (int i = 0; i < gradesRecordCount; i++) {
-            strOut += String.format("%s", gradeList[i].getStudent().toString());
-            
-            for (int j = 0; j < caWeights.length; j++)
-                strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
-            
-            strOut += String.format("%-5.0f", gradeList[i].computeFinalGrade(caWeights));
-            strOut += StudentGradeRecord.computeLetterGrades(gradeList[i].computeFinalGrade(caWeights));
-            strOut += "\n";
-        }
-            
-        return strOut;
-    }
-    
-    /**
      * Sees if two CourseGradeBook have the same values in them.
      * 
      * @param obj Object being compared.
@@ -410,14 +388,23 @@ public class CourseGradeBook {
     @Override
     public String toString() {
         String strOut = "";
-        strOut += String.format("%50s\n", "Student Grade Table");
+        strOut += String.format("%55s\n", "Student Grade Table");
         strOut += "---------------------------------------------------------------------------------\n";
         strOut += String.format("%-12s %-16s", "ID Number", "Student Name");
         for (int i = 0; i < caNames.length; i++) 
             strOut += String.format("%5s", "A" + (i + 1));
         strOut += String.format("%5s %4s\n", "fin", "grd");
         strOut += "---------------------------------------------------------------------------------\n";
-        strOut += String.format(printAssignments());
+        for (int i = 0; i < gradesRecordCount; i++) {
+            strOut += String.format("%s", gradeList[i].getStudent().toString());
+            
+            for (int j = 0; j < caWeights.length; j++)
+                strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
+            
+            strOut += String.format("%-5.0f", gradeList[i].computeFinalGrade(caWeights));
+            strOut += StudentGradeRecord.computeLetterGrades(gradeList[i].computeFinalGrade(caWeights));
+            strOut += "\n";
+        }
         strOut += "---------------------------------------------------------------------------------";
         return strOut;
     }
