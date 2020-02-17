@@ -13,6 +13,12 @@ public class StudentGradeRecord {
     private double[] grades; //Grades of a student.
     private Student student;
 
+    /**
+     * Constructor that takes both the grades, the student name and ID.
+     * 
+     * @param grade The grades.
+     * @param student The student name and ID.
+     */
     public StudentGradeRecord(double[] grade, Student student) {
         this.grades = grade;
         this.student = student;
@@ -118,6 +124,11 @@ public class StudentGradeRecord {
        return grades.length;
     }
     
+    /**
+     * Formated string of StudentGradeRecord.
+     * 
+     * @return The formated string.
+     */
     @Override
     public String toString() {
         String strOut = "";
@@ -150,14 +161,29 @@ public class StudentGradeRecord {
         
     }
     
+    /**
+     * Sets the grades of the StudentGradeRecord.
+     * 
+     * @param grades The grades.
+     */
     public void setGrades(double[] grades) {
         this.grades = grades;
     }
 
+    /**
+     * Gets the Student name and ID.
+     * 
+     * @return The student name and ID.
+     */
     public Student getStudent() {
         return student;
     }
 
+    /**
+     * Sets the Student name and ID.
+     * 
+     * @param student Student name and ID.
+     */
     public void setStudent(Student student) {
         this.student = student;
     }

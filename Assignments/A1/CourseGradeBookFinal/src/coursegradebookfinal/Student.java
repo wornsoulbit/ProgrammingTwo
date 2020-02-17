@@ -32,6 +32,11 @@ public class Student {
         this.id = anotherStudent.id;
     }
 
+    /**
+     * Formated string of a student.
+     * 
+     * @return Formated string of a student.
+     */
     @Override
     public String toString() {
         String strOut = "";
@@ -56,18 +61,38 @@ public class Student {
                 && id == student.id;
     }
     
+    /**
+     * Gets the name of the student.
+     * 
+     * @return The student name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name of the student.
+     * 
+     * @param name The student name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the ID of the student.
+     * 
+     * @return The student ID.
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Sets the student ID.
+     * 
+     * @param id The student ID.
+     */
     public void setId(int id) {
         this.id = id;
     }

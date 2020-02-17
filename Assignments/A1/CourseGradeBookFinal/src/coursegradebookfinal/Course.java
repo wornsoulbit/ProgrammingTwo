@@ -55,8 +55,9 @@ public class Course {
     }
     
     /**
+     * Formated string of all data in Course class.
      * 
-     * @return 
+     * @return Formated string.
      */
     @Override
     public String toString() {
@@ -97,58 +98,128 @@ public class Course {
                 && year == course.year;
     }
     
+    /**
+     * Gets the name.
+     * 
+     * @return The name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name.
+     * 
+     * @param name Name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the course number.
+     * 
+     * @return The course number.
+     */
     public String getNumber() {
         return number;
     }
 
+    /**
+     * Sets the course number.
+     * 
+     * @param number The course number.
+     */
     public void setNumber(String number) {
         this.number = number;
     }
 
+    /**
+     * Gets the course section.
+     * 
+     * @return The course section.
+     */
     public String getSection() {
         return section;
     }
 
+    /**
+     * Sets the course section.
+     * 
+     * @param section The course section.
+     */
     public void setSection(String section) {
         this.section = section;
     }
 
+    /**
+     * Gets the semester of the course.
+     * 
+     * @return The semester.
+     */
     public String getSemester() {
         return semester;
     }
 
+    /**
+     * Sets the semester of the course.
+     * 
+     * @param semester The semester.
+     */
     public void setSemester(String semester) {
         this.semester = semester;
     }
 
+    /**
+     * Gets the teacher of the course.
+     * 
+     * @return The teacher.
+     */
     public String getTeacher() {
         return teacher;
     }
 
+    /**
+     * Sets the teacher of the course.
+     * 
+     * @param teacher The teacher.
+     */
     public void setTeacher(String teacher) {
         this.teacher = teacher;
     }
 
+    /**
+     * Gets the room of the course.
+     * 
+     * @return The room.
+     */
     public String getRoom() {
         return room;
     }
 
+    /**
+     * Sets the room of the course.
+     * 
+     * @param room The room.
+     */
     public void setRoom(String room) {
         this.room = room;
     }
 
+    /**
+     * Gets the year of the course.
+     * 
+     * @return The year.
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Sets the year of the course.
+     * 
+     * @param year The year.
+     */
     public void setYear(int year) {
         this.year = year;
     }

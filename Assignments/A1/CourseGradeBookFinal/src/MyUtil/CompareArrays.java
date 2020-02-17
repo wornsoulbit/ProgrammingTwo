@@ -77,10 +77,29 @@ public class CompareArrays {
             return false;
         
         for (int i = 0; i < x.length; i++) {
-            if (x[i].equals(y[i]))
+            if (!x[i].equals(y[i]))
                 return false;
         }
         
         return true;
     } 
+    
+    /**
+     * Compares two Object[] arrays to each other and see if they have the same values.
+     * 
+     * @param x An array.
+     * @param y Another array.
+     * @return If both arrays have the same values.
+     */
+    public static boolean compareArray(Object[] x, Object[] y) {
+        if (x.length != y.length)
+            return false;
+        
+        for (int i = 0; i < x.length; i++) {
+            if (x[i] != y[i])
+                return false;
+        }
+        
+        return true;
+    }
 }

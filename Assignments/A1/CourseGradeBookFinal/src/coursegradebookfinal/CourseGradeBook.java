@@ -15,6 +15,13 @@ public class CourseGradeBook {
     private StudentGradeRecord[] gradeList;
     private int gradesRecordCount;
 
+    /**
+     * Constructor with default values.
+     * 
+     * @param course Course.
+     * @param caNames Names of assessments.
+     * @param caWeights Weights of assessments.
+     */
     public CourseGradeBook(Course course, String[] caNames, double[] caWeights) {
         if (caNames.length != caWeights.length)
             throw new IllegalArgumentException("Assignment Name and Assignment Weight aren't of equal length.");
@@ -349,13 +356,14 @@ public class CourseGradeBook {
      */
     public String toStringAssessmentLegend() {
         String strOut = "\nLegend\n";
-        strOut += "-------------------------------------------\n";
+        strOut += "------------------------------------------\n";
         strOut += String.format("%-15s %5s %12s %s\n", "Assessment", "Name", "Weight/50.0", "Weight%");
+        strOut += "------------------------------------------\n";
         for (int i = 0; i < caNames.length; i++)
             strOut += String.format("%6s %14s %10.0f %8.1f%s\n", 
                     "A" + (i + 1), caNames[i], caWeights[i] / 2, caWeights[i], "%");
         
-        strOut += "-------------------------------------------\n";
+        strOut += "------------------------------------------\n";
         strOut += String.format("%6s %14s\n", "fin", "final grade");
         strOut += String.format("%6s %14s\n", "grd", "letter grade");
         return strOut;
@@ -374,10 +382,11 @@ public class CourseGradeBook {
         if (!(obj instanceof CourseGradeBook))
             return false;
         
-        return this.course.equals(courseGradeBook.course) 
-                && this.gradesRecordCount == courseGradeBook.gradesRecordCount
+        return this.gradesRecordCount == courseGradeBook.gradesRecordCount
+                && this.course.equals(courseGradeBook.course)
                 && CompareArrays.compareArray(this.caWeights, courseGradeBook.caWeights)
-                && CompareArrays.compareArray(this.caNames, courseGradeBook.caNames);
+                && CompareArrays.compareArray(this.caNames, courseGradeBook.caNames)
+                && CompareArrays.compareArray(this.gradeList, courseGradeBook.gradeList);
     }
     
     /**
@@ -395,9 +404,13 @@ public class CourseGradeBook {
             strOut += String.format("%5s", "A" + (i + 1));
         strOut += String.format("%5s %4s\n", "fin", "grd");
         strOut += "---------------------------------------------------------------------------------\n";
+        
         for (int i = 0; i < gradesRecordCount; i++) {
             strOut += String.format("%s", gradeList[i].getStudent().toString());
-            
+//        for(StudentGradeRecord x : gradeList) 
+//        {
+//            strOut += String.format("%s", x.getStudent().toString());
+//        }
             for (int j = 0; j < caWeights.length; j++)
                 strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
             
