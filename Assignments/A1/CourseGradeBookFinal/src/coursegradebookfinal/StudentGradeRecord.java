@@ -33,10 +33,14 @@ public class StudentGradeRecord {
      */
     public double computeFinalGrade(double[] assessmentWeights) {
         double finalGrade = 0;
+        double totalWeights = 0;
+        
+        for (double weights : assessmentWeights)
+            totalWeights += weights;
         
         //Calculates the weighted grade for that mark and adds it to the final grade.
         for (int i = 0; i < assessmentWeights.length; i++) {
-            finalGrade += grades[i] * (assessmentWeights[i] / 100);
+            finalGrade += grades[i] * (assessmentWeights[i] / totalWeights);
         }
         
         return finalGrade;
