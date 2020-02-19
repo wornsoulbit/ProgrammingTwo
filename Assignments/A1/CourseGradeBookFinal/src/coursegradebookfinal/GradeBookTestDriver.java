@@ -26,7 +26,6 @@ public class GradeBookTestDriver {
         };
 
         CourseGradeBook cgb = new CourseGradeBook(course, assessmentNames, assessmentPoints);
-        CourseGradeBook copyCgb = new CourseGradeBook(cgb);
 
         cgb.addGradeRecord(new Student("Caden Olivia"  , 63989996), 60, 66, 37, 85, 87, 85, 73, 79);
         cgb.addGradeRecord(new Student("Ezra Colton"   , 75589670), 93, 86, 93, 88, 93, 58, 35, 69);
@@ -38,7 +37,7 @@ public class GradeBookTestDriver {
         cgb.addGradeRecord(new Student("William Wyatt" , 75950969), 93, 69, 93, 79, 87, 77, 67, 78);
         cgb.addGradeRecord(new Student("Mila Charlotte", 78989969), 80, 98, 99, 56, 95, 89, 90, 78);
         cgb.addGradeRecord(new Student("Elena Aiden"   , 78798089), 77, 87, 79, 100, 88, 73, 73, 88);
-
+        
         System.out.println(cgb);
         System.out.println(cgb.toStringMaxAssessments());
         System.out.println(cgb.toStringMinAssessments());

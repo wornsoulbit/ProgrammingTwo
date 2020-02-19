@@ -424,12 +424,10 @@ public class CourseGradeBook {
      * @param cgb constructor being copied.
      */
     public CourseGradeBook(CourseGradeBook cgb) {
-        String[] newCaNames = new String[cgb.caNames.length];
-        String[] newWeightsNames = new String[cgb.caWeights.length];
-        StudentGradeRecord[] newGradeList = new StudentGradeRecord[cgb.gradeList.length];
-        
-        System.arraycopy(this.caNames, 0, newCaNames, 0, this.caNames.length);
-        System.arraycopy(this.caWeights, 0, newWeightsNames, 0, this.caWeights.length);
-        System.arraycopy(this.gradeList, 0, newGradeList, 0, this.gradeList.length);
+        this.caNames = cgb.caNames;
+        this.caWeights = cgb.caWeights;
+        this.gradeList = cgb.gradeList;
+        this.gradesRecordCount = cgb.gradesRecordCount;
+        this.course = cgb.course;
     }
 }
