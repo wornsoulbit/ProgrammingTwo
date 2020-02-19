@@ -357,11 +357,11 @@ public class CourseGradeBook {
     public String toStringAssessmentLegend() {
         String strOut = "\nLegend\n";
         strOut += "------------------------------------------\n";
-        strOut += String.format("%-15s %5s %12s %s\n", "Assessment", "Name", "Weight/50.0", "Weight%");
+        strOut += String.format("%-15s %5s %12s %s\n", "Assessment", "Name", "Weight/" + computeTotalWeight(), "Weight%");
         strOut += "------------------------------------------\n";
         for (int i = 0; i < caNames.length; i++)
             strOut += String.format("%6s %14s %10.0f %8.1f%s\n", 
-                    "A" + (i + 1), caNames[i], caWeights[i] / 2, caWeights[i], "%");
+                    "A" + (i + 1), caNames[i], caWeights[i], caWeights[i] * (100 / computeTotalWeight()), "%");
         
         strOut += "------------------------------------------\n";
         strOut += String.format("%6s %14s\n", "fin", "final grade");
@@ -407,10 +407,6 @@ public class CourseGradeBook {
         
         for (int i = 0; i < gradesRecordCount; i++) {
             strOut += String.format("%s", gradeList[i].getStudent());
-//        for(StudentGradeRecord x : gradeList) 
-//        {
-//            strOut += String.format("%s", x.getStudent().toString());
-//        }
             for (int j = 0; j < caWeights.length; j++)
                 strOut += String.format("%-5.0f", gradeList[i].getGrades(j));
             

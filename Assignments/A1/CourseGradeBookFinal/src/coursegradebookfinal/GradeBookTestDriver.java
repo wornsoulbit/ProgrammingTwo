@@ -22,7 +22,7 @@ public class GradeBookTestDriver {
         
         double[] assessmentPoints =
         {
-           2,2,4,4,8,20,20,40
+           1,1,2,2,4,10,10,20
         };
 
         CourseGradeBook cgb = new CourseGradeBook(course, assessmentNames, assessmentPoints);
