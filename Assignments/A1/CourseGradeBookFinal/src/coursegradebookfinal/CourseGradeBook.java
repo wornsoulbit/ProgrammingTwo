@@ -406,7 +406,7 @@ public class CourseGradeBook {
         strOut += "---------------------------------------------------------------------------------\n";
         
         for (int i = 0; i < gradesRecordCount; i++) {
-            strOut += String.format("%s", gradeList[i].getStudent().toString());
+            strOut += String.format("%s", gradeList[i].getStudent());
 //        for(StudentGradeRecord x : gradeList) 
 //        {
 //            strOut += String.format("%s", x.getStudent().toString());
@@ -428,12 +428,12 @@ public class CourseGradeBook {
      * @param cgb constructor being copied.
      */
     public CourseGradeBook(CourseGradeBook cgb) {
-        String[] newCaNames = new String[caNames.length];
-        String[] newWeightsNames = new String[caWeights.length];
-        StudentGradeRecord[] newGradeList = new StudentGradeRecord[gradeList.length];
+        String[] newCaNames = new String[cgb.caNames.length];
+        String[] newWeightsNames = new String[cgb.caWeights.length];
+        StudentGradeRecord[] newGradeList = new StudentGradeRecord[cgb.gradeList.length];
         
-        System.arraycopy(caNames, 0, newCaNames, 0, caNames.length);
-        System.arraycopy(caWeights, 0, newWeightsNames, 0, caWeights.length);
-        System.arraycopy(gradeList, 0, newGradeList, 0, gradeList.length);
+        System.arraycopy(this.caNames, 0, newCaNames, 0, this.caNames.length);
+        System.arraycopy(this.caWeights, 0, newWeightsNames, 0, this.caWeights.length);
+        System.arraycopy(this.gradeList, 0, newGradeList, 0, this.gradeList.length);
     }
 }

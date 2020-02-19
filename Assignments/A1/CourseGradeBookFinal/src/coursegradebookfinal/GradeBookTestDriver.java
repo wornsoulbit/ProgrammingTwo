@@ -26,6 +26,7 @@ public class GradeBookTestDriver {
         };
 
         CourseGradeBook cgb = new CourseGradeBook(course, assessmentNames, assessmentPoints);
+        CourseGradeBook copyCgb = new CourseGradeBook(cgb);
 
         cgb.addGradeRecord(new Student("Caden Olivia"  , 63989996), 60, 66, 37, 85, 87, 85, 73, 79);
         cgb.addGradeRecord(new Student("Ezra Colton"   , 75589670), 93, 86, 93, 88, 93, 58, 35, 69);
