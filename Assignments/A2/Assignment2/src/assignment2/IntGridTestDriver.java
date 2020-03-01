@@ -136,10 +136,10 @@
 //        assert (it3.numColumns() == 8);
 //        System.out.println("Tested  constructor taking two int arguments - wide grid: " + "OK");
 //
-////        System.out.println("\nTesting setRow - wide case");
-////        it3.setRow(0, new int[]{2, 11, 16, 19, 22, 15, 8, 5});
-////        it3.setRow(1, new int[]{21, 23, 13, 7, 20, 18, 12, 1});
-////        it3.setRow(2, new int[]{3, 4, 24, 10, 17, 14, 9, 6});
+//        System.out.println("\nTesting setRow - wide case");
+//        it3.setRow(0, new int[]{2, 11, 16, 19, 22, 15, 8, 5});
+//        it3.setRow(1, new int[]{21, 23, 13, 7, 20, 18, 12, 1});
+//        it3.setRow(2, new int[]{3, 4, 24, 10, 17, 14, 9, 6});
 //        System.out.println(it3);
 //        it3.printGridFeatures();
 //
@@ -176,15 +176,15 @@
 //        assert (it4.numColumns() == 3);
 //        System.out.println("Tested  constructor taking two int arguments - Tall grid: " + "OK");
 //
-////        System.out.println("\nTesting setRow - Tall case");
-////        it4.setRow(0, new int[]{1, 24, 6});
-////        it4.setRow(1, new int[]{19, 21, 12});
-////        it4.setRow(2, new int[]{16, 2, 14});
-////        it4.setRow(3, new int[]{13, 18, 10});
-////        it4.setRow(4, new int[]{5, 7, 17});
-////        it4.setRow(5, new int[]{15, 9, 23});
-////        it4.setRow(6, new int[]{8, 3, 22});
-////        it4.setRow(7, new int[]{4, 11, 20});
+//        System.out.println("\nTesting setRow - Tall case");
+//        it4.setRow(0, new int[]{1, 24, 6});
+//        it4.setRow(1, new int[]{19, 21, 12});
+//        it4.setRow(2, new int[]{16, 2, 14});
+//        it4.setRow(3, new int[]{13, 18, 10});
+//        it4.setRow(4, new int[]{5, 7, 17});
+//        it4.setRow(5, new int[]{15, 9, 23});
+//        it4.setRow(6, new int[]{8, 3, 22});
+//        it4.setRow(7, new int[]{4, 11, 20});
 //        System.out.println(it4);
 //        it4.printGridFeatures();
 //
@@ -205,24 +205,24 @@
 //        assert (it4.numColumns() == 3);
 //        System.out.println("Tested  setRow - Tall case: " + "OK");
 //
-////        System.out.println("\nTesting isMagicSquare");
-////        it2.setRow(0, new int[]{1, 1, 1, 1, 1});
-////        it2.setRow(1, new int[]{1, 1, 1, 1, 1});
-////        it2.setRow(2, new int[]{1, 1, 1, 1, 1});
-////        it2.setRow(3, new int[]{1, 1, 1, 1, 1});
-////        it2.setRow(4, new int[]{1, 1, 1, 1, 1});
-////        System.out.println(it2);
-////        it2.printGridFeatures();
-////        assert (it2.isMagicSquare() == false);
-////        it2.setRow(0, new int[]{17, 24, 1, 8, 15});
-////        it2.setRow(1, new int[]{23, 5, 7, 14, 16});
-////        it2.setRow(2, new int[]{4, 6, 13, 20, 22});
-////        it2.setRow(3, new int[]{10, 12, 19, 21, 3});
-////        it2.setRow(4, new int[]{11, 18, 25, 2, 9});
-////        System.out.println(it2);
-////        it2.printGridFeatures();
-////        assert (it2.isColumnMagic() == true);
-////        System.out.println("Tested isMagicSquare: " + "OK");
+//        System.out.println("\nTesting isMagicSquare");
+//        it2.setRow(0, new int[]{1, 1, 1, 1, 1});
+//        it2.setRow(1, new int[]{1, 1, 1, 1, 1});
+//        it2.setRow(2, new int[]{1, 1, 1, 1, 1});
+//        it2.setRow(3, new int[]{1, 1, 1, 1, 1});
+//        it2.setRow(4, new int[]{1, 1, 1, 1, 1});
+//        System.out.println(it2);
+//        it2.printGridFeatures();
+//        assert (it2.isMagicSquare() == false);
+//        it2.setRow(0, new int[]{17, 24, 1, 8, 15});
+//        it2.setRow(1, new int[]{23, 5, 7, 14, 16});
+//        it2.setRow(2, new int[]{4, 6, 13, 20, 22});
+//        it2.setRow(3, new int[]{10, 12, 19, 21, 3});
+//        it2.setRow(4, new int[]{11, 18, 25, 2, 9});
+//        System.out.println(it2);
+//        it2.printGridFeatures();
+//        assert (it2.isColumnMagic() == true);
+//        System.out.println("Tested isMagicSquare: " + "OK");
 //        System.out.println("\nCongratulations! your program seems to be working correctly!");
 //    }
 //}
