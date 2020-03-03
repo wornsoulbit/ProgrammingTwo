@@ -362,7 +362,14 @@ public class IntGrid {
 
     public boolean isMagicSquare() {
         int sum = rowSum(0);
-
+        int magicSquareSum = grid.length * ((grid.length * grid.length + 1) / 2);
+        
+        if (grid.length != grid[0].length)
+            return false;
+        
+        if (sum != magicSquareSum)
+            return false;
+        
         for (int i = 0; i < grid.length; i++)
             if (rowSum(i) != sum)
                 return false;
@@ -386,7 +393,20 @@ public class IntGrid {
     }
 
     public void printGridFeatures() {
-
+        String strOut = String.format("%s: %d rows by %d columns\n", "Dimensions", this.grid.length, this.grid[0].length);
+        for (int i = 0; i < this.grid.length; i++)
+            strOut += String.format("Row %d: %s\n", i, Arrays.toString(grid[i]));
+        strOut += String.format("Row sums: %s\n", Arrays.toString(allRowSums()));
+        strOut += String.format("Col sums: %s\n", Arrays.toString(allColumnSums()));
+        strOut += String.format("Major Diagonal Sum: %d\n", majorDiagonalSums());
+        strOut += String.format("Minor Diagonal Sum: %d\n", minorDiagonalSums());
+        strOut += String.format("Min Element: %d\n", min());
+        strOut += String.format("Max Element: %d\n", max());
+        strOut += String.format("Is Magic Square?: %s\n", isMagicSquare());
+        
+        
+        
+        System.out.println(strOut);
     }
 
     @Override
@@ -415,7 +435,12 @@ public class IntGrid {
 
     @Override
     public String toString() {
-        String strOut = "Test";
+        String strOut = "";
+        for (int[] col : this.grid) {
+            for (int row : col)
+                strOut += String.format("%4d", row);
+            strOut += "\n";
+        }
         return strOut;
     }
 }
