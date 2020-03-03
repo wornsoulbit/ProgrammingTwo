@@ -221,7 +221,7 @@ public class IntGridTestDriver {
         it2.setRow(4, new int[]{11, 18, 25, 2, 9});
         System.out.println(it2);
         it2.printGridFeatures();
-//        assert (it2.isColumnMagic() == true);
+        assert (it2.isMagicSquare());
         System.out.println("Tested isMagicSquare: " + "OK");
         System.out.println("\nCongratulations! your program seems to be working correctly!");
     }
