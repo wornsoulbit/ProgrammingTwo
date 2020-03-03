@@ -23,10 +23,10 @@ public class IntGrid {
         setGrid(rows, cols);
     }
 
-    public IntGrid(IntGrid ig) {
-        grid = new int[ig.grid.length][ig.grid[0].length];
+    public IntGrid(IntGrid it) {
+        grid = new int[it.grid.length][it.grid[0].length];
         for (int i = 0; i < grid.length; i++) {
-            grid[i] = Arrays.copyOf(ig.grid[i], ig.grid[i].length);
+            grid[i] = Arrays.copyOf(it.grid[i], it.grid[i].length);
         }
     }
 
@@ -248,12 +248,12 @@ public class IntGrid {
             sum += grid[i][i];
         }
 
-        if (grid.length < grid[0].length)
-            for (int[] row : grid)
-                sum += row[grid[0].length - grid.length];
-        else if (grid.length > grid[0].length) 
+        if (this.isWide())
+            for (int i = 0; i < grid.length; i++)
+                sum += grid[i][grid[0].length - grid.length + i];
+        else if (this.isTall())
             for (int i = 0; i < grid[0].length; i++) 
-                sum += grid[grid.length - grid[0].length][i];
+                sum += grid[grid.length - grid[0].length + i][i];
 
         return sum;
     }
@@ -265,17 +265,19 @@ public class IntGrid {
      */
     public int minorDiagonalSums() {
         int sum = 0;
-
-        for (int i = 0; i < Math.min(grid.length, grid[0].length); i++) {
-            sum += grid[i][grid.length - 1 - i];
+        int minNum = Math.min(grid.length, grid[0].length);
+        int diff = Math.abs(numRows() - numColumns());
+        
+        for (int i = 0; i < minNum; i++) {
+            sum += grid[i][minNum - 1 - i];
         }
 
-        if (grid.length < grid[0].length)
-            for (int[] row : grid)
-                sum += row[grid[0].length - grid.length];
-        else if (grid.length > grid[0].length) 
+        if(this.isWide())
+            for (int i = 0; i < grid.length; i++)
+                sum += grid[i][minNum - 1 - i + diff];
+        else if (this.isTall()) 
             for (int i = 0; i < grid[0].length; i++) 
-                sum += grid[grid.length - grid[0].length][i];
+                sum += grid[minNum - 1 - i + diff][i];
 
         return sum;
     }
