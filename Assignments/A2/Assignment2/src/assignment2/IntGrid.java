@@ -8,21 +8,42 @@ import java.util.Arrays;
  * @author Alex Vasil
  */
 public class IntGrid {
+    
+    private int[][] grid;
 
-    public int[][] grid;
-
+    /**
+     * Sets the value of grid to the given array.
+     * 
+     * @param initialArray Initial array with values in it.
+     */
     public IntGrid(int[][] initialArray) {
         setGrid(initialArray);
     }
 
+    /**
+     * Sets the size of the array to the given value, filling the spaces with 0's.
+     * 
+     * @param size The size of the array.
+     */
     public IntGrid(int size) {
         setGrid(size);
     }
 
+    /**
+     * Sets the size of the rows and columns to the given values.
+     * 
+     * @param rows The size of the row.
+     * @param cols The size of the column.
+     */
     public IntGrid(int rows, int cols) {
         setGrid(rows, cols);
     }
 
+    /**
+     * Copy constructor of a grid array.
+     * 
+     * @param it Grid thats to be copied.
+     */
     public IntGrid(IntGrid it) {
         grid = new int[it.grid.length][it.grid[0].length];
         for (int i = 0; i < grid.length; i++) {
@@ -53,17 +74,28 @@ public class IntGrid {
             grid[i] = Arrays.copyOf(initialArray[i], arrLength);
     }
 
+    /**
+     * Sets the size of the grid of the grid to the given size.
+     * 
+     * @param size Size of the columns and rows of the array.
+     */
     public void setGrid(int size) {
-        if (size < 0) {
-            throw new IllegalArgumentException("Size of the array can't be less than 0!");
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size of the array can't be less than or equal to 0!");
         }
 
         grid = new int[size][size];
     }
 
+    /**
+     * Sets the size of the rows and columns of the array to the given values.
+     * 
+     * @param rows Size of the rows.
+     * @param cols Size of the columns.
+     */
     public void setGrid(int rows, int cols) {
-        if (rows < 0 || cols < 0) {
-            throw new IllegalArgumentException("rows or cols can't be less than 0!");
+        if (rows <= 0 || cols <= 0) {
+            throw new IllegalArgumentException("rows or cols can't be less than or equal to 0!");
         }
         grid = new int[rows][cols];
     }
