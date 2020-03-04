@@ -104,6 +104,12 @@ public class IntGrid {
         return grid[r][c];
     }
 
+    /**
+     * Gets row k in the array.
+     * 
+     * @param k The row desired.
+     * @return The desired row.
+     */
     public int[] getRow(int k) {
         if (k < 0 || k > grid.length) {
             throw new IllegalArgumentException("k out of bounds of array.");
@@ -112,6 +118,12 @@ public class IntGrid {
         return Arrays.copyOf(grid[k], grid[k].length);
     }
 
+    /**
+     * Sets an existing row k with a new 1D array.
+     * 
+     * @param k Row to be replaced with new values.
+     * @param array Array to replace row k array values.
+     */
     public void setRow(int k, int[] array) {
         if (k < 0 || k > grid.length) {
             throw new IllegalArgumentException("k out of bounds of array.");
@@ -357,9 +369,18 @@ public class IntGrid {
      * @return If the number is in the array.
      */
     public boolean lookup(int key) {
+        for (int[] col : this.grid)
+            for (int row : col)
+                if (row == key)
+                    return true;
         return false;
     }
 
+    /**
+     * Checks to see if the array is a magic square.
+     * 
+     * @return If the array is a magic square.
+     */
     public boolean isMagicSquare() {
         int sum = rowSum(0);
         int magicSquareSum = grid.length * ((grid.length * grid.length + 1) / 2);
@@ -392,29 +413,29 @@ public class IntGrid {
         return diagSum == sum;
     }
 
+    /**
+     * Prints out all the values that is avaliable to the array.
+     */
     public void printGridFeatures() {
         String strOut = String.format("%s: %d rows by %d columns\n", "Dimensions", this.grid.length, this.grid[0].length);
         for (int i = 0; i < this.grid.length; i++)
-            strOut += String.format("Row %d: %s\n", i, Arrays.toString(grid[i]));
-        strOut += String.format("Row sums: %s\n", Arrays.toString(allRowSums()));
-        strOut += String.format("Col sums: %s\n", Arrays.toString(allColumnSums()));
-        strOut += String.format("Major Diagonal Sum: %d\n", majorDiagonalSums());
-        strOut += String.format("Minor Diagonal Sum: %d\n", minorDiagonalSums());
-        strOut += String.format("Min Element: %d\n", min());
-        strOut += String.format("Max Element: %d\n", max());
-        strOut += String.format("Is Magic Square?: %s\n", isMagicSquare());
-        
-        
-        
+            strOut += String.format("%s %-16s %s\n", "Row", i + ":", Arrays.toString(grid[i]));
+        strOut += String.format("%-20s %s\n", "Row sums:", Arrays.toString(allRowSums()));
+        strOut += String.format("%-20s %s\n", "Col sums:", Arrays.toString(allColumnSums()));
+        strOut += String.format("%-20s %d\n", "Major Diagonal Sum:", majorDiagonalSums());
+        strOut += String.format("%-20s %d\n", "Minor Diagonal Sum:", minorDiagonalSums());
+        strOut += String.format("%-20s %d\n", "Max Element:", max());
+        strOut += String.format("%-20s %d\n", "Min Element:", min());
+        strOut += String.format("%-20s %s\n", "Is Magic Square?:", isMagicSquare());
         System.out.println(strOut);
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        return hash;
-    }
-
+    /**
+     * Default equals method.
+     * 
+     * @param obj object being compared.
+     * @return If the two objects are equal to each other.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -433,6 +454,11 @@ public class IntGrid {
         return true;
     }
 
+    /**
+     * Creates a String of a formatted 2D array.
+     * 
+     * @return A formatted string of a 2D array.
+     */
     @Override
     public String toString() {
         String strOut = "";
