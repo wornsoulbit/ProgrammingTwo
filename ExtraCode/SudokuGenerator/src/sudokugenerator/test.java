@@ -13,7 +13,7 @@ public class test {
     public static void main(String[] args) {
         SudokuGenerator s1 = new SudokuGenerator();
         
-        s1.generateSudokuSqaure();
+        s1.generateSudokuSquare();
         System.out.println(s1);
     }
 }
