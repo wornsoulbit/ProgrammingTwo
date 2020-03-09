@@ -10,31 +10,91 @@ import java.util.Random;
  */
 public class SudokuGenerator {
 
-    private int[][] sudokuSqaure = new int[9][9];
-
+    private int[][] sudokuSqaure;
+    private int validationStep = 0;
     /**
      * Generates a random sudoku square
      */
     public void generateSudokuSquare() {
         Random rand = new Random();
-
-        for (int[] row : sudokuSqaure) {
-            int[] pool = new int[9];
-            pool = populateSudokuNumberArray(pool);
-            for (int j = 0; j < row.length; j++) {
-                int randomNum = rand.nextInt(pool.length);
-                row[j] = pool[randomNum];
-                pool = removeElement(pool, randomNum);
+        do {
+            sudokuSqaure = new int[9][9];
+            for (int[] row : sudokuSqaure) {
+                int[] pool = new int[9];
+                pool = populateSudokuNumberArray(pool);
+                
+                if (!isValidSudokuSqaure())
+                    break;
+                else 
+                    validationStep++;
+                
+                for (int j = 0; j < row.length; j++) {
+                    int randomNum = rand.nextInt(pool.length);
+                    row[j] = pool[randomNum];
+                    pool = removeElement(pool, randomNum);
+                }
             }
-        }
+        } while(!isValidSudokuSqaure());
     }
 
-    private boolean isValidSudokuSqaure() {
+    private boolean isValidSudokuSqaure() {        
+        int[] rowArr1 = rowArray(validationStep);
+        int[] rowArr2 = rowArray(validationStep + 1);
+            
+        for (int i = 0; i < rowArr1.length; i++) {
+            if (rowArr1[i] == 0 || rowArr2[i] == 0) {
+                validationStep--;
+                break;
+            }
+            
+            if (rowArr1[i] == rowArr2[i])
+                return false;
+        }
+        
         return true;
     }
     
     private int[][] squareArray(int rowIndex, int colIndex) {
         int[][] squareArr = new int[3][3];
+        int rowStartIndex;
+        int colStartIndex;
+        switch (rowIndex) {
+            case 0:
+            case 1:
+            case 2:
+                rowStartIndex = 0;
+                break;
+            case 3:
+            case 4:
+            case 5:
+                rowStartIndex = 3;
+                break;
+            default:
+                rowStartIndex = 6;
+                break;
+        }
+        
+        switch (colIndex) {
+            case 0:
+            case 1:
+            case 2:
+                colStartIndex = 0;
+                break;
+            case 3:
+            case 4:
+            case 5:
+                colStartIndex = 3;
+                break;
+            default:
+                colStartIndex = 6;
+                break;
+        }
+        
+        for (int i = 0; i < squareArr.length; i++) {
+            for (int j = 0; j < squareArr[0].length; j++) {
+                squareArr[i][j] = sudokuSqaure[i + rowStartIndex][j + colStartIndex];
+            }
+        }
         return squareArr;
     }
     
