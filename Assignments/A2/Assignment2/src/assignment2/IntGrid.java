@@ -347,13 +347,13 @@ public class IntGrid {
      * @return Array of sums of all elements.
      */
     public int[] allColumnSums() {
-        int[] rowSums = new int[grid[0].length];
+        int[] colSums = new int[grid[0].length];
 
         for (int i = 0; i < grid[0].length; i++) {
-            rowSums[i] = columnSum(i);
+            colSums[i] = columnSum(i);
         }
 
-        return rowSums;
+        return colSums;
     }
 
     /**
@@ -367,7 +367,7 @@ public class IntGrid {
             throw new IllegalArgumentException("Row is out of bounds of grid.");
         }
 
-        int[] temp = Arrays.copyOf(grid[r1], grid[r1].length);
+        int[] temp = grid[r1] ;//Arrays.copyOf(grid[r1], grid[r1].length);
         grid[r1] = grid[r2];
         grid[r2] = temp;
     }
