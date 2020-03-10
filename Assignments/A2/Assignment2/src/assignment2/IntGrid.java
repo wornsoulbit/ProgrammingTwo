@@ -449,7 +449,8 @@ public class IntGrid {
      * Prints out all the values that is avaliable to the array.
      */
     public void printGridFeatures() {
-        String strOut = String.format("%s: %d rows by %d columns\n", "Dimensions", this.grid.length, this.grid[0].length);
+        String strOut = String.format("%s: %d rows by %d columns (a %s grid)\n", 
+                "Dimensions", this.grid.length, this.grid[0].length, checkGridType());
         for (int i = 0; i < this.grid.length; i++)
             strOut += String.format("%s %-16s %s\n", "Row", i + ":", Arrays.toString(grid[i]));
         strOut += String.format("%-20s %s\n", "Row sums:", Arrays.toString(allRowSums()));
@@ -461,7 +462,21 @@ public class IntGrid {
         strOut += String.format("%-20s %s\n", "Is Magic Square?:", isMagicSquare());
         System.out.println(strOut);
     }
-
+    
+    /**
+     * Checks the type of a grid.
+     * 
+     * @return the type of the grid in a string.
+     */
+    public String checkGridType() {
+        if (isSquare())
+            return "sqaure";
+        else if (isTall())
+            return "tall";
+        else 
+            return "wide";
+    }
+    
     /**
      * Default equals method.
      * 
