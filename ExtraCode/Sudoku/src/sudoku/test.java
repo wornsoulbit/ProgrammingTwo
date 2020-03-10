@@ -12,7 +12,14 @@ package sudoku;
 public class test {
     public static void main(String[] args) {
         Sudoku s1 = new Sudoku();
-        
-        s1.generateSudokuSqaure();
+        System.out.println(s1);
+       
+//        int[][] randomSqaure = 
+//           {{1,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, 
+//            {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, 
+//            {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}};
+//        
+//        Sudoku s2 = new Sudoku();
+//        System.out.println(s2);
     }
 }
