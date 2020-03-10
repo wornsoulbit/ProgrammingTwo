@@ -54,10 +54,15 @@ public class Sudoku {
     
     private int[] sqaureArray(int rowIdx, int colIdx) {
         int[] sqaure = new int[9];
-        
-        for (int i = 0; i < sqaure.length; i++) 
-            sqaure[i] = sudokuSqaure[i / 3][i % 3];
-        
+        int rowStart = (rowIdx / 3) * 3;
+        int colStart = (colIdx / 3) * 3;
+        int counter = 0;
+        for (int i = 0; i < 3; i++) 
+            for (int j = 0; j < 3; j++) {
+                sqaure[counter] = sudokuSqaure[rowStart + i][colStart + j];
+                counter++;
+            }
+
         return sqaure;
     }
     
