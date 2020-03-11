@@ -26,6 +26,15 @@ public class Sudoku {
     }
     
     /**
+     * Solves a given sudoku square.
+     * 
+     * @param incompleteSudoku Given sudoku square
+     */
+    public Sudoku(int[][] incompleteSudoku) {
+        
+    }
+    
+    /**
      * Generates and fills a 9x9 array with numbers that is a valid sudoku square.
      * 
      * @return A valid sudoku square.
