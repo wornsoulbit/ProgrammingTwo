@@ -15,7 +15,6 @@ public class Sudoku {
 
     private int[][] sudokuSqaure;
     private int solveAttempts; //The amount of attempts was made to solve the current square.
-    private final int maxAttempts = 500000; //The maximum attempts that the solver will do before ending the process.
     
     /**
      * Randomly generates a fresh sudoku square from an empty 9x9 array.
@@ -33,15 +32,8 @@ public class Sudoku {
      * 
      * @param uncompletedSudoku The unsolved sudoku array thats to be solved.
      */
-    public Sudoku(int[][] uncompletedSudoku) {
-        
-        if (!isValidSudokuArray(uncompletedSudoku))
-            throw new IllegalArgumentException("Invalid array given, array should be of length 9x9");
-            
-        sudokuSqaure = new int[9][9];
-        for (int i = 0; i < 9; i++)
-            sudokuSqaure[i] = Arrays.copyOf(uncompletedSudoku[i], 9);
-        
+    public Sudoku(int[][] uncompletedSudoku) {            
+        sudokuSqaure = new int[9][9];        
         if (!isValidGivenSudokuArray(sudokuSqaure))
             throw new IllegalArgumentException("Invalid sudoku square given");
         
@@ -49,26 +41,6 @@ public class Sudoku {
             generateSudokuSqaure(uncompletedSudoku);
             solveAttempts++;
         }
-        
-        if (solveAttempts == maxAttempts)
-            System.out.println("Reached Maximum number of attempts stopping the program");
-    }
-    
-    /**
-     * Checks to see if the inputed array is valid.
-     * 
-     * @param array The inputed array to be checked.
-     * @return If its a valid array.
-     */
-    private boolean isValidSudokuArray(int[][] array) {
-        if (array.length != 9)
-            return false;
-        
-        for (int i = 0; i < 9; i++) 
-            if (array[i].length != 9)
-                return false;
-        
-        return true;
     }
     
     /**
@@ -84,20 +56,22 @@ public class Sudoku {
         
         for (int i = 0; i < sudokuSqaure.length; i++) {
             for (int j = 0; j < sudokuSqaure[0].length; j++) {
+                if (sudokuSqaure[i][j] != 0) 
+                    continue;
                 ArrayList<Integer> pool = new ArrayList<>(9);
                 //Step 1: Initalize the pool with numbers 1-9.
                 initPool(pool);
                 //Step 2: Update the pool to remove the numbers in the current row.
-                updatePool(pool, rowArray(i));
+                updatePool(pool, getRowArray(i));
                 //Step 3: Update the pool to remove the numbers in the current col.
-                updatePool(pool, colArray(j));
+                updatePool(pool, getColArray(j));
                 //Step 4: Update the pool to remove the numbers in the current sqaure.
-                updatePool(pool, squareArray(i, j));
+                updatePool(pool, getSquareArray(i, j));
                 if (pool.isEmpty())
                     return array;
                 //Step 5: Add a random number into the sudoku sqaure if it is zero.
-                if (sudokuSqaure[i][j] == 0)
-                    sudokuSqaure[i][j] = pool.get(rand.nextInt(pool.size()));
+                sudokuSqaure[i][j] = pool.get(rand.nextInt(pool.size()));
+                
             }
         }
         return sudokuSqaure;
@@ -131,15 +105,14 @@ public class Sudoku {
      * @param colIdx The position of the column.
      * @return A 1D array of the numbers in the square.
      */
-    private int[] squareArray(int rowIdx, int colIdx) {
+    private int[] getSquareArray(int rowIdx, int colIdx) {
         int[] sqaure = new int[9];
         int rowStart = (rowIdx / 3) * 3;
         int colStart = (colIdx / 3) * 3;
-        int counter = 0;
+
         for (int i = 0; i < 3; i++) 
             for (int j = 0; j < 3; j++) {
-                sqaure[counter] = sudokuSqaure[rowStart + i][colStart + j];
-                counter++;
+                sqaure[i * 3 + j] = sudokuSqaure[rowStart + i][colStart + j];
             }
 
         return sqaure;
@@ -151,7 +124,7 @@ public class Sudoku {
      * @param index Index of the row that is wanted.
      * @return The row that is desired.
      */
-    private int[] rowArray(int index) {
+    private int[] getRowArray(int index) {
         if (index > sudokuSqaure.length || index < 0) {
             throw new IllegalArgumentException("Index out of bounds of array");
         }
@@ -165,7 +138,7 @@ public class Sudoku {
      * @param index Index of the column that is wanted.
      * @return The column that is desired.
      */
-    private int[] colArray(int index) {
+    private int[] getColArray(int index) {
         if (index > sudokuSqaure[0].length || index < 0) {
             throw new IllegalArgumentException("Index out of bounds of array");
         }
@@ -183,49 +156,38 @@ public class Sudoku {
      * @param array Array being check if it can be solved.
      * @return If its a valid array.
      */
-    private boolean isValidGivenSudokuArray(int[][] array) {
-        if (array.length != 9 && array[0].length != 9)
+    private boolean isValidGivenSudokuArray(int[][] array) {        
+        if (array.length != 9)
             return false;
         
-        Set<Integer> set = new HashSet<>();
-        int[] rowCheck;
-        int[] colCheck;
-        int[] squareCheck;
+        for (int i = 0; i < 9; i++) 
+            if (array[i].length != 9)
+                return false;
         
         for (int i = 0; i < 9; i++) {
-            rowCheck = rowArray(i);
-            for (int ele : rowCheck) {
-                if (set.contains(ele))
-                    return false;
-                if (ele != 0)
-                    set.add(ele);
-            }
-            set.clear();
-            
-            colCheck = colArray(i);
-            for (int ele : colCheck) {
-                if (set.contains(ele))
-                    return false;
-                if (ele != 0)
-                    set.add(ele);
-            }
-            set.clear();
+            if (!isNumsUnique(getColArray(i)))
+                return false;
+            if (!isNumsUnique(getRowArray(i)))
+                return false;
         }
         
         for (int i = 0; i < 9; i++)
-            for (int j = 0; j < 9; j++) {
-                squareCheck = squareArray(i, j);
-                for (int ele : squareCheck) {
-                    if (set.contains(ele))
-                        return false;
-                    if (ele != 0)
-                        set.add(ele);
-                }
-                set.clear();
-            }
-                
+            for (int j = 0; j < 9; j++)
+                if (!isNumsUnique(getSquareArray(i, j)))
+                    return false;
         
         return true;
+    }
+    
+    private boolean isNumsUnique(ArrayList<Integer> nums) {
+        int counter = 0;
+        for (int i = 0; i < nums.size(); i++)
+            if (nums.get(i) != 0)
+                counter++;
+        
+        Set<Integer> nums2 = new HashSet(Arrays.asList(nums));
+        nums2.remove(0);
+        return nums2.size() == counter;
     }
     
     /**
