@@ -15,7 +15,7 @@ public class SudokuGenerator {
     /**
      * Generates a random sudoku square
      */
-    public void generateSudokuSquare() {
+    private void generateSudokuSquare() {
         Random rand = new Random();
         do {
             sudokuSqaure = new int[9][9];

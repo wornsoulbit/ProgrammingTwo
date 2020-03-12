@@ -1,19 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sudokugenerator;
 
 /**
- *
- * @author cstuser
+ * Test file for sudoku class
+ * @author Alex Vasil
  */
 public class test {
     public static void main(String[] args) {
         SudokuGenerator s1 = new SudokuGenerator();
         
+        int[][] test = 
+           {{1,0,0,0,0,0,0,0,0}, {0,2,0,0,0,0,0,0,0}, {0,0,3,0,0,0,0,0,0}, 
+            {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, 
+            {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0}};
+        SudokuGenerator s2 = new SudokuGenerator();
+        
+        
         s1.generateSudokuSquare();
         System.out.println(s1);
+        
     }
 }
