@@ -30,7 +30,8 @@ public class Sudoku {
     
     /**
      * Takes an uncompleted sudoku square and solves it.
-     * @param uncompletedSudoku 
+     * 
+     * @param uncompletedSudoku The unsolved sudoku array thats to be solved.
      */
     public Sudoku(int[][] uncompletedSudoku) {
         
