@@ -157,6 +157,7 @@ public class Sudoku {
      * @return If its a valid array.
      */
     private boolean isValidGivenSudokuArray(int[][] array) {        
+        //Checks to see if the length of the array is valid.
         if (array.length != 9)
             return false;
         
@@ -164,30 +165,53 @@ public class Sudoku {
             if (array[i].length != 9)
                 return false;
         
+        //Checks to see if all the rows in the array have unique numbers.
         for (int i = 0; i < 9; i++) {
-            if (!isNumsUnique(getColArray(i)))
-                return false;
-            if (!isNumsUnique(getRowArray(i)))
+            if (!isNumsUnique(convertIntArray(getColArray(i))) 
+                    || !isNumsUnique(convertIntArray(getRowArray(i))))
                 return false;
         }
         
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
-                if (!isNumsUnique(getSquareArray(i, j)))
+                if (!isNumsUnique(convertIntArray(getSquareArray(i, j))))
                     return false;
         
         return true;
     }
     
-    private boolean isNumsUnique(ArrayList<Integer> nums) {
+    /**
+     * Checks to see if the numbers in an Integer array are all unique numbers.
+     * 
+     * @param nums Array to be checked for uniqueness.
+     * @return If all the numbers in the array are unique.
+     */
+    private boolean isNumsUnique(Integer[] nums) {
         int counter = 0;
-        for (int i = 0; i < nums.size(); i++)
-            if (nums.get(i) != 0)
+        for (Integer num : nums) {
+            if (num != 0)
                 counter++;
+        }
         
         Set<Integer> nums2 = new HashSet(Arrays.asList(nums));
         nums2.remove(0);
         return nums2.size() == counter;
+    }
+    
+    /**
+     * Converts an int array into an Integer array.
+     * 
+     * @param array int array to be converted.
+     * @return The converted Integer array.
+     */
+    private Integer[] convertIntArray(int[] array) {
+        Integer[] integerArray = new Integer[9];
+        
+        for (int i = 0; i < integerArray.length; i++) {
+            integerArray[i] = array[i];
+        }
+        
+        return integerArray;
     }
     
     /**
@@ -218,5 +242,11 @@ public class Sudoku {
         
         strOut += "\n\nNumber of iterations: " + solveAttempts;
         return strOut;
+    }
+
+    public int[][] getSudokuSqaure() {
+        int[][] newSudokuArray = new int[9][9];
+        System.arraycopy(sudokuSqaure, 0, newSudokuArray, 0, sudokuSqaure.length);
+        return newSudokuArray;
     }
 }
