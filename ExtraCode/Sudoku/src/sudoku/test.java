@@ -18,7 +18,7 @@ public class test {
 //        Sudoku s2 = new Sudoku(randomSqaure);
 //        System.out.println(s2);
 
-        SudokuGamePanel gamePanel = new SudokuGamePanel(new Sudoku(randomSqaure));
+        sudokuPanel gamePanel = new sudokuPanel(new Sudoku());
 
     }
 }

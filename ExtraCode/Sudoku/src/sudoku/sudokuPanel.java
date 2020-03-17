@@ -21,13 +21,15 @@ import javax.swing.border.LineBorder;
  *
  * @author Alex
  */
-public class SudokuGamePanel extends javax.swing.JFrame {
+public class sudokuPanel extends javax.swing.JFrame {
 
     private JButton[][] buttonss;
     private int[][] map;
+    
     private int distanceX;
     private int distanceY;
-    
+    private JButton submitButton;
+    private JButton clearButton;
     private static Sudoku sudoku;
     private final static int ROW = 9;
     private final static int COL = 9;
@@ -37,7 +39,7 @@ public class SudokuGamePanel extends javax.swing.JFrame {
      *
      * @param sudoku The starting array.
      */
-    public SudokuGamePanel(Sudoku sudoku) {
+    public sudokuPanel(Sudoku sudoku) {
         setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getWidth()) / 2,
                 (Toolkit.getDefaultToolkit().getScreenSize().height - getHeight()) / 2);
         System.out.println(getHeight());
@@ -63,6 +65,9 @@ public class SudokuGamePanel extends javax.swing.JFrame {
 
         //Init button (2d array of JButtons)
         buttonss = new JButton[ROW][COL];
+        
+        submitButton = new JButton("Submit");
+        clearButton = new JButton("Clear");
     }
 
     /**
@@ -70,16 +75,18 @@ public class SudokuGamePanel extends javax.swing.JFrame {
      */
     public void initComponents2() {
         gamePanel.setLayout(new GridLayout(ROW, COL));
-
+        optionsPanel.setLayout(new GridLayout(2, 2));
         //Binds a JButton to each cell.
         bindJButton();
 
         for (JButton[] row : buttonss) {
             for (JButton button : row) {
                 button.addKeyListener(kl);
-//                button.addMouseListener(m1);
             }
         }
+        
+        submitButton.addMouseListener(m1);
+        clearButton.addMouseListener(m1);
     }
     
     MouseListener m1 = new MouseListener() {
@@ -90,17 +97,31 @@ public class SudokuGamePanel extends javax.swing.JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
-            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
-            int xComponent = e.getComponent().getX();
-            int yComponent = e.getComponent().getY();
-//            if (buttonss[yComponent / distanceX][xComponent / distanceY].getBackground() != Color.GRAY)
-                
+//            //Gets the location of the component in the button array.
+//            int xComponent = e.getComponent().getX();
+//            int yComponent = e.getComponent().getY();
+//            
+//            if (e.getButton() == MouseEvent.BUTTON1)
+//                highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
+            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
+            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
+            int xComponent = e.getComponent().getX();
+            int yComponent = e.getComponent().getY();
+//            System.out.println(xComponent);
+//            System.out.println(yComponent);
             
+            //Button for submitting and checking if the square is completed and valid.
+            if (e.getComponent().getY() == 0)
+                validateSudoku();
+            
+            //Clears all inputed values and replaces them with the original values.
+            if (e.getComponent().getY() == 18){
+                drawMap(map);
+            }
         }
 
         @Override
@@ -147,9 +168,9 @@ public class SudokuGamePanel extends javax.swing.JFrame {
                     
                     //Sets the value of the button to the value of key, if key is 1-9
                     //and sets the background of the set button to the color of cyan.
-                    if (buttonss[yComponent / distanceX][xComponent / distanceY].getBackground() != Color.WHITE) {
-                        buttonss[yComponent / distanceX][xComponent / distanceY].setText("" + key);
-                        buttonss[yComponent / distanceX][xComponent / distanceY].setBackground(Color.CYAN);
+                    if (buttonss[yComponent / distanceY][xComponent / distanceX].getBackground() != Color.WHITE) {
+                        buttonss[yComponent / distanceY][xComponent / distanceX].setText("" + key);
+                        buttonss[yComponent / distanceY][xComponent / distanceX].setBackground(Color.CYAN);
                     }
                     
                     break;
@@ -168,8 +189,43 @@ public class SudokuGamePanel extends javax.swing.JFrame {
                 gamePanel.add(buttonss[ROW - 1 - i][j], ROW - 1 - i, j);
             }
         }
+        
+        submitButton.setBorder(new LineBorder(Color.BLACK));
+        optionsPanel.add(submitButton);
+        clearButton.setBorder(new LineBorder(Color.BLACK));
+        optionsPanel.add(clearButton);
     }
 
+    public void highLightSameValues(String value) {
+        for (JButton[] row : buttonss)
+            for (JButton button : row)
+                if (button.getText().equals(value))
+                    button.setBackground(Color.MAGENTA);
+    }
+    
+    public void validateSudoku() {
+        int[][] toValidateArray = new int[9][9];
+        boolean flag = true;
+        
+        for (int i = 0; i < buttonss.length; i++) {
+            for (int j = 0; j < buttonss[0].length; j++) {
+                if (Integer.parseInt(buttonss[i][j].getText()) == 0) {
+                    flag = false;
+                    break;
+                }
+                toValidateArray[i][j] = Integer.parseInt(buttonss[i][j].getText());
+            }
+        }
+        
+        sudoku = new Sudoku();
+        
+        if (sudoku.isValidGivenSudokuArray(toValidateArray) && flag) {
+            System.out.println("Win");
+        } else {
+            System.out.println("Invalid");
+        }
+    }
+    
     /**
      * Clears the map for a new run.
      */
@@ -188,6 +244,9 @@ public class SudokuGamePanel extends javax.swing.JFrame {
     public void drawMap(int[][] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
+                if (array[i][j] == 0)
+                    buttonss[i][j].setBackground(Color.GRAY);
+                
                 buttonss[i][j].setText(String.valueOf(array[i][j]));
             }
         }
@@ -203,12 +262,14 @@ public class SudokuGamePanel extends javax.swing.JFrame {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 //Randomly chooses what rows to display and sets them to a different color.
-                if (rand.nextInt(3) == 0) {
+                if (rand.nextInt(1) == 0) {
                     buttonss[i][j].setText(String.valueOf(array[i][j]));
                     buttonss[i][j].setBackground(Color.WHITE);
+                    map[i][j] = array[i][j];
                 } else {
                     buttonss[i][j].setText("0");
                     buttonss[i][j].setBackground(Color.GRAY);
+                    map[i][j] = 0;
                 }
             }
         }
@@ -224,6 +285,7 @@ public class SudokuGamePanel extends javax.swing.JFrame {
     private void initComponents() {
 
         gamePanel = new javax.swing.JPanel();
+        optionsPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -231,15 +293,31 @@ public class SudokuGamePanel extends javax.swing.JFrame {
         gamePanel.setMinimumSize(new java.awt.Dimension(400, 400));
         gamePanel.setLayout(new java.awt.GridLayout(1, 0));
 
+        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
+        optionsPanel.setLayout(optionsPanelLayout);
+        optionsPanelLayout.setHorizontalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        optionsPanelLayout.setVerticalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(gamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -262,25 +340,29 @@ public class SudokuGamePanel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SudokuGamePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SudokuGamePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SudokuGamePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SudokuGamePanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SudokuGamePanel(sudoku).setVisible(true);
+                new sudokuPanel(sudoku).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel gamePanel;
+    private javax.swing.JPanel optionsPanel;
     // End of variables declaration//GEN-END:variables
 }

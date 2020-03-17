@@ -157,7 +157,7 @@ public class Sudoku {
      * @param array Array being check if it can be solved.
      * @return If its a valid array.
      */
-    private boolean isValidGivenSudokuArray(int[][] array) {        
+    public boolean isValidGivenSudokuArray(int[][] array) {        
         //Checks to see if the length of the array is valid.
         if (array.length != 9)
             return false;
