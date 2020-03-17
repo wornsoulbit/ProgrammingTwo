@@ -33,8 +33,7 @@ public class Sudoku {
      * @param uncompletedSudoku The unsolved sudoku array thats to be solved.
      */
     public Sudoku(int[][] uncompletedSudoku) {            
-        sudokuSqaure = new int[9][9];
-        
+        sudokuSqaure = new int[9][9];        
         if (!isValidGivenSudokuArray(sudokuSqaure))
             throw new IllegalArgumentException("Invalid sudoku square given");
         
@@ -245,14 +244,9 @@ public class Sudoku {
         return strOut;
     }
 
-    /**
-     * Gets the completed sudoku square array.
-     * 
-     * @return The completed sudoku square array.
-     */
     public int[][] getSudokuSqaure() {
         int[][] newSudokuArray = new int[9][9];
         System.arraycopy(sudokuSqaure, 0, newSudokuArray, 0, sudokuSqaure.length);
         return newSudokuArray;
-    }    
+    }
 }

@@ -8,13 +8,14 @@ package sudoku;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPopupMenu;
 import javax.swing.border.LineBorder;
 
 /**
@@ -23,11 +24,12 @@ import javax.swing.border.LineBorder;
  */
 public class SudokuGamePanel extends javax.swing.JFrame {
 
-    private JButton[][] buttonss;
+    private JLabel[][] cells;
+    private JButton[][] button;
     private int[][] map;
-    private int distanceX;
-    private int distanceY;
-    
+    private JPopupMenu popup;
+    private final String[] numberList = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
     private static Sudoku sudoku;
     private final static int ROW = 9;
     private final static int COL = 9;
@@ -41,9 +43,8 @@ public class SudokuGamePanel extends javax.swing.JFrame {
         setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getWidth()) / 2,
                 (Toolkit.getDefaultToolkit().getScreenSize().height - getHeight()) / 2);
         System.out.println(getHeight());
-        
-        int[][] newSudokuArray = new int[9][9];
-        System.arraycopy(sudoku.getSudokuSqaure(), 0, newSudokuArray, 0, sudoku.getSudokuSqaure().length);
+
+        SudokuGamePanel.sudoku = sudoku;
 
         setTitle("Sudoku");
         initComponents();
@@ -51,7 +52,7 @@ public class SudokuGamePanel extends javax.swing.JFrame {
         initComponents2();
 
         updateMap();
-        drawHiddenMap(newSudokuArray);
+        drawHiddenMap();
 
         setVisible(true);
         System.out.println(sudoku);
@@ -62,7 +63,9 @@ public class SudokuGamePanel extends javax.swing.JFrame {
         map = new int[ROW][COL];
 
         //Init button (2d array of JButtons)
-        buttonss = new JButton[ROW][COL];
+        button = new JButton[ROW][COL];
+
+        popup = new JPopupMenu();
     }
 
     /**
@@ -73,89 +76,7 @@ public class SudokuGamePanel extends javax.swing.JFrame {
 
         //Binds a JButton to each cell.
         bindJButton();
-
-        for (JButton[] row : buttonss) {
-            for (JButton button : row) {
-                button.addKeyListener(kl);
-//                button.addMouseListener(m1);
-            }
-        }
     }
-    
-    MouseListener m1 = new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
-            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
-            int xComponent = e.getComponent().getX();
-            int yComponent = e.getComponent().getY();
-//            if (buttonss[yComponent / distanceX][xComponent / distanceY].getBackground() != Color.GRAY)
-                
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            
-        }
-    };
-    
-    KeyListener kl = new KeyListener() {
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            char key = e.getKeyChar();
-            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
-            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
-
-            switch (key) {
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    //Gets the location of the component in the button array.
-                    int xComponent = e.getComponent().getX();
-                    int yComponent = e.getComponent().getY();
-                    
-                    //Sets the value of the button to the value of key, if key is 1-9
-                    //and sets the background of the set button to the color of cyan.
-                    if (buttonss[yComponent / distanceX][xComponent / distanceY].getBackground() != Color.WHITE) {
-                        buttonss[yComponent / distanceX][xComponent / distanceY].setText("" + key);
-                        buttonss[yComponent / distanceX][xComponent / distanceY].setBackground(Color.CYAN);
-                    }
-                    
-                    break;
-            }
-        }
-    };
 
     /**
      * Binds each button to each cell on the map.
@@ -163,9 +84,9 @@ public class SudokuGamePanel extends javax.swing.JFrame {
     public void bindJButton() {
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COL; j++) {
-                buttonss[ROW - 1 - i][j] = new JButton();
-                buttonss[ROW - 1 - i][j].setBorder(new LineBorder(Color.BLACK));
-                gamePanel.add(buttonss[ROW - 1 - i][j], ROW - 1 - i, j);
+                button[ROW - 1 - i][j] = new JButton();
+                button[ROW - 1 - i][j].setBorder(new LineBorder(Color.BLACK));
+                gamePanel.add(button[ROW - 1 - i][j], ROW - 1 - i, j);
             }
         }
     }
@@ -182,37 +103,44 @@ public class SudokuGamePanel extends javax.swing.JFrame {
 
     /**
      * Draws all the values of the given array.
-     * 
-     * @param array The array to draw.
      */
-    public void drawMap(int[][] array) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                buttonss[i][j].setText(String.valueOf(array[i][j]));
+    public void drawMap() {
+        for (int i = 0; i < sudoku.getSudokuSqaure().length; i++) {
+            for (int j = 0; j < sudoku.getSudokuSqaure()[i].length; j++) {
+                button[i][j].setText(String.valueOf(sudoku.getSudokuSqaure()[i][j]));
             }
         }
     }
 
     /**
      * Draws random values from the array.
-     * 
-     * @param array The array to draw.
      */
-    public void drawHiddenMap(int[][] array) {
+    public void drawHiddenMap() {
         Random rand = new Random();
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
+        for (int i = 0; i < sudoku.getSudokuSqaure().length; i++) {
+            for (int j = 0; j < sudoku.getSudokuSqaure()[i].length; j++) {
                 //Randomly chooses what rows to display and sets them to a different color.
                 if (rand.nextInt(3) == 0) {
-                    buttonss[i][j].setText(String.valueOf(array[i][j]));
-                    buttonss[i][j].setBackground(Color.WHITE);
+                    button[i][j].setText(String.valueOf(sudoku.getSudokuSqaure()[i][j]));
                 } else {
-                    buttonss[i][j].setText("0");
-                    buttonss[i][j].setBackground(Color.GRAY);
+                    button[i][j].setText("0");
+                    button[i][j].addActionListener(taskPerformer);
+                    button[i][j].setBackground(Color.GRAY);
                 }
             }
         }
     }
+
+    ActionListener taskPerformer = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            popup.removeAll();
+            popup.add(new JList(numberList));
+            popup.setLocation(getX(), getY());
+            popup.setVisible(true);
+            System.out.println("Click");
+        }
+    };
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -227,7 +155,6 @@ public class SudokuGamePanel extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        gamePanel.setFocusable(false);
         gamePanel.setMinimumSize(new java.awt.Dimension(400, 400));
         gamePanel.setLayout(new java.awt.GridLayout(1, 0));
 

@@ -19,6 +19,7 @@ public class test {
 //        System.out.println(s2);
 
         SudokuGamePanel gamePanel = new SudokuGamePanel(new Sudoku(randomSqaure));
+//        killmepls gamePanel = new killmepls(new Sudoku(randomSqaure));
 
     }
 }
