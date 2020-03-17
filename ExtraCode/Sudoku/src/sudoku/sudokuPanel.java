@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sudoku;
 
 import java.awt.Color;
@@ -18,7 +14,8 @@ import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
 /**
- *
+ * Game panel of sudoku game.
+ * 
  * @author Alex
  */
 public class sudokuPanel extends javax.swing.JFrame {
@@ -82,6 +79,7 @@ public class sudokuPanel extends javax.swing.JFrame {
         for (JButton[] row : buttonss) {
             for (JButton button : row) {
                 button.addKeyListener(kl);
+                button.addMouseListener(m2);
             }
         }
         
@@ -89,6 +87,9 @@ public class sudokuPanel extends javax.swing.JFrame {
         clearButton.addMouseListener(m1);
     }
     
+    /**
+     * Mouse listener for extra buttons that's below the game-play area.
+     */
     MouseListener m1 = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -97,12 +98,12 @@ public class sudokuPanel extends javax.swing.JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-//            //Gets the location of the component in the button array.
-//            int xComponent = e.getComponent().getX();
-//            int yComponent = e.getComponent().getY();
-//            
-//            if (e.getButton() == MouseEvent.BUTTON1)
-//                highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
+            //Gets the location of the component in the button array.
+            int xComponent = e.getComponent().getX();
+            int yComponent = e.getComponent().getY();
+            
+            if (e.getButton() == MouseEvent.BUTTON1)
+                highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
         }
 
         @Override
@@ -135,6 +136,54 @@ public class sudokuPanel extends javax.swing.JFrame {
         }
     };
     
+    /**
+     * Highlights and un-highlights clicked on values.
+     */
+    MouseListener m2 = new MouseListener() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            //Gets the location of the component in the button array.
+            int xComponent = e.getComponent().getX();
+            int yComponent = e.getComponent().getY();
+            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
+            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
+            
+            if (e.getButton() == MouseEvent.BUTTON1)
+                highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            //Gets the location of the component in the button array.
+            int xComponent = e.getComponent().getX();
+            int yComponent = e.getComponent().getY();
+            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
+            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
+            
+            if (e.getButton() == MouseEvent.BUTTON1)
+                unHighLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            
+        }
+    };
+    
+    /**
+     * Input for numbers to be inputed into the selected square as long as the square
+     * doesn't have an original value from the start.
+     */
     KeyListener kl = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -190,17 +239,32 @@ public class sudokuPanel extends javax.swing.JFrame {
             }
         }
         
-        submitButton.setBorder(new LineBorder(Color.BLACK));
         optionsPanel.add(submitButton);
-        clearButton.setBorder(new LineBorder(Color.BLACK));
         optionsPanel.add(clearButton);
     }
 
+    /**
+     * Highlights all of the given values.
+     * 
+     * @param value The value to be highlight.
+     */
     public void highLightSameValues(String value) {
         for (JButton[] row : buttonss)
             for (JButton button : row)
                 if (button.getText().equals(value))
                     button.setBackground(Color.MAGENTA);
+    }
+    
+    /**
+     * Un-highlights all of the given values.
+     * 
+     * @param value The value to be un-highlight.
+     */
+    public void unHighLightSameValues(String value) {
+        for (JButton[] row : buttonss)
+            for (JButton button : row)
+                if (button.getText().equals(value))
+                    button.setBackground(Color.WHITE);
     }
     
     public void validateSudoku() {
@@ -262,7 +326,7 @@ public class sudokuPanel extends javax.swing.JFrame {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 //Randomly chooses what rows to display and sets them to a different color.
-                if (rand.nextInt(1) == 0) {
+                if (rand.nextInt(3) == 0) {
                     buttonss[i][j].setText(String.valueOf(array[i][j]));
                     buttonss[i][j].setBackground(Color.WHITE);
                     map[i][j] = array[i][j];
