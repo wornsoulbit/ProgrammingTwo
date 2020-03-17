@@ -1,6 +1,7 @@
 
 package sudoku;
 
+
 /**
  *
  * @author Alex Vasil
@@ -18,7 +19,8 @@ public class test {
 //        Sudoku s2 = new Sudoku(randomSqaure);
 //        System.out.println(s2);
 
-        sudokuPanel gamePanel = new sudokuPanel(new Sudoku());
-
+        sudokuPanel gamePanel = new sudokuPanel(new Sudoku(randomSqaure));
+//        Sudoku s1 = new Sudoku();
+//        System.out.println(Arrays.deepToString(s1.getUncompletedSudoku()));
     }
 }

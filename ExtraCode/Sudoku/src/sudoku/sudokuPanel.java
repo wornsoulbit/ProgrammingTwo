@@ -50,12 +50,19 @@ public class sudokuPanel extends javax.swing.JFrame {
         initComponents2();
 
         updateMap();
-        drawHiddenMap(newSudokuArray);
+        
+        if (sudoku.getUncompletedSudoku() == null)
+            drawHiddenMap(newSudokuArray);
+        else 
+            drawMap(sudoku.getUncompletedSudoku());
 
         setVisible(true);
         System.out.println(sudoku);
     }
 
+    /**
+     * Initialize's the values of the game.
+     */
     public void initValues() {
         //Init map (the logic map)
         map = new int[ROW][COL];
@@ -98,31 +105,23 @@ public class sudokuPanel extends javax.swing.JFrame {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            //Gets the location of the component in the button array.
-            int xComponent = e.getComponent().getX();
-            int yComponent = e.getComponent().getY();
-            
-            if (e.getButton() == MouseEvent.BUTTON1)
-                highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
+
         }
 
+        /**
+         * Logic for the submit and clear buttons.
+         * 
+         * @param e Mouse event.
+         */
         @Override
-        public void mouseReleased(MouseEvent e) {
-            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
-            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
-            int xComponent = e.getComponent().getX();
-            int yComponent = e.getComponent().getY();
-//            System.out.println(xComponent);
-//            System.out.println(yComponent);
-            
+        public void mouseReleased(MouseEvent e) {            
             //Button for submitting and checking if the square is completed and valid.
             if (e.getComponent().getY() == 0)
                 validateSudoku();
             
             //Clears all inputed values and replaces them with the original values.
-            if (e.getComponent().getY() == 18){
+            if (e.getComponent().getY() == 26)
                 drawMap(map);
-            }
         }
 
         @Override
@@ -145,6 +144,11 @@ public class sudokuPanel extends javax.swing.JFrame {
             
         }
 
+        /**
+         * Highlights the values pressed on.
+         * 
+         * @param e Mouse event.
+         */
         @Override
         public void mousePressed(MouseEvent e) {
             //Gets the location of the component in the button array.
@@ -153,10 +157,18 @@ public class sudokuPanel extends javax.swing.JFrame {
             distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
             distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
             
-            if (e.getButton() == MouseEvent.BUTTON1)
+            //Checks to see if the mouse event was caused by a left click and 
+            //makes sure that the clicked JButton text doesn't equal to zero. 
+            if (e.getButton() == MouseEvent.BUTTON1 && 
+                    !buttonss[yComponent / distanceY][xComponent / distanceX].getText().equals("0"))
                 highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
         }
 
+        /**
+         * Un-highlights the values previously pressed.
+         * 
+         * @param e Mouse event.
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             //Gets the location of the component in the button array.
@@ -165,7 +177,10 @@ public class sudokuPanel extends javax.swing.JFrame {
             distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
             distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
             
-            if (e.getButton() == MouseEvent.BUTTON1)
+            //Checks to see if the mouse event was caused by a left click and 
+            //makes sure that the clicked JButton text doesn't equal to zero. 
+            if (e.getButton() == MouseEvent.BUTTON1 && 
+                    !buttonss[yComponent / distanceY][xComponent / distanceX].getText().equals("0"))
                 unHighLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
         }
 
@@ -248,7 +263,7 @@ public class sudokuPanel extends javax.swing.JFrame {
      * 
      * @param value The value to be highlight.
      */
-    public void highLightSameValues(String value) {
+    private void highLightSameValues(String value) {
         for (JButton[] row : buttonss)
             for (JButton button : row)
                 if (button.getText().equals(value))
@@ -260,17 +275,39 @@ public class sudokuPanel extends javax.swing.JFrame {
      * 
      * @param value The value to be un-highlight.
      */
-    public void unHighLightSameValues(String value) {
-        for (JButton[] row : buttonss)
-            for (JButton button : row)
-                if (button.getText().equals(value))
-                    button.setBackground(Color.WHITE);
+    private void unHighLightSameValues(String value) {
+        for (int i = 0; i < buttonss.length; i++) 
+            for (int j = 0; j < buttonss[0].length; j++) {
+                //Checks to see if the button clicked isn't in the map array.
+                if (!isInMapArray(i, j) && buttonss[i][j].getText().equals(value))
+                    buttonss[i][j].setBackground(Color.WHITE);
+                //Checks to see if the button clicked is in the map array.
+                else if (isInMapArray(i, j) && buttonss[i][j].getText().equals(value))
+                    buttonss[i][j].setBackground(Color.CYAN);
+            }
+                
     }
     
-    public void validateSudoku() {
+    /**
+     * Checks to see if a given point is in the original map array.
+     * 
+     * @param x The x point in the array.
+     * @param y The y point in the array.
+     * @return If its in the map array.
+     */
+    private boolean isInMapArray(int x, int y) {
+        return map[x][y] == 0;
+    }
+    
+    /**
+     * Creates an array thats validated to see if the sudoku square is completed 
+     * properly or not.
+     */
+    private void validateSudoku() {
         int[][] toValidateArray = new int[9][9];
         boolean flag = true;
         
+        //Inputs the values from the JButtons into an array to be validated.
         for (int i = 0; i < buttonss.length; i++) {
             for (int j = 0; j < buttonss[0].length; j++) {
                 if (Integer.parseInt(buttonss[i][j].getText()) == 0) {
@@ -283,6 +320,8 @@ public class sudokuPanel extends javax.swing.JFrame {
         
         sudoku = new Sudoku();
         
+        //Checks to see if the given array is a valid sudoku square aslong as there wasn't 
+        //any zeros in the array to be validated.
         if (sudoku.isValidGivenSudokuArray(toValidateArray) && flag) {
             System.out.println("Win");
         } else {
@@ -291,7 +330,7 @@ public class sudokuPanel extends javax.swing.JFrame {
     }
     
     /**
-     * Clears the map for a new run.
+     * Resets the map to the initially  what was shown.
      */
     public void updateMap() {
         //Clear the map
@@ -308,10 +347,15 @@ public class sudokuPanel extends javax.swing.JFrame {
     public void drawMap(int[][] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                if (array[i][j] == 0)
+                if (array[i][j] != 0) {
+                    buttonss[i][j].setBackground(Color.WHITE);
+                    buttonss[i][j].setText(String.valueOf(array[i][j]));
+                    map[i][j] = array[i][j];
+                } else {
                     buttonss[i][j].setBackground(Color.GRAY);
-                
-                buttonss[i][j].setText(String.valueOf(array[i][j]));
+                    buttonss[i][j].setText("0");
+                    map[i][j] = 0;
+                }
             }
         }
     }

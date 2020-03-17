@@ -14,6 +14,7 @@ import java.util.Random;
 public class Sudoku {
 
     private int[][] sudokuSqaure;
+    private int[][] uncompletedSudoku; //Sudoku square thats not completed to be passed onto other classes.
     private int solveAttempts; //The amount of attempts was made to solve the current square.
     
     /**
@@ -34,9 +35,13 @@ public class Sudoku {
      */
     public Sudoku(int[][] uncompletedSudoku) {            
         sudokuSqaure = new int[9][9];
+        this.uncompletedSudoku = new int[9][9];
         
         if (!isValidGivenSudokuArray(sudokuSqaure))
             throw new IllegalArgumentException("Invalid sudoku square given");
+            
+        for (int i = 0; i < uncompletedSudoku.length; i++)
+            System.arraycopy(uncompletedSudoku[i], 0, this.uncompletedSudoku[i], 0, uncompletedSudoku[0].length);
         
         while (!isComplete()) {
             generateSudokuSqaure(uncompletedSudoku);
@@ -254,5 +259,16 @@ public class Sudoku {
         int[][] newSudokuArray = new int[9][9];
         System.arraycopy(sudokuSqaure, 0, newSudokuArray, 0, sudokuSqaure.length);
         return newSudokuArray;
-    }    
+    }
+
+    /**
+     * Gets the uncompleted sudoku square.
+     * 
+     * @return the uncompleted sudoku square.
+     */
+    public int[][] getUncompletedSudoku() {
+        return uncompletedSudoku;
+    }
+    
+    
 }
