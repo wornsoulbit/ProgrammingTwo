@@ -162,6 +162,16 @@ public class sudokuPanel extends javax.swing.JFrame {
             if (e.getButton() == MouseEvent.BUTTON1 && 
                     !buttonss[yComponent / distanceY][xComponent / distanceX].getText().equals("0"))
                 highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
+            //Highlights the row selected.
+            if (e.getButton() == MouseEvent.BUTTON1)
+                highLightSameRow(yComponent / distanceY);
+            //Highlights the column selected.
+            if (e.getButton() == MouseEvent.BUTTON1)
+                highLightSameCol(xComponent / distanceX);
+            //Highlights the square selected.
+            if (e.getButton() == MouseEvent.BUTTON1)
+                highLightSameSquare(yComponent / distanceY, xComponent / distanceX);
+            
         }
 
         /**
@@ -177,11 +187,9 @@ public class sudokuPanel extends javax.swing.JFrame {
             distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
             distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
             
-            //Checks to see if the mouse event was caused by a left click and 
-            //makes sure that the clicked JButton text doesn't equal to zero. 
-            if (e.getButton() == MouseEvent.BUTTON1 && 
-                    !buttonss[yComponent / distanceY][xComponent / distanceX].getText().equals("0"))
-                unHighLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
+            //Highlights the square selected.
+            if (e.getButton() == MouseEvent.BUTTON1)
+                unHighLight();
         }
 
         @Override
@@ -257,7 +265,36 @@ public class sudokuPanel extends javax.swing.JFrame {
         optionsPanel.add(submitButton);
         optionsPanel.add(clearButton);
     }
-
+    
+    private void highLightSameSquare(int rowIdx, int colIdx) {
+        int rowStart = (rowIdx / 3) * 3;
+        int colStart = (colIdx / 3) * 3;
+        
+        for (int i = 0; i < 3; i++) 
+            for (int j = 0; j < 3; j++)
+                buttonss[rowStart + i][colStart + j].setBackground(Color.GREEN);
+    }
+    
+    private void highLightSameRow(int row) {
+        for (int i = 0; i < 9; i++) {
+            buttonss[row][i].setBackground(Color.GREEN);
+        }
+    }
+    
+    private void highLightSameCol(int col) {
+        for (int i = 0; i < 9; i++) {
+            buttonss[i][col].setBackground(Color.GREEN);
+        }
+    }
+    
+    /**
+     * Un-highlights all values from 1-9.
+     */
+    private void unHighLight() {
+        for (int i = 1; i <= 9; i++)
+            unHighLightSameValues(i + "");
+    }    
+    
     /**
      * Highlights all of the given values.
      * 
@@ -284,6 +321,8 @@ public class sudokuPanel extends javax.swing.JFrame {
                 //Checks to see if the button clicked is in the map array.
                 else if (isInMapArray(i, j) && buttonss[i][j].getText().equals(value))
                     buttonss[i][j].setBackground(Color.CYAN);
+                else if (buttonss[i][j].getText().equals("0"))
+                    buttonss[i][j].setBackground(Color.GRAY);
             }
                 
     }
