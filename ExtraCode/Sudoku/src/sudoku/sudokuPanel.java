@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JButton;
+import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
 
 /**
@@ -27,6 +28,7 @@ public class sudokuPanel extends javax.swing.JFrame {
     private int distanceY;
     private JButton submitButton;
     private JButton clearButton;
+    private JRadioButton enableHighlightingButton;
     private static Sudoku sudoku;
     private final static int ROW = 9;
     private final static int COL = 9;
@@ -72,6 +74,7 @@ public class sudokuPanel extends javax.swing.JFrame {
         
         submitButton = new JButton("Submit");
         clearButton = new JButton("Clear");
+        enableHighlightingButton = new JRadioButton("Highlighting", false);
     }
 
     /**
@@ -93,7 +96,109 @@ public class sudokuPanel extends javax.swing.JFrame {
         submitButton.addMouseListener(m1);
         clearButton.addMouseListener(m1);
     }
+
+    /**
+     * Binds each button to each cell on the map.
+     */
+    public void bindJButton() {
+        for (int i = 0; i < ROW; i++) {
+            for (int j = 0; j < COL; j++) {
+                buttonss[ROW - 1 - i][j] = new JButton();
+                buttonss[ROW - 1 - i][j].setBorder(new LineBorder(Color.BLACK));
+                gamePanel.add(buttonss[ROW - 1 - i][j], ROW - 1 - i, j);
+            }
+        }
+        
+        optionsPanel.add(submitButton);
+        optionsPanel.add(clearButton);
+        optionsPanel.add(enableHighlightingButton);
+    }
     
+    /**
+     * Creates an array thats validated to see if the sudoku square is completed 
+     * properly or not.
+     */
+    private void validateSudoku() {
+        int[][] toValidateArray = new int[9][9];
+        boolean flag = true;
+        
+        //Inputs the values from the JButtons into an array to be validated.
+        for (int i = 0; i < buttonss.length; i++) {
+            for (int j = 0; j < buttonss[0].length; j++) {
+                if (Integer.parseInt(buttonss[i][j].getText()) == 0) {
+                    flag = false;
+                    break;
+                }
+                toValidateArray[i][j] = Integer.parseInt(buttonss[i][j].getText());
+            }
+        }
+        
+        sudoku = new Sudoku();
+        
+        //Checks to see if the given array is a valid sudoku square aslong as there wasn't 
+        //any zeros in the array to be validated.
+        if (sudoku.isValidGivenSudokuArray(toValidateArray) && flag) {
+            System.out.println("Win");
+            
+        } else {
+            System.out.println("Invalid");
+        }
+    }
+    
+    /**
+     * Resets the map to the initially what was shown.
+     */
+    public void updateMap() {
+        //Clear the map
+        for (int[] nums : map) {
+            Arrays.fill(nums, 0);
+        }
+    }
+
+    /**
+     * Draws all the values of the given array.
+     * 
+     * @param array The array to draw.
+     */
+    public void drawMap(int[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                if (array[i][j] != 0) {
+                    buttonss[i][j].setBackground(Color.WHITE);
+                    buttonss[i][j].setText(String.valueOf(array[i][j]));
+                    map[i][j] = array[i][j];
+                } else {
+                    buttonss[i][j].setBackground(Color.GRAY);
+                    buttonss[i][j].setText("0");
+                    map[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    /**
+     * Draws random values from the array.
+     * 
+     * @param array The array to draw.
+     */
+    public void drawHiddenMap(int[][] array) {
+        Random rand = new Random();
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                //Randomly chooses what rows to display and sets them to a different color.
+                if (rand.nextInt(3) == 0) {
+                    buttonss[i][j].setText(String.valueOf(array[i][j]));
+                    buttonss[i][j].setBackground(Color.WHITE);
+                    map[i][j] = array[i][j];
+                } else {
+                    buttonss[i][j].setText("0");
+                    buttonss[i][j].setBackground(Color.GRAY);
+                    map[i][j] = 0;
+                }
+            }
+        }
+    }
+
     /**
      * Mouse listener for extra buttons that's below the game-play area.
      */
@@ -151,26 +256,29 @@ public class sudokuPanel extends javax.swing.JFrame {
          */
         @Override
         public void mousePressed(MouseEvent e) {
-            //Gets the location of the component in the button array.
-            int xComponent = e.getComponent().getX();
-            int yComponent = e.getComponent().getY();
-            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
-            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
-            
-            //Checks to see if the mouse event was caused by a left click and 
-            //makes sure that the clicked JButton text doesn't equal to zero. 
-            if (e.getButton() == MouseEvent.BUTTON1 && 
-                    !buttonss[yComponent / distanceY][xComponent / distanceX].getText().equals("0"))
-                highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText());
-            //Highlights the row selected.
-            if (e.getButton() == MouseEvent.BUTTON1)
-                highLightSameRow(yComponent / distanceY);
-            //Highlights the column selected.
-            if (e.getButton() == MouseEvent.BUTTON1)
-                highLightSameCol(xComponent / distanceX);
-            //Highlights the square selected.
-            if (e.getButton() == MouseEvent.BUTTON1)
-                highLightSameSquare(yComponent / distanceY, xComponent / distanceX);
+            if (enableHighlightingButton.isSelected()) {
+                //Gets the location of the component in the button array.
+                int xComponent = e.getComponent().getX();
+                int yComponent = e.getComponent().getY();
+                distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
+                distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
+
+                //Checks to see if the mouse event was caused by a left click and 
+                //makes sure that the clicked JButton text doesn't equal to zero. 
+                if (e.getButton() == MouseEvent.BUTTON1 && 
+                        !buttonss[yComponent / distanceY][xComponent / distanceX].getText().equals("0"))
+                    Highlighting.highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText(), buttonss);
+                //Highlights the row selected.
+//                if (e.getButton() == MouseEvent.BUTTON1)
+//                    Highlighting.highLightSameRow(yComponent / distanceY);
+//                //Highlights the column selected.
+//                if (e.getButton() == MouseEvent.BUTTON1)
+//                    Highlighting.highLightSameCol(xComponent / distanceX);
+//                //Highlights the square selected.
+//                if (e.getButton() == MouseEvent.BUTTON1)
+//                    Highlighting.highLightSameSquare(yComponent / distanceY, xComponent / distanceX);
+                Highlighting.highLightEverything(yComponent / distanceY, xComponent / distanceX, buttonss);
+            }
             
         }
 
@@ -181,15 +289,9 @@ public class sudokuPanel extends javax.swing.JFrame {
          */
         @Override
         public void mouseReleased(MouseEvent e) {
-            //Gets the location of the component in the button array.
-            int xComponent = e.getComponent().getX();
-            int yComponent = e.getComponent().getY();
-            distanceY = e.getComponent().getHeight(); //The distance in pixels between the components on the x-axis.
-            distanceX = e.getComponent().getWidth(); //The distance in pixels between the components on the y-axis.
-            
-            //Highlights the square selected.
+            //Unhighlights everything previously highlighted.
             if (e.getButton() == MouseEvent.BUTTON1)
-                unHighLight();
+                Highlighting.unHighLight(buttonss, map);
         }
 
         @Override
@@ -249,179 +351,7 @@ public class sudokuPanel extends javax.swing.JFrame {
             }
         }
     };
-
-    /**
-     * Binds each button to each cell on the map.
-     */
-    public void bindJButton() {
-        for (int i = 0; i < ROW; i++) {
-            for (int j = 0; j < COL; j++) {
-                buttonss[ROW - 1 - i][j] = new JButton();
-                buttonss[ROW - 1 - i][j].setBorder(new LineBorder(Color.BLACK));
-                gamePanel.add(buttonss[ROW - 1 - i][j], ROW - 1 - i, j);
-            }
-        }
-        
-        optionsPanel.add(submitButton);
-        optionsPanel.add(clearButton);
-    }
     
-    private void highLightSameSquare(int rowIdx, int colIdx) {
-        int rowStart = (rowIdx / 3) * 3;
-        int colStart = (colIdx / 3) * 3;
-        
-        for (int i = 0; i < 3; i++) 
-            for (int j = 0; j < 3; j++)
-                buttonss[rowStart + i][colStart + j].setBackground(Color.GREEN);
-    }
-    
-    private void highLightSameRow(int row) {
-        for (int i = 0; i < 9; i++) {
-            buttonss[row][i].setBackground(Color.GREEN);
-        }
-    }
-    
-    private void highLightSameCol(int col) {
-        for (int i = 0; i < 9; i++) {
-            buttonss[i][col].setBackground(Color.GREEN);
-        }
-    }
-    
-    /**
-     * Un-highlights all values from 1-9.
-     */
-    private void unHighLight() {
-        for (int i = 1; i <= 9; i++)
-            unHighLightSameValues(i + "");
-    }    
-    
-    /**
-     * Highlights all of the given values.
-     * 
-     * @param value The value to be highlight.
-     */
-    private void highLightSameValues(String value) {
-        for (JButton[] row : buttonss)
-            for (JButton button : row)
-                if (button.getText().equals(value))
-                    button.setBackground(Color.MAGENTA);
-    }
-    
-    /**
-     * Un-highlights all of the given values.
-     * 
-     * @param value The value to be un-highlight.
-     */
-    private void unHighLightSameValues(String value) {
-        for (int i = 0; i < buttonss.length; i++) 
-            for (int j = 0; j < buttonss[0].length; j++) {
-                //Checks to see if the button clicked isn't in the map array.
-                if (!isInMapArray(i, j) && buttonss[i][j].getText().equals(value))
-                    buttonss[i][j].setBackground(Color.WHITE);
-                //Checks to see if the button clicked is in the map array.
-                else if (isInMapArray(i, j) && buttonss[i][j].getText().equals(value))
-                    buttonss[i][j].setBackground(Color.CYAN);
-                else if (buttonss[i][j].getText().equals("0"))
-                    buttonss[i][j].setBackground(Color.GRAY);
-            }
-                
-    }
-    
-    /**
-     * Checks to see if a given point is in the original map array.
-     * 
-     * @param x The x point in the array.
-     * @param y The y point in the array.
-     * @return If its in the map array.
-     */
-    private boolean isInMapArray(int x, int y) {
-        return map[x][y] == 0;
-    }
-    
-    /**
-     * Creates an array thats validated to see if the sudoku square is completed 
-     * properly or not.
-     */
-    private void validateSudoku() {
-        int[][] toValidateArray = new int[9][9];
-        boolean flag = true;
-        
-        //Inputs the values from the JButtons into an array to be validated.
-        for (int i = 0; i < buttonss.length; i++) {
-            for (int j = 0; j < buttonss[0].length; j++) {
-                if (Integer.parseInt(buttonss[i][j].getText()) == 0) {
-                    flag = false;
-                    break;
-                }
-                toValidateArray[i][j] = Integer.parseInt(buttonss[i][j].getText());
-            }
-        }
-        
-        sudoku = new Sudoku();
-        
-        //Checks to see if the given array is a valid sudoku square aslong as there wasn't 
-        //any zeros in the array to be validated.
-        if (sudoku.isValidGivenSudokuArray(toValidateArray) && flag) {
-            System.out.println("Win");
-        } else {
-            System.out.println("Invalid");
-        }
-    }
-    
-    /**
-     * Resets the map to the initially  what was shown.
-     */
-    public void updateMap() {
-        //Clear the map
-        for (int[] nums : map) {
-            Arrays.fill(nums, 0);
-        }
-    }
-
-    /**
-     * Draws all the values of the given array.
-     * 
-     * @param array The array to draw.
-     */
-    public void drawMap(int[][] array) {
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                if (array[i][j] != 0) {
-                    buttonss[i][j].setBackground(Color.WHITE);
-                    buttonss[i][j].setText(String.valueOf(array[i][j]));
-                    map[i][j] = array[i][j];
-                } else {
-                    buttonss[i][j].setBackground(Color.GRAY);
-                    buttonss[i][j].setText("0");
-                    map[i][j] = 0;
-                }
-            }
-        }
-    }
-
-    /**
-     * Draws random values from the array.
-     * 
-     * @param array The array to draw.
-     */
-    public void drawHiddenMap(int[][] array) {
-        Random rand = new Random();
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                //Randomly chooses what rows to display and sets them to a different color.
-                if (rand.nextInt(3) == 0) {
-                    buttonss[i][j].setText(String.valueOf(array[i][j]));
-                    buttonss[i][j].setBackground(Color.WHITE);
-                    map[i][j] = array[i][j];
-                } else {
-                    buttonss[i][j].setText("0");
-                    buttonss[i][j].setBackground(Color.GRAY);
-                    map[i][j] = 0;
-                }
-            }
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
