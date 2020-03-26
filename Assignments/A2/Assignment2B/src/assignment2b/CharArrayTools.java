@@ -67,15 +67,29 @@ public class CharArrayTools {
     }
     
     /**
+     * Checks to see if the given char ArrayList is a palindrome or not.
      * 
-     * @param list
-     * @return 
+     * @param list The given list.
+     * @return If its a palindrome or not.
      */
     public static boolean isPalindrome(ArrayList<Character> list) {
         return isPalindrome(list, list.size() - 1);
     }
     
+    /**
+     * Checks to see if the given char ArrayList is a palindrome recursively.
+     * 
+     * @param list The given list.
+     * @param n Start point.
+     * @return If the given list is a palindrome or not.
+     */
     private static boolean isPalindrome(ArrayList<Character> list, int n) {
-        return false;
+        if (n == -1)
+            return true;
+        
+        if (list.get(n).equals(list.get(list.size() - 1 - n)))
+            return isPalindrome(list, n - 1);
+        else
+            return false;
     }
 }
