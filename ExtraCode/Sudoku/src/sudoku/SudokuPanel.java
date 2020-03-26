@@ -19,7 +19,7 @@ import javax.swing.border.LineBorder;
  * 
  * @author Alex
  */
-public class sudokuPanel extends javax.swing.JFrame {
+public class SudokuPanel extends javax.swing.JFrame {
 
     private JButton[][] buttonss;
     private int[][] map;
@@ -38,7 +38,7 @@ public class sudokuPanel extends javax.swing.JFrame {
      *
      * @param sudoku The starting array.
      */
-    public sudokuPanel(Sudoku sudoku) {
+    public SudokuPanel(Sudoku sudoku) {
         setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getWidth()) / 2,
                 (Toolkit.getDefaultToolkit().getScreenSize().height - getHeight()) / 2);
         System.out.println(getHeight());
@@ -53,8 +53,10 @@ public class sudokuPanel extends javax.swing.JFrame {
 
         updateMap();
         
+        //If there wasn't a given sudoku array it uses the auto generated one.
         if (sudoku.getUncompletedSudoku() == null)
             drawHiddenMap(newSudokuArray);
+        //If there was a given sudoku array it uses that and draws the given values.
         else 
             drawMap(sudoku.getUncompletedSudoku());
 
@@ -82,7 +84,7 @@ public class sudokuPanel extends javax.swing.JFrame {
      */
     public void initComponents2() {
         gamePanel.setLayout(new GridLayout(ROW, COL));
-        optionsPanel.setLayout(new GridLayout(2, 2));
+        optionsPanel.setLayout(new GridLayout(3, 1));
         //Binds a JButton to each cell.
         bindJButton();
 
@@ -139,7 +141,8 @@ public class sudokuPanel extends javax.swing.JFrame {
         //any zeros in the array to be validated.
         if (sudoku.isValidGivenSudokuArray(toValidateArray) && flag) {
             System.out.println("Win");
-            
+            setEnabled(false);
+            new RestartGameFrame(SudokuPanel.this);
         } else {
             System.out.println("Invalid");
         }
@@ -256,6 +259,7 @@ public class sudokuPanel extends javax.swing.JFrame {
          */
         @Override
         public void mousePressed(MouseEvent e) {
+            //Only excutes the code if Highlighting button is selected.
             if (enableHighlightingButton.isSelected()) {
                 //Gets the location of the component in the button array.
                 int xComponent = e.getComponent().getX();
@@ -268,15 +272,7 @@ public class sudokuPanel extends javax.swing.JFrame {
                 if (e.getButton() == MouseEvent.BUTTON1 && 
                         !buttonss[yComponent / distanceY][xComponent / distanceX].getText().equals("0"))
                     Highlighting.highLightSameValues(buttonss[yComponent / distanceY][xComponent / distanceX].getText(), buttonss);
-                //Highlights the row selected.
-//                if (e.getButton() == MouseEvent.BUTTON1)
-//                    Highlighting.highLightSameRow(yComponent / distanceY);
-//                //Highlights the column selected.
-//                if (e.getButton() == MouseEvent.BUTTON1)
-//                    Highlighting.highLightSameCol(xComponent / distanceX);
-//                //Highlights the square selected.
-//                if (e.getButton() == MouseEvent.BUTTON1)
-//                    Highlighting.highLightSameSquare(yComponent / distanceY, xComponent / distanceX);
+                //Highlights the rows, columns and the selected square to what was clicked.
                 Highlighting.highLightEverything(yComponent / distanceY, xComponent / distanceX, buttonss);
             }
             
@@ -417,14 +413,18 @@ public class sudokuPanel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(sudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -433,7 +433,7 @@ public class sudokuPanel extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new sudokuPanel(sudoku).setVisible(true);
+                new SudokuPanel(sudoku).setVisible(true);
             }
         });
     }
