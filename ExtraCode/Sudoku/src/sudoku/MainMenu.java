@@ -34,6 +34,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         headLabel = new javax.swing.JLabel();
         playButton = new javax.swing.JButton();
+        inputSudoku = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,16 +47,24 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        inputSudoku.setText("Input Sudoku");
+        inputSudoku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputSudokuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addContainerGap(25, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(headLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(playButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(headLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                    .addComponent(playButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(inputSudoku, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -64,6 +73,8 @@ public class MainMenu extends javax.swing.JFrame {
                 .addComponent(headLabel)
                 .addGap(12, 12, 12)
                 .addComponent(playButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(inputSudoku)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -72,8 +83,14 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         dispose();
-        SudokuPanel sudokuPanel = new SudokuPanel(new Sudoku());
+        new SudokuPanel(new Sudoku());
     }//GEN-LAST:event_playButtonActionPerformed
+
+    private void inputSudokuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputSudokuActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        new InputSudokuFrame();
+    }//GEN-LAST:event_inputSudokuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -112,6 +129,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel headLabel;
+    private javax.swing.JButton inputSudoku;
     private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables
 }
