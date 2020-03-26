@@ -37,11 +37,11 @@ public class Sudoku {
         sudokuSqaure = new int[9][9];
         this.uncompletedSudoku = new int[9][9];
         
-        if (!isValidGivenSudokuArray(sudokuSqaure))
-            throw new IllegalArgumentException("Invalid sudoku square given");
-            
         for (int i = 0; i < uncompletedSudoku.length; i++)
             System.arraycopy(uncompletedSudoku[i], 0, this.uncompletedSudoku[i], 0, uncompletedSudoku[0].length);
+        
+        if (!isValidGivenSudokuArray(uncompletedSudoku))
+            throw new IllegalArgumentException("Invalid sudoku square given");
         
         while (!isComplete()) {
             generateSudokuSqaure(uncompletedSudoku);
@@ -170,6 +170,18 @@ public class Sudoku {
         for (int i = 0; i < 9; i++) 
             if (array[i].length != 9)
                 return false;
+        
+        //Checks to see if the given sudokuArray is filled with zeros.
+        int zeroCounter = 0;
+        
+        for (int[] row : array)
+            for (int col : row) {
+                if (col == 0)
+                    zeroCounter++;
+            }
+        
+        if (zeroCounter == 81)
+            return false;
         
         //Checks to see if all the rows in the array have unique numbers.
         for (int i = 0; i < 9; i++) {
