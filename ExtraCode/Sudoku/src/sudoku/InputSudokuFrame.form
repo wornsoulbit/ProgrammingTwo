@@ -39,7 +39,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="inputSudokuNums" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="optionsPanel" pref="50" max="32767" attributes="0"/>
+              <Component id="optionsPanel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -65,8 +65,26 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
         <Property name="columns" type="int" value="0"/>
-        <Property name="rows" type="int" value="1"/>
+        <Property name="rows" type="int" value="2"/>
       </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JButton" name="submitButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Submit"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="clearButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Clear"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearButtonActionPerformed"/>
+          </Events>
+        </Component>
+      </SubComponents>
     </Container>
   </SubComponents>
 </Form>

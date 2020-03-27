@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
@@ -23,11 +21,8 @@ public class InputSudokuFrame extends javax.swing.JFrame {
 
     private final int ROW = 9;
     private final int COL = 9;
-
-    private int sudokuArray[][];
+    
     private JButton buttons[][];
-    private JButton submitButton;
-    private JButton clearButton;
 
     /**
      * Creates new form InputSudokuFrame
@@ -45,12 +40,7 @@ public class InputSudokuFrame extends javax.swing.JFrame {
      * Initializes the data members with default values.
      */
     public void initValues() {
-        sudokuArray = new int[ROW][COL];
         buttons = new JButton[ROW][COL];
-        submitButton = new JButton("Submit");
-        submitButton.setName("submitButton");
-        clearButton = new JButton("Clear");
-        clearButton.setName("clearButton");
     }
 
     public void initComponents2() {
@@ -60,12 +50,7 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         
         for (JButton[] row : buttons)
             for (JButton button : row) 
-                button.addKeyListener(k1);
-        
-        optionsPanel.add(submitButton);
-        optionsPanel.add(clearButton);
-        submitButton.addMouseListener(m1);
-        clearButton.addMouseListener(m1);
+                button.addKeyListener(k1);        
     }
 
     public void bindJButtons() {
@@ -119,44 +104,6 @@ public class InputSudokuFrame extends javax.swing.JFrame {
             }
         }
     };
-
-    MouseListener m1 = new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            if (e.getComponent().getName().equals("submitButton")) {
-                //Continues onto the game if its a valid given sudoku square.
-                if (isSudokuValid()) { 
-                    dispose();
-                    new SudokuPanel(new Sudoku(sudokuArray));
-                //Asks the user to input a different sudoku.
-                } else {
-                    System.out.println("Invalid Sudoku given re-enter a new sudoku");
-                }
-            }
-            
-            if (e.getComponent().getName().equals("clearButton")) {
-                clearInputArea();
-            }
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-        
-    };
     
     /**
      * Resets the input area to what it originally was.
@@ -169,20 +116,17 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         }
     }
     
-    private boolean isSudokuValid() {
-        Sudoku s1 = new Sudoku();
+    private int[][] fillArrayZeros() {
+        int array[][] = new int[ROW][COL];
         
-        //Parses the JButtons text to be stored in the sudokuArray.
-        for (int i = 0; i < buttons.length; i++)  {
+        for (int i = 0; i < buttons.length; i++) {
             for (int j = 0; j < buttons[0].length; j++) {
-                if (buttons[i][j].getText().equals("")) {
-                    sudokuArray[i][j] = 0;
-                } else { 
-                    sudokuArray[i][j] = Integer.parseInt(buttons[i][j].getText());
-                }
+                if (!buttons[i][j].getText().equals(""))
+                    array[i][j] = Integer.parseInt(buttons[i][j].getText());
             }
         }
-        return s1.isValidGivenSudokuArray(sudokuArray);
+        
+        return array;
     }
     
     /**
@@ -196,14 +140,32 @@ public class InputSudokuFrame extends javax.swing.JFrame {
 
         inputSudokuNums = new javax.swing.JPanel();
         optionsPanel = new javax.swing.JPanel();
+        submitButton = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         inputSudokuNums.setMinimumSize(new java.awt.Dimension(400, 400));
         inputSudokuNums.setPreferredSize(new java.awt.Dimension(400, 400));
-        inputSudokuNums.setLayout(new java.awt.GridLayout());
+        inputSudokuNums.setLayout(new java.awt.GridLayout(1, 0));
 
-        optionsPanel.setLayout(new java.awt.GridLayout());
+        optionsPanel.setLayout(new java.awt.GridLayout(2, 0));
+
+        submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
+        optionsPanel.add(submitButton);
+
+        clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+        optionsPanel.add(clearButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -222,50 +184,65 @@ public class InputSudokuFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(inputSudokuNums, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        clearInputArea();
+    }//GEN-LAST:event_clearButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InputSudokuFrame().setVisible(true);
-            }
-        });
-    }
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        if (Sudoku.isValidGivenSudokuArray(fillArrayZeros())) {
+            dispose();
+            new SudokuPanel(new Sudoku(fillArrayZeros()));
+        } else {
+            System.out.println("Invalid Sudoku given");
+        }
+    }//GEN-LAST:event_submitButtonActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(InputSudokuFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new InputSudokuFrame().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clearButton;
     private javax.swing.JPanel inputSudokuNums;
     private javax.swing.JPanel optionsPanel;
+    private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }
