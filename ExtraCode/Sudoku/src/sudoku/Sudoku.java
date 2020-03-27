@@ -68,11 +68,11 @@ public class Sudoku {
                 //Step 1: Initalize the pool with numbers 1-9.
                 initPool(pool);
                 //Step 2: Update the pool to remove the numbers in the current row.
-                updatePool(pool, getRowArray(i));
+                updatePool(pool, getRowArray(i, sudokuSqaure));
                 //Step 3: Update the pool to remove the numbers in the current col.
-                updatePool(pool, getColArray(j));
+                updatePool(pool, getColArray(j, sudokuSqaure));
                 //Step 4: Update the pool to remove the numbers in the current sqaure.
-                updatePool(pool, getSquareArray(i, j));
+                updatePool(pool, getSquareArray(i, j, sudokuSqaure));
                 if (pool.isEmpty())
                     return array;
                 //Step 5: Add a random number into the sudoku sqaure if it is zero.
@@ -88,7 +88,7 @@ public class Sudoku {
      * 
      * @param pool ArrayList to be filled with 1-9.
      */
-    private void initPool(ArrayList<Integer> pool) {
+    private static void initPool(ArrayList<Integer> pool) {
         for (int i = 1; i <= 9; i++)
             pool.add(i);
     }
@@ -99,7 +99,7 @@ public class Sudoku {
      * @param pool ArrayList of numbers that remains.
      * @param array The array of numbers to be removed from the pool.
      */
-    private void updatePool(ArrayList<Integer> pool, int[] array) {
+    private static void updatePool(ArrayList<Integer> pool, int[] array) {
         for (int element : array)
             pool.remove((Integer)element);
     }
@@ -111,14 +111,14 @@ public class Sudoku {
      * @param colIdx The position of the column.
      * @return A 1D array of the numbers in the square.
      */
-    private int[] getSquareArray(int rowIdx, int colIdx) {
+    private static int[] getSquareArray(int rowIdx, int colIdx, int[][] array) {
         int[] sqaure = new int[9];
         int rowStart = (rowIdx / 3) * 3;
         int colStart = (colIdx / 3) * 3;
 
         for (int i = 0; i < 3; i++) 
             for (int j = 0; j < 3; j++) {
-                sqaure[i * 3 + j] = sudokuSqaure[rowStart + i][colStart + j];
+                sqaure[i * 3 + j] = array[rowStart + i][colStart + j];
             }
 
         return sqaure;
@@ -130,12 +130,12 @@ public class Sudoku {
      * @param index Index of the row that is wanted.
      * @return The row that is desired.
      */
-    private int[] getRowArray(int index) {
-        if (index > sudokuSqaure.length || index < 0) {
+    private static int[] getRowArray(int index, int[][] array) {
+        if (index > array.length || index < 0) {
             throw new IllegalArgumentException("Index out of bounds of array");
         }
 
-        return Arrays.copyOf(sudokuSqaure[index], sudokuSqaure[index].length);
+        return Arrays.copyOf(array[index], array[index].length);
     }
 
     /**
@@ -144,14 +144,14 @@ public class Sudoku {
      * @param index Index of the column that is wanted.
      * @return The column that is desired.
      */
-    private int[] getColArray(int index) {
-        if (index > sudokuSqaure[0].length || index < 0) {
+    private static int[] getColArray(int index, int[][] array) {
+        if (index > array[0].length || index < 0) {
             throw new IllegalArgumentException("Index out of bounds of array");
         }
 
         int[] col = new int[9];
-        for (int i = 0; i < sudokuSqaure.length; i++) {
-            col[i] = sudokuSqaure[i][index];
+        for (int i = 0; i < array.length; i++) {
+            col[i] = array[i][index];
         }
         return col;
     }
@@ -162,7 +162,7 @@ public class Sudoku {
      * @param array Array being check if it can be solved.
      * @return If its a valid array.
      */
-    public boolean isValidGivenSudokuArray(int[][] array) {        
+    public static boolean isValidGivenSudokuArray(int[][] array) {        
         //Checks to see if the length of the array is valid.
         if (array.length != 9)
             return false;
@@ -185,14 +185,14 @@ public class Sudoku {
         
         //Checks to see if all the rows in the array have unique numbers.
         for (int i = 0; i < 9; i++) {
-            if (!isNumsUnique(convertIntArray(getColArray(i))) 
-                    || !isNumsUnique(convertIntArray(getRowArray(i))))
+            if (!isNumsUnique(convertIntArray(getColArray(i, array))) 
+                    || !isNumsUnique(convertIntArray(getRowArray(i, array))))
                 return false;
         }
         
         for (int i = 0; i < 9; i++)
             for (int j = 0; j < 9; j++)
-                if (!isNumsUnique(convertIntArray(getSquareArray(i, j))))
+                if (!isNumsUnique(convertIntArray(getSquareArray(i, j, array))))
                     return false;
         
         return true;
@@ -204,7 +204,7 @@ public class Sudoku {
      * @param nums Array to be checked for uniqueness.
      * @return If all the numbers in the array are unique.
      */
-    private boolean isNumsUnique(Integer[] nums) {
+    private static boolean isNumsUnique(Integer[] nums) {
         int counter = 0;
         for (Integer num : nums) {
             if (num != 0)
@@ -222,7 +222,7 @@ public class Sudoku {
      * @param array int array to be converted.
      * @return The converted Integer array.
      */
-    private Integer[] convertIntArray(int[] array) {
+    private static Integer[] convertIntArray(int[] array) {
         Integer[] integerArray = new Integer[9];
         
         for (int i = 0; i < integerArray.length; i++) {
@@ -281,6 +281,4 @@ public class Sudoku {
     public int[][] getUncompletedSudoku() {
         return uncompletedSudoku;
     }
-    
-    
 }
