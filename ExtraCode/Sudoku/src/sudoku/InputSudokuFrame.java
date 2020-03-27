@@ -43,6 +43,9 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         buttons = new JButton[ROW][COL];
     }
 
+    /**
+     * Initializes the components of the GUI.
+     */
     public void initComponents2() {
         inputSudokuNums.setLayout(new GridLayout(ROW, COL));
         optionsPanel.setLayout(new GridLayout(3, 1));
@@ -53,7 +56,7 @@ public class InputSudokuFrame extends javax.swing.JFrame {
                 button.addKeyListener(k1);        
     }
 
-    public void bindJButtons() {
+    private void bindJButtons() {
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COL; j++) {
                 buttons[ROW - 1 - i][j] = new JButton();
@@ -116,7 +119,12 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         }
     }
     
-    private int[][] fillArrayZeros() {
+    /**
+     * Copies the inputed values from the buttons into a new array.
+     * 
+     * @return An array with the copied inputed values.
+     */
+    private int[][] copyButtonArray() {
         int array[][] = new int[ROW][COL];
         
         for (int i = 0; i < buttons.length; i++) {
@@ -196,9 +204,9 @@ public class InputSudokuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        if (Sudoku.isValidGivenSudokuArray(fillArrayZeros())) {
+        if (Sudoku.isValidGivenSudokuArray(copyButtonArray())) {
             dispose();
-            new SudokuPanel(new Sudoku(fillArrayZeros()));
+            new SudokuPanel(new Sudoku(copyButtonArray()));
         } else {
             System.out.println("Invalid Sudoku given");
         }
