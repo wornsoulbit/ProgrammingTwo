@@ -26,10 +26,6 @@ public class SudokuPanel extends javax.swing.JFrame {
     
     private int distanceX;
     private int distanceY;
-    private JButton submitButton;
-    private JButton clearButton;
-    private JRadioButton enableHighlightingButton;
-    private static Sudoku sudoku;
     private final static int ROW = 9;
     private final static int COL = 9;
 
@@ -73,10 +69,6 @@ public class SudokuPanel extends javax.swing.JFrame {
 
         //Init button (2d array of JButtons)
         buttonss = new JButton[ROW][COL];
-        
-        submitButton = new JButton("Submit");
-        clearButton = new JButton("Clear");
-        enableHighlightingButton = new JRadioButton("Highlighting", false);
     }
 
     /**
@@ -93,10 +85,7 @@ public class SudokuPanel extends javax.swing.JFrame {
                 button.addKeyListener(kl);
                 button.addMouseListener(m2);
             }
-        }
-        
-        submitButton.addMouseListener(m1);
-        clearButton.addMouseListener(m1);
+        }        
     }
 
     /**
@@ -110,10 +99,6 @@ public class SudokuPanel extends javax.swing.JFrame {
                 gamePanel.add(buttonss[ROW - 1 - i][j], ROW - 1 - i, j);
             }
         }
-        
-        optionsPanel.add(submitButton);
-        optionsPanel.add(clearButton);
-        optionsPanel.add(enableHighlightingButton);
     }
     
     /**
@@ -135,11 +120,9 @@ public class SudokuPanel extends javax.swing.JFrame {
             }
         }
         
-        sudoku = new Sudoku();
-        
         //Checks to see if the given array is a valid sudoku square aslong as there wasn't 
         //any zeros in the array to be validated.
-        if (sudoku.isValidGivenSudokuArray(toValidateArray) && flag) {
+        if (Sudoku.isValidGivenSudokuArray(toValidateArray) && flag) {
             System.out.println("Win");
             setEnabled(false);
             new RestartGameFrame(SudokuPanel.this);
@@ -201,47 +184,6 @@ public class SudokuPanel extends javax.swing.JFrame {
             }
         }
     }
-
-    /**
-     * Mouse listener for extra buttons that's below the game-play area.
-     */
-    MouseListener m1 = new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        /**
-         * Logic for the submit and clear buttons.
-         * 
-         * @param e Mouse event.
-         */
-        @Override
-        public void mouseReleased(MouseEvent e) {            
-            //Button for submitting and checking if the square is completed and valid.
-            if (e.getComponent().getY() == 0)
-                validateSudoku();
-            
-            //Clears all inputed values and replaces them with the original values.
-            if (e.getComponent().getY() == 26)
-                drawMap(map);
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            
-        }
-    };
     
     /**
      * Highlights and un-highlights clicked on values.
@@ -260,7 +202,7 @@ public class SudokuPanel extends javax.swing.JFrame {
         @Override
         public void mousePressed(MouseEvent e) {
             //Only excutes the code if Highlighting button is selected.
-            if (enableHighlightingButton.isSelected()) {
+            if (highlightingButton.isSelected()) {
                 //Gets the location of the component in the button array.
                 int xComponent = e.getComponent().getX();
                 int yComponent = e.getComponent().getY();
@@ -359,6 +301,9 @@ public class SudokuPanel extends javax.swing.JFrame {
 
         gamePanel = new javax.swing.JPanel();
         optionsPanel = new javax.swing.JPanel();
+        submitButton = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
+        highlightingButton = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -366,16 +311,26 @@ public class SudokuPanel extends javax.swing.JFrame {
         gamePanel.setMinimumSize(new java.awt.Dimension(400, 400));
         gamePanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
-        optionsPanel.setLayout(optionsPanelLayout);
-        optionsPanelLayout.setHorizontalGroup(
-            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        optionsPanelLayout.setVerticalGroup(
-            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        optionsPanel.setLayout(new java.awt.GridLayout(3, 0));
+
+        submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
+        optionsPanel.add(submitButton);
+
+        clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+        optionsPanel.add(clearButton);
+
+        highlightingButton.setText("Highlighting");
+        optionsPanel.add(highlightingButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -389,57 +344,68 @@ public class SudokuPanel extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        validateSudoku();
+    }//GEN-LAST:event_submitButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SudokuPanel(sudoku).setVisible(true);
-            }
-        });
-    }
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        drawMap(map);
+    }//GEN-LAST:event_clearButtonActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(SudokuPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new SudokuPanel(sudoku).setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton clearButton;
     private javax.swing.JPanel gamePanel;
+    private javax.swing.JRadioButton highlightingButton;
     private javax.swing.JPanel optionsPanel;
+    private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }
