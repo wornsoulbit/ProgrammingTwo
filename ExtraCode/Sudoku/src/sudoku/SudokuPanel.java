@@ -3,7 +3,6 @@ package sudoku;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,7 +10,6 @@ import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JButton;
-import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
 
 /**
@@ -26,8 +24,8 @@ public class SudokuPanel extends javax.swing.JFrame {
     
     private int distanceX;
     private int distanceY;
-    private final static int ROW = 9;
-    private final static int COL = 9;
+    private final int ROW = 9;
+    private final int COL = 9;
 
     /**
      * Creates new form SudokuGamePanel
@@ -35,13 +33,14 @@ public class SudokuPanel extends javax.swing.JFrame {
      * @param sudoku The starting array.
      */
     public SudokuPanel(Sudoku sudoku) {
-        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getWidth()) / 2,
-                (Toolkit.getDefaultToolkit().getScreenSize().height - getHeight()) / 2);
-        System.out.println(getHeight());
-        
+//        setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - getWidth()) / 2,
+//                (Toolkit.getDefaultToolkit().getScreenSize().height - getHeight()) / 2);
         int[][] newSudokuArray = new int[9][9];
         System.arraycopy(sudoku.getSudokuSqaure(), 0, newSudokuArray, 0, sudoku.getSudokuSqaure().length);
-
+        
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
         setTitle("Sudoku");
         initComponents();
         initValues();
@@ -57,7 +56,6 @@ public class SudokuPanel extends javax.swing.JFrame {
             drawMap(sudoku.getUncompletedSudoku());
 
         setVisible(true);
-        System.out.println(sudoku);
     }
 
     /**
@@ -83,7 +81,7 @@ public class SudokuPanel extends javax.swing.JFrame {
         for (JButton[] row : buttonss) {
             for (JButton button : row) {
                 button.addKeyListener(kl);
-                button.addMouseListener(m2);
+                button.addMouseListener(m1);
             }
         }        
     }
@@ -105,7 +103,7 @@ public class SudokuPanel extends javax.swing.JFrame {
      * Creates an array thats validated to see if the sudoku square is completed 
      * properly or not.
      */
-    private void validateSudoku() {
+    private void checkIfCompleted() {
         int[][] toValidateArray = new int[9][9];
         boolean flag = true;
         
@@ -147,12 +145,17 @@ public class SudokuPanel extends javax.swing.JFrame {
      * @param array The array to draw.
      */
     public void drawMap(int[][] array) {
+        
+        //For loop for drawing the given map.
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
+                //Checks to the see if the value of the array isn't zero, sets 
+                //the background to white, and sets the text to the value of the array.
                 if (array[i][j] != 0) {
                     buttonss[i][j].setBackground(Color.WHITE);
                     buttonss[i][j].setText(String.valueOf(array[i][j]));
                     map[i][j] = array[i][j];
+                //Sets the color of the background to gray and sets the button text to zero.
                 } else {
                     buttonss[i][j].setBackground(Color.GRAY);
                     buttonss[i][j].setText("0");
@@ -169,6 +172,8 @@ public class SudokuPanel extends javax.swing.JFrame {
      */
     public void drawHiddenMap(int[][] array) {
         Random rand = new Random();
+        
+        //Loop to draw the sudoku array.
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 //Randomly chooses what rows to display and sets them to a different color.
@@ -188,7 +193,7 @@ public class SudokuPanel extends javax.swing.JFrame {
     /**
      * Highlights and un-highlights clicked on values.
      */
-    MouseListener m2 = new MouseListener() {
+    MouseListener m1 = new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent e) {
             
@@ -303,6 +308,7 @@ public class SudokuPanel extends javax.swing.JFrame {
         optionsPanel = new javax.swing.JPanel();
         submitButton = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
+        mainMenuButton = new javax.swing.JButton();
         highlightingButton = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -311,7 +317,7 @@ public class SudokuPanel extends javax.swing.JFrame {
         gamePanel.setMinimumSize(new java.awt.Dimension(400, 400));
         gamePanel.setLayout(new java.awt.GridLayout(1, 0));
 
-        optionsPanel.setLayout(new java.awt.GridLayout(3, 0));
+        optionsPanel.setLayout(new java.awt.GridLayout(2, 2));
 
         submitButton.setText("Submit");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -329,6 +335,14 @@ public class SudokuPanel extends javax.swing.JFrame {
         });
         optionsPanel.add(clearButton);
 
+        mainMenuButton.setText("Main Menu");
+        mainMenuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainMenuButtonActionPerformed(evt);
+            }
+        });
+        optionsPanel.add(mainMenuButton);
+
         highlightingButton.setText("Highlighting");
         optionsPanel.add(highlightingButton);
 
@@ -344,20 +358,40 @@ public class SudokuPanel extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(gamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Submit button to see if the given sudoku is completely solved.
+     * 
+     * @param evt Mouse event.
+     */
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        validateSudoku();
+        checkIfCompleted();
     }//GEN-LAST:event_submitButtonActionPerformed
 
+    /**
+     * Clears all user inputed values when clicked.
+     * 
+     * @param evt Mouse event.
+     */
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         drawMap(map);
     }//GEN-LAST:event_clearButtonActionPerformed
+
+    /**
+     * Returns to the main menu when clicked.
+     * 
+     * @param evt Mouse event.
+     */
+    private void mainMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuButtonActionPerformed
+        dispose();
+        new MainMenu();
+    }//GEN-LAST:event_mainMenuButtonActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -396,7 +430,7 @@ public class SudokuPanel extends javax.swing.JFrame {
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new SudokuPanel(sudoku).setVisible(true);
+//                new SudokuPanel(new Sudoku()).setVisible(true);
 //            }
 //        });
 //    }
@@ -405,6 +439,7 @@ public class SudokuPanel extends javax.swing.JFrame {
     private javax.swing.JButton clearButton;
     private javax.swing.JPanel gamePanel;
     private javax.swing.JRadioButton highlightingButton;
+    private javax.swing.JButton mainMenuButton;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables

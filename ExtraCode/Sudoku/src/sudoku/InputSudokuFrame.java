@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sudoku;
 
 import java.awt.Color;
@@ -13,12 +9,13 @@ import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
 /**
- * A class for inputting a sudoku square.
+ * Allows the user to input a sudoku square.
  *
  * @author Alex Vasil
  */
 public class InputSudokuFrame extends javax.swing.JFrame {
 
+    //Length of the sudoku array.
     private final int ROW = 9;
     private final int COL = 9;
     
@@ -31,6 +28,9 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         initComponents();
         initValues();
         initComponents2();
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         
         setTitle("Input Sudoku");
         setVisible(true);
@@ -56,6 +56,9 @@ public class InputSudokuFrame extends javax.swing.JFrame {
                 button.addKeyListener(k1);        
     }
 
+    /**
+     * Binds each button in the button array to a spot in the interface.
+     */
     private void bindJButtons() {
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COL; j++) {
@@ -150,6 +153,7 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         optionsPanel = new javax.swing.JPanel();
         submitButton = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
+        mainMenuButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,7 +161,7 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         inputSudokuNums.setPreferredSize(new java.awt.Dimension(400, 400));
         inputSudokuNums.setLayout(new java.awt.GridLayout(1, 0));
 
-        optionsPanel.setLayout(new java.awt.GridLayout(2, 0));
+        optionsPanel.setLayout(new java.awt.GridLayout(3, 0));
 
         submitButton.setText("Submit");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -174,6 +178,14 @@ public class InputSudokuFrame extends javax.swing.JFrame {
             }
         });
         optionsPanel.add(clearButton);
+
+        mainMenuButton.setText("Main Menu");
+        mainMenuButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainMenuButtonActionPerformed(evt);
+            }
+        });
+        optionsPanel.add(mainMenuButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,10 +211,21 @@ public class InputSudokuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * When clicked it clears all inputed numbers.
+     * 
+     * @param evt Mouse event.
+     */
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
         clearInputArea();
     }//GEN-LAST:event_clearButtonActionPerformed
 
+    /**
+     * When clicked it checks if the given sudoku is a valid one, then creates a new 
+     * SudokuPanel with the inputed values. Otherwise it asks the user to input a different, 
+     * sudoku.
+     * @param evt Mouse event.
+     */
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         if (Sudoku.isValidGivenSudokuArray(copyButtonArray())) {
             dispose();
@@ -211,6 +234,16 @@ public class InputSudokuFrame extends javax.swing.JFrame {
             System.out.println("Invalid Sudoku given");
         }
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    /**
+     * Goes back to the main menu.
+     * 
+     * @param evt Mouse event.
+     */
+    private void mainMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuButtonActionPerformed
+        dispose();
+        new MainMenu();
+    }//GEN-LAST:event_mainMenuButtonActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -250,6 +283,7 @@ public class InputSudokuFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton clearButton;
     private javax.swing.JPanel inputSudokuNums;
+    private javax.swing.JButton mainMenuButton;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables

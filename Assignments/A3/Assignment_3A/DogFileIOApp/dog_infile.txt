@@ -1,0 +1,15 @@
+Lucy, 12 , F , Labrador Retriever
+Toby, 1 , M , Alaskan Malamute
+Archie, 7 , M , Poodle (Miniature)
+Frankie, 9 , M , Staffordshire Bull Terrier
+Bear, 8 , m , Dachshund
+Milo, 12 , M , German Shepherd
+Max, 10 , m , Great Dane
+Max, 5 , m , Poodle
+Luna, 7 , F , Poodle
+Teddy, 6 , M , Maltese
+Duke, 8 , M , French Bulldog
+Daisy, 1 , f , Pug
+Teddy, 6 , M , Cavalier King Charles Spaniel
+Bella, 12 , f , Yorkshire Terrier
+Frankie, 12 , m , Jack Russell Terrier

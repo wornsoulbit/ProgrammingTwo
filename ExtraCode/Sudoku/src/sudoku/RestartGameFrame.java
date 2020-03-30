@@ -6,7 +6,8 @@
 package sudoku;
 
 /**
- * Restart game panel for Sudoku.
+ * Prompts the player upon win if they want to restart a game or not. Giving the
+ * options to restart a game, heading back to the main menu, or quitting the game.
  * 
  * @author Alex Vasil
  */
@@ -22,7 +23,7 @@ public class RestartGameFrame extends javax.swing.JFrame {
 
         initComponents();
 
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
