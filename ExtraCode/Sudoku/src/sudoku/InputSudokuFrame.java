@@ -241,8 +241,7 @@ public class InputSudokuFrame extends javax.swing.JFrame {
      * @param evt Mouse event.
      */
     private void mainMenuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuButtonActionPerformed
-        dispose();
-        new MainMenu();
+        new ConfirmGamePanel();
     }//GEN-LAST:event_mainMenuButtonActionPerformed
 
 //    /**
