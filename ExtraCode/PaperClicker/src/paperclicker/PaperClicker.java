@@ -1,5 +1,6 @@
 package paperclicker;
 
+//<editor-fold defaultstate="collapsed" desc="Imports">
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import static java.lang.Math.random;
@@ -28,6 +29,7 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+//</editor-fold>
 
 /**
  * Paper Clicker. Its a clicker game I don't know what else to say...
@@ -66,7 +68,8 @@ public class PaperClicker extends Application {
         primaryStage.show();
         update();
     }
-
+    
+    //<editor-fold defaultstate="collapsed" desc="Initializers">
     public void initValues() {
         paperCount = 0;
         autoPaperCount = 0;
@@ -75,6 +78,21 @@ public class PaperClicker extends Application {
         autoPaperButton.setTooltip(new Tooltip("Cost: 20 papers, increases paper generation by 0.05 papers each second!"));
         modelPaperButton.setTooltip(new Tooltip("Cost: 200 papers, increases paper generation by 0.1 papers each second!"));
     }
+    
+    public void initComponents() {
+        grid = new GridPane();
+        grid.setAlignment(Pos.TOP_LEFT);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        paperCountText = new Text(String.format("%.1f", paperCount));
+        cpsText = new Text("0");
+        autoPaperButton = new Button();
+        autoPaperText = new Text("Autopaper count: " + autoPaperCount);
+        modelPaperButton = new Button();
+        modelPaperText = new Text("Modelpaper count: " + modelPaperCount);
+    }
+//</editor-fold>
 
     public void addToGrid() throws FileNotFoundException {
         Text paperCounterLabel = new Text("Paper Count:");
@@ -88,20 +106,6 @@ public class PaperClicker extends Application {
         grid.add(autoPaperText, 5, 1);
         grid.add(modelPaperButton, 5, 2);
         grid.add(modelPaperText, 5, 3);
-    }
-
-    public void initComponents() {
-        grid = new GridPane();
-        grid.setAlignment(Pos.TOP_LEFT);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-        paperCountText = new Text(String.format("%.1f", paperCount));
-        cpsText = new Text("0");
-        autoPaperButton = new Button();
-        autoPaperText = new Text("Autopaper count: " + autoPaperCount);
-        modelPaperButton = new Button();
-        modelPaperText = new Text("Modelpaper count: " + modelPaperCount);
     }
 
     /**
@@ -141,7 +145,7 @@ public class PaperClicker extends Application {
      * @throws FileNotFoundException If the paperIcon isn't found.
      */
     private Button paperButton() throws FileNotFoundException {
-        FileInputStream inputstream = new FileInputStream("D:\\Computer Science Code&Homework\\ProgrammingTwo\\ExtraCode\\PaperClicker\\Images\\smallPaperImg.jpg");
+        FileInputStream inputstream = new FileInputStream("Images\\smallPaperImg.jpg");
         Image paperImg = new Image(inputstream);
 
         Button paperButton = new Button();
@@ -177,11 +181,11 @@ public class PaperClicker extends Application {
 
     private void updateButtonGraphics() throws FileNotFoundException {
         //Autopaper graphics.
-        FileInputStream mousePointer = new FileInputStream("D:\\Computer Science Code&Homework\\ProgrammingTwo\\ExtraCode\\PaperClicker\\Images\\mousePointer.png");
-        FileInputStream grayedOutMousePointer = new FileInputStream("D:\\Computer Science Code&Homework\\ProgrammingTwo\\ExtraCode\\PaperClicker\\Images\\grayOutMousePointer.png");
+        FileInputStream mousePointer = new FileInputStream("Images\\mousePointer.png");
+        FileInputStream grayedOutMousePointer = new FileInputStream("Images\\grayOutMousePointer.png");
         //Modelpaper graphics.
-        FileInputStream modelPaper = new FileInputStream("D:\\Computer Science Code&Homework\\ProgrammingTwo\\ExtraCode\\PaperClicker\\Images\\modelPaper.png");
-        FileInputStream grayedOutModelPaper = new FileInputStream("D:\\Computer Science Code&Homework\\ProgrammingTwo\\ExtraCode\\PaperClicker\\Images\\grayOutModelPaper.png");
+        FileInputStream modelPaper = new FileInputStream("Images\\modelPaper.png");
+        FileInputStream grayedOutModelPaper = new FileInputStream("Images\\grayOutModelPaper.png");
 
         Image autoPaperClicker;
 
