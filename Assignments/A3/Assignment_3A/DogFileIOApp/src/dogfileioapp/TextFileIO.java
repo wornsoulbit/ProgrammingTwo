@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
+ * Reads a file, and writes to another one.
+ * 
  * @author Alex Vasil
  */
 public class TextFileIO {

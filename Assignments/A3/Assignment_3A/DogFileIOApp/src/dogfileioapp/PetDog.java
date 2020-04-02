@@ -11,9 +11,9 @@ import java.util.Scanner;
  */
 public class PetDog {
     private String name;
+    private String breed;
     private int age;
     private char gender;
-    private String breed;
     
     /**
      * Takes a String and assigns each data member a value.
