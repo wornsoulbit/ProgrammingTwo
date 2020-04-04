@@ -9,11 +9,26 @@ import java.util.Scanner;
  * 
  * @author Alex Vasil
  */
-public class PetDog {
+public class PetDog implements Comparable<PetDog> {
     private String name;
     private String breed;
     private int age;
     private char gender;
+    
+    @Override
+    public int compareTo(PetDog other) {
+        int result = this.name.compareTo(other.name);
+        
+        if (result != 0)
+            return result;
+        
+        if (this.age < other.age)
+            return -1;
+        else if (this.age > other.age)
+            return 1;
+        else 
+            return 0;
+    }
     
     /**
      * Takes a String and assigns each data member a value.
@@ -42,5 +57,39 @@ public class PetDog {
         return "I'm " + name + ", a " + age + " year old " 
                 + ((gender == 'M') ? "male " : "female ") + breed;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+    
+    
     
 }
