@@ -1,0 +1,53 @@
+pig ,  5, Charlie , 2,f
+Duck, 10eggs  ,  Daffy Duck   ,2, F
+cat  , maybe  ,  BuddyBaby, 1,  m
+dog  , German Shepherd, Tux,10 , f
+Cat , yes , FluffyWhiskers ,4,  m
+duck ,   2  , Fluffy ,  5 ,f
+Cat  , no ,  SylvesterRocky ,  5 ,  m
+Duck, 3 ,Sparkles  , 3, f
+Dog , Boxer , Lola ,4  ,  F
+Duck, 2, Duck Norris  ,6,  M
+cat ,yes  ,Charlie, 1 , m
+duck,5 ,Sparkles,3,  F
+Dog  , Miniature Schnauzer ,  Jack  ,9, M
+dog,  Pug,Duke  , 8  ,m
+duck , 1 ,Lucky Ducky ,  0 , m
+Dog , Australian Kelpie  ,Molly , 0,f
+dog,Pug,Toby , 8 ,M
+duck , 0  ,  Firequacker, 2  ,  f
+Dog ,  French Bulldog  , Rosie ,  2  ,f
+duck  ,  0,Quackula  , 12  ,f
+Duck  ,  0  ,  Firequacker ,0  , F
+Dog  , Miniature Schnauzer  ,Ollie ,  7,M
+Cat, yes,KittySassy  ,6 , f
+duck  , 0,  Dewey , 5  ,  M
+duck,  2  ,Huey , 11  ,M
+Dog, Bulldog, Teddy, 12, M
+Cat ,  no, Sam, 12  ,  m
+duck ,  5,  Mock Duck,  7  ,  M
+Duck , 4  ,Eggbert  , 3,  F
+duck, 6 , Eggbert,  6  ,F
+Dog  ,  Alaskan Malamute ,  Luna, 1 , F
+Cat ,  yes ,  MaxSmokey,  6,  m
+Cat  ,no ,Alex , 4  ,  m
+Dog, Pug,Buddy ,  6 ,  m
+dog,  Cavalier King Charles Spaniel, Bella ,  11 , F
+cat  , yes,Pepper ,  9  ,  M
+Duck ,2, Quack Sparrow,  0 ,M
+cat  ,yes  ,  Toby  , 4, M
+dog , Australian Shepherd, Bailey  ,  11 ,F
+Duck , 6 ,  Count Ducula  ,0 ,  f
+dog  , Labrador Retriever,Lily ,  4  , f
+Dog  , Keeshond, Daisy  , 6 ,  F
+Duck  ,  6 ,  Squeek ,  3 ,  M
+Dog ,  Miniature Schnauzer,Daisy,2 , F
+Cat ,yes ,SpikeSophie,12, f
+Duck  , 2  ,  Scrooge McDuck  ,9 ,m
+Cat, no  ,Shadow  ,  8 , F
+dog,  Pug, Teddy  ,  3,m
+cat  ,yes,MaggieCallie,  10 ,  f
+Duck  ,  3,Wiggles , 10,F
+Dog , Alaskan Malamute ,Ollie  ,  4 , M
+Duck ,  6 ,Nibbles  ,  3, F
+Dog,Jack Russell Terrier  ,Coco,  7  ,f
