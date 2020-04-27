@@ -1,5 +1,5 @@
 
-package pet;
+package finalassignmentproject;
 
 /**
  * A class of a Dog.
@@ -83,6 +83,8 @@ public class Dog extends Pet {
         final Dog other = (Dog) obj;
         return super.equals(obj) && this.breed.equals(other.breed);
     }
-    
-    
+
+    public String getBreed() {
+        return breed;
+    }
 }

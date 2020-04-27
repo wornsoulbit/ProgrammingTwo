@@ -1,12 +1,12 @@
 
-package pet;
+package finalassignmentproject;
 
 /**
  * Throws an exception if the type of pet is unknown.
  * 
  * @author Alex Vasil
  */
-public class UnknownPetTypeException extends Exception{
+public class UnknownPetTypeException extends Exception {
     
     /**
      * Exception for unknown pet type.

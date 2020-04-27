@@ -1,4 +1,4 @@
-package pet;
+package finalassignmentproject;
 
 /**
  * A class of a Cat.
@@ -22,7 +22,6 @@ public class Cat extends Pet {
         if (!(petSpecificData.equalsIgnoreCase("yes") || (petSpecificData.equalsIgnoreCase("no"))))  {
             throw new IllegalArgumentException("Bad neutered value " + petSpecificData + ", expected yes or no");
         }
-        
         this.neutered = petSpecificData.equalsIgnoreCase("yes");
     }
 
@@ -91,5 +90,9 @@ public class Cat extends Pet {
 
         final Cat other = (Cat) obj;
         return super.equals(obj) && this.neutered == other.neutered;
+    }
+
+    public boolean isNeutered() {
+        return neutered;
     }
 }

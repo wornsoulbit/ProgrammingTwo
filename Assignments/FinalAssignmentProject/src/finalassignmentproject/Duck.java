@@ -1,5 +1,5 @@
 
-package pet;
+package finalassignmentproject;
 
 /**
  * A Class of a Duck.
@@ -91,5 +91,8 @@ public class Duck extends Pet {
         final Duck other = (Duck) obj;
         return super.equals(obj) && this.eggs == other.eggs;
     }
-    
+
+    public int getEggs() {
+        return eggs;
+    }
 }

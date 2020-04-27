@@ -1,5 +1,5 @@
 
-package pet;
+package finalassignmentproject;
 
 import java.util.Scanner;
 
@@ -12,8 +12,10 @@ public abstract class Pet implements Comparable<Pet>{
     
     private String name;
     private int age;
+    private static int idNumberCounter = 0;
+    private int id = ++idNumberCounter;
     private final char gender;
-
+    
     /**
      * Compares two pets to each other.
      * 
@@ -129,5 +131,22 @@ public abstract class Pet implements Comparable<Pet>{
     public int getAge() {
         return age;
     }
+
+    /**
+     * Getter.
+     * 
+     * @return the id number.
+     */
+    public int getId() {
+        return id;
+    }
     
+    /**
+     * Getter.
+     * 
+     * @return the gender.
+     */
+    public char getGender() {
+        return gender;
+    }
 }
