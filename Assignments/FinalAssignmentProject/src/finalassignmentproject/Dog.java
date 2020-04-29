@@ -84,6 +84,11 @@ public class Dog extends Pet {
         return super.equals(obj) && this.breed.equals(other.breed);
     }
 
+    /**
+     * Gets the breed of the dog.
+     * 
+     * @return breed of the dog.
+     */
     public String getBreed() {
         return breed;
     }

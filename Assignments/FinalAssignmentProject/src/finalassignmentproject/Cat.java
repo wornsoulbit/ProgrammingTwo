@@ -92,6 +92,11 @@ public class Cat extends Pet {
         return super.equals(obj) && this.neutered == other.neutered;
     }
 
+    /**
+     * Checks if the cat is neutered or not.
+     * 
+     * @return if the cat is neutered or not.
+     */
     public boolean isNeutered() {
         return neutered;
     }

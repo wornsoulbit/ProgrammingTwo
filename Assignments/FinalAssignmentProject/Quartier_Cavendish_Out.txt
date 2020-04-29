@@ -1,0 +1,50 @@
+Cat, no, Alex, 4, M
+Dog, Australian Shepherd, Bailey, 11, F
+Dog, Cavalier King Charles Spaniel, Bella, 11, F
+Dog, Pug, Buddy, 6, M
+Cat, yes, Charlie, 1, M
+Dog, Jack Russell Terrier, Coco, 7, F
+Duck, 6, Count Ducula, 0, F
+Dog, Keeshond, Daisy, 6, F
+Dog, Miniature Schnauzer, Daisy, 2, F
+Duck, 0, Dewey, 5, M
+Duck, 2, Duck Norris, 6, M
+Dog, Pug, Duke, 8, M
+Duck, 4, Eggbert, 3, F
+Duck, 6, Eggbert, 6, F
+Duck, 0, Firequacker, 2, F
+Duck, 0, Firequacker, 0, F
+Duck, 2, Fluffy, 5, F
+Cat, yes, FluffyWhiskers, 4, M
+Duck, 2, Huey, 11, M
+Dog, Miniature Schnauzer, Jack, 9, M
+Cat, yes, KittySassy, 6, F
+Dog, Labrador Retriever, Lily, 4, F
+Dog, Boxer, Lola, 4, F
+Duck, 1, Lucky Ducky, 0, M
+Dog, Alaskan Malamute, Luna, 1, F
+Cat, yes, MaggieCallie, 10, F
+Cat, yes, MaxSmokey, 6, M
+Duck, 5, Mock Duck, 7, M
+Dog, Australian Kelpie, Molly, 0, F
+Duck, 6, Nibbles, 3, F
+Dog, Miniature Schnauzer, Ollie, 7, M
+Dog, Alaskan Malamute, Ollie, 4, M
+Cat, yes, Pepper, 9, M
+Duck, 2, Quack Sparrow, 0, M
+Duck, 0, Quackula, 12, F
+Dog, French Bulldog, Rosie, 2, F
+Cat, no, Sam, 12, M
+Duck, 2, Scrooge McDuck, 9, M
+Cat, no, Shadow, 8, F
+Duck, 3, Sparkles, 3, F
+Duck, 5, Sparkles, 3, F
+Cat, yes, SpikeSophie, 12, F
+Duck, 6, Squeek, 3, M
+Cat, no, SylvesterRocky, 5, M
+Dog, Bulldog, Teddy, 12, M
+Dog, Pug, Teddy, 3, M
+Dog, Pug, Toby, 8, M
+Cat, yes, Toby, 4, M
+Dog, German Shepherd, Tux, 10, F
+Duck, 3, Wiggles, 10, F

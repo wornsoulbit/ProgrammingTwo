@@ -92,6 +92,11 @@ public class Duck extends Pet {
         return super.equals(obj) && this.eggs == other.eggs;
     }
 
+    /**
+     * Gets the number of eggs.
+     * 
+     * @return number of eggs.
+     */
     public int getEggs() {
         return eggs;
     }

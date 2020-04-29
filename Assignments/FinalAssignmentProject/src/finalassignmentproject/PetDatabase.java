@@ -65,14 +65,23 @@ public class PetDatabase {
     /**
      * Removes the given pet.
      * 
-     * @param n the pet to be removed.
+     * @param id the pet to be removed.
      */
-    public void removePet(int n) {
-        if (n > petList.size() || n < 0) {
-            throw new IllegalArgumentException("n is larger or smaller than the size of the list");
+    public void removePet(int id) {
+        int petIndex = -1;
+        
+        for (int i = 0; i < petList.size(); i++) {
+            if(petList.get(i).getId() == id) {
+                petIndex = i;
+                break;
+            }
         }
-
-        petList.remove(n - 1);
+        
+        if(petIndex < 0) {
+            System.out.println("Error: no pet with ID number " + id);
+            return;
+        }
+        petList.remove(petIndex);
     }
 
     /**
@@ -85,10 +94,22 @@ public class PetDatabase {
     private Pet petFactory(String inputLine) throws UnknownPetTypeException {
         Scanner lineScanner = new Scanner(inputLine);
         lineScanner.useDelimiter("\\s*,\\s*");
-
-        String petType = lineScanner.next();
-        String petSpecificData = lineScanner.next();
-        String petGeneralData = lineScanner.nextLine();
+        
+        String petType = "";
+        if (lineScanner.hasNext()) {
+            petType = lineScanner.next();
+            System.out.println("Pet Type: " + petType);
+        }
+        String petSpecificData = "";
+        if (lineScanner.hasNext()) {
+            petSpecificData = lineScanner.next();
+            System.out.println("Pet Specific Data: " + petSpecificData);
+        }
+        String petGeneralData = "";
+        if (lineScanner.hasNext()) {
+            petGeneralData = lineScanner.nextLine();
+            System.out.println("Pet General Data: " + petGeneralData);
+        }
         lineScanner.close();
 
         if (petType.equalsIgnoreCase("dog")) {
@@ -291,7 +312,7 @@ public class PetDatabase {
                         + centerText(String.format("%s" ,duck.getName()), PAD_SPACING) 
                         + centerText(String.format("%s" ,duck.getAge()), PAD_SPACING)
                         + centerText(String.format("%s" ,duck.getGender()), PAD_SPACING)
-                        + centerText(String.format("%s" ,duck.getEggs()), PAD_SPACING) 
+                        + centerText(String.format("%s" ,duck.getEggs() + " eggs"), PAD_SPACING) 
                         + "\n";
             } else {
                 strOut += centerText(String.format("%s" ,pet.getId()), PAD_SPACING) 

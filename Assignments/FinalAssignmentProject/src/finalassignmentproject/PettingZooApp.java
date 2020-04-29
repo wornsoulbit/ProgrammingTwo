@@ -6,7 +6,8 @@ import java.util.Scanner;
 
 
 /**
- *
+ * The main file to run the app.
+ * 
  * @author Alex Vasil
  */
 public class PettingZooApp {
@@ -19,9 +20,9 @@ public class PettingZooApp {
      */
     public void run() throws UnknownPetTypeException, FileNotFoundException {
         PetDatabase p1 = new PetDatabase("ZooApp");
-        Scanner userInput = new Scanner(System.in);
-
+        
         while (true) {
+            Scanner userInput = new Scanner(System.in);
             printMenu();
             switch (getChoice()) {
                 case 1:
@@ -87,8 +88,23 @@ public class PettingZooApp {
      * @return the inputed number.
      */
     public int getChoice() {
-        MyScanner console = new MyScanner();
-        return console.readNonLessThanOneInt();
+        Scanner userInput = new Scanner(System.in);
+        
+        //Makes sure the input is an interger.
+        while (!userInput.hasNextInt()) {
+            String wrongInput = userInput.next();
+            System.out.println("Expected an Integer instead got: " + wrongInput);
+            System.out.println("Try again");
+        }
+        
+        int x = userInput.nextInt();
+        //Makes sure the input is an integer between 1 and 9
+        do {
+            if (x < 1 || x > 9) 
+                System.out.println("Expected a number between 1 and 9");
+        } while (x < 1 || x > 9);
+        
+        return x;
     }
     
     /**
